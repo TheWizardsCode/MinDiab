@@ -31,6 +31,7 @@ namespace WizardsCode.MinDiab.Character
 
         public void MoveTo(Vector3 pos)
         {
+            scheduler.StartAction(this);
             agent.SetDestination(pos);
             agent.isStopped = false;
         }

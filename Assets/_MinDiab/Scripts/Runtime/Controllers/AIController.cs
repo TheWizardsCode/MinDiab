@@ -11,8 +11,11 @@ namespace WizardsCode.MinDiab.Controller
     {
         [SerializeField, Tooltip("If an enemy is within this distance then give chase.")]
         float m_ChaseDistance = 5f;
+        [SerializeField, Tooltip("The location that this AI is set to guard. If Vector3.zero it will automatically be set to the start location of the AI.")]
+        Vector3 guardPosition;
 
         Fighter fighter;
+        HealthController health;
         Mover mover;
         HealthController player;
         float chaseDistanceSqr;
@@ -21,22 +24,36 @@ namespace WizardsCode.MinDiab.Controller
         private void Start()
         {
             fighter = GetComponent<Fighter>();
+            health = GetComponent<HealthController>();
             mover = GetComponent<Mover>();
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthController>();
             chaseDistanceSqr = m_ChaseDistance * m_ChaseDistance;
+
+            if (guardPosition == Vector3.zero)
+            {
+                guardPosition = transform.position;
+            }
         }
 
         private void Update()
         {
+            if (health.IsDead) return;
+
             if (Vector3.SqrMagnitude(transform.position - player.transform.position) <= chaseDistanceSqr)
             {
-                fighter.Attack(player);
                 isAttacking = true;
+                fighter.Attack(player);
             } else if (isAttacking)
             {
                 isAttacking = false;
-                fighter.StopAction();
+                mover.MoveTo(guardPosition);
             }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, m_ChaseDistance);
         }
     }
 }

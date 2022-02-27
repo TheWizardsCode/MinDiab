@@ -13,25 +13,34 @@ namespace WizardsCode.MinDiab.Controller
     public class PlayerController : MonoBehaviour
     {
         Fighter fighter;
+        HealthController health;
         Mover mover;
         Camera mainCamera;
 
         private void Start()
         {
-            mover = GetComponent<Mover>();
             fighter = GetComponent<Fighter>();
+            health = GetComponent<HealthController>();
+            mover = GetComponent<Mover>();
             mainCamera = Camera.main;
         }
 
         void Update()
         {
+            if (health.IsDead) return;
             if (HandleCombatInput()) return;
             if (HandleMovementInput()) return;
         }
 
         RaycastHit[] hits = new RaycastHit[5];
+        /// <summary>
+        /// Handle any active combat inputs.
+        /// </summary>
+        /// <returns>True if there was a combat interaction in this frame.</returns>
         private bool HandleCombatInput()
         {
+            if (!Input.GetMouseButton(0)) return false;
+
             Physics.RaycastNonAlloc(GetScreenPoint(), hits);
             for (int i = 0; i < hits.Length; i++)
             {
@@ -49,22 +58,21 @@ namespace WizardsCode.MinDiab.Controller
         /// <summary>
         /// Move the player to the position of the cursor, if possible.
         /// </summary>
-        /// <returns>True if the player is able to move to the cursor and has started movement. Otherwise return false.</returns>
+        /// <returns>True if the player has clicked to move, is able to move to the cursor, and has started movement. Otherwise return false.</returns>
         private bool HandleMovementInput()
         {
+            if (!Input.GetMouseButton(0)) return false;
+            
             NavMeshHit navHit;
             RaycastHit hit;
             bool hasHit = Physics.Raycast(GetScreenPoint(), out hit);
             if (hasHit)
             {
-                if (Input.GetMouseButton(0))
+                if (NavMesh.SamplePosition(hit.point, out navHit, 0.2f, NavMesh.AllAreas))
                 {
-                    if (NavMesh.SamplePosition(hit.point, out navHit, 0.2f, NavMesh.AllAreas))
-                    {
-                        fighter.StopAction();
-                        mover.MoveTo(navHit.position);
-                        return true;
-                    }
+                    fighter.StopAction();
+                    mover.MoveTo(navHit.position);
+                    return true;
                 }
             }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using WizardsCode.MinDiab.Configuration;
+using WizardsCode.MinDiab.Core;
 
 namespace WizardsCode.MinDiab.Character
 {
@@ -11,6 +12,7 @@ namespace WizardsCode.MinDiab.Character
         float m_HealthPoints = 100;
 
         Animator animator;
+        Scheduler scheduler;
 
         public bool IsDead
         {
@@ -23,6 +25,7 @@ namespace WizardsCode.MinDiab.Character
         private void Start()
         {
             animator = GetComponent<Animator>();
+            scheduler = GetComponent<Scheduler>();
         }
 
         public void TakeDamage(float damage)
@@ -40,6 +43,7 @@ namespace WizardsCode.MinDiab.Character
         void Die()
         {
             animator.SetTrigger(AnimationParameters.DefaultDieTriggerID);
+            scheduler.CancelCurrentAction();
         }
     }
 }

@@ -24,6 +24,7 @@ namespace WizardsCode.MinDiab.Combat
         float timeOfNextAttack;
 
         Animator animator;
+        HealthController health;
         Scheduler scheduler;
         HealthController combatTarget;
 
@@ -40,6 +41,7 @@ namespace WizardsCode.MinDiab.Combat
         private void Start()
         {
             animator = GetComponent<Animator>();
+            health = GetComponent<HealthController>();
             mover = GetComponent<Mover>();
             scheduler = GetComponent<Scheduler>();
             weaponRangeSqr = m_WeaponRange * m_WeaponRange;
@@ -47,7 +49,9 @@ namespace WizardsCode.MinDiab.Combat
 
         private void Update()
         {
-            if (!combatTarget) return;
+            if (!combatTarget || health.IsDead) { 
+                return; 
+            }
 
             if (!IsInRange)
             {
