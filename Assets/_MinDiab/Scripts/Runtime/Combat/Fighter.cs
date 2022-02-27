@@ -25,7 +25,7 @@ namespace WizardsCode.MinDiab.Combat
 
         Animator animator;
         Scheduler scheduler;
-        CombatTarget combatTarget;
+        HealthController combatTarget;
 
         private Mover mover;
 
@@ -63,18 +63,29 @@ namespace WizardsCode.MinDiab.Combat
             }
         }
 
-        public void Attack(CombatTarget target)
+        /// <summary>
+        /// Try to attack a target. If this Fighter cannot attack the current target then return false.
+        /// Otherwise commence the attack.
+        /// </summary>
+        /// <param name="target">The target to try to attack.</param>
+        /// <returns>True if this Fighter can attack the target (possibly some preparation, such as moving). False if the Fighter cannot attack.</returns>
+        public bool Attack(HealthController target)
         {
-            transform.LookAt(target.transform);
-            scheduler.StartAction(this);
-            combatTarget = target;
+            if (CanAttack(target)) { 
+                transform.LookAt(target.transform);
+                scheduler.StartAction(this);
+                combatTarget = target;
+                return true;
+            } else {
+                return false;
+            }
         }
 
-        public bool CanAttack(CombatTarget target)
+        public bool CanAttack(HealthController target)
         {
             if (!target) return false;
 
-            return target.IsAlive;
+            return !target.IsDead;
         }
 
         /// <summary>
@@ -94,7 +105,7 @@ namespace WizardsCode.MinDiab.Combat
             if (combatTarget)
             {
                 combatTarget.TakeDamage(m_Damage);
-                if (!combatTarget.IsAlive)
+                if (combatTarget.IsDead)
                 {
                     StopAction();
                 }

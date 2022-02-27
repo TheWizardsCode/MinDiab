@@ -37,14 +37,10 @@ namespace WizardsCode.MinDiab.Controller
             {
                 if (hits[i].collider == null) break;
 
-                CombatTarget target = hits[i].collider.GetComponent<CombatTarget>();
+                HealthController target = hits[i].collider.GetComponent<HealthController>();
                 if (fighter.CanAttack(target))
                 {
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        fighter.Attack(target);
-                    }
-                    return true;
+                    return fighter.Attack(target);
                 }
             }
             return false;
