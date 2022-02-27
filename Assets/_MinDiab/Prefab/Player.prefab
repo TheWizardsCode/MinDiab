@@ -80,6 +80,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 126636721330483064, guid: 3944535b9ac2b534daccbd8d41068dd8,
+        type: 3}
+      propertyPath: m_WeaponRange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 250467892228896367, guid: 3944535b9ac2b534daccbd8d41068dd8,
+        type: 3}
+      propertyPath: m_HealthPoints
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 4082071976346427140, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
       propertyPath: m_Height
@@ -108,17 +118,17 @@ PrefabInstance:
     - target: {fileID: 7351778425547091563, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 22.879807
+      value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: 7351778425547091563, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 22.694817
+      value: 30.7
       objectReference: {fileID: 0}
     - target: {fileID: 7351778425547091563, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -11.867657
+      value: -46.4
       objectReference: {fileID: 0}
     - target: {fileID: 7351778425547091563, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}

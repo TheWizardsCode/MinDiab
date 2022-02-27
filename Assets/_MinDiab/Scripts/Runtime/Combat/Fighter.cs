@@ -88,6 +88,10 @@ namespace WizardsCode.MinDiab.Combat
         public bool CanAttack(HealthController target)
         {
             if (!target) return false;
+            if (target == health)
+            {
+                return false;
+            }
 
             return !target.IsDead;
         }

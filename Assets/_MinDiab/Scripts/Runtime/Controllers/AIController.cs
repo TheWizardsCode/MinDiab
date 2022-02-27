@@ -19,6 +19,9 @@ namespace WizardsCode.MinDiab.Controller
         float m_SuspicionDuration = 4;
         [SerializeField, Tooltip("The patrol path the AI shuold follow, if any. This will override any assigned guard position.")]
         PatrolController m_PatrolPath;
+        [SerializeField, Tooltip("The starting waypoint for this character if they have a patrol path assigned.")]
+        int m_CurrentWaypointIndex = 0;
+
 
         Fighter fighter;
         HealthController health;
@@ -27,7 +30,6 @@ namespace WizardsCode.MinDiab.Controller
         HealthController player;
         float chaseDistanceSqr;
         bool isAttacking = false;
-        int currentWaypointIndex = 0;
 
         float timeToEndDwell = Mathf.NegativeInfinity;
 
@@ -45,7 +47,7 @@ namespace WizardsCode.MinDiab.Controller
             {
                 if (m_PatrolPath)
                 {
-                    m_GuardPosition = m_PatrolPath.GetWaypointPosition(currentWaypointIndex);
+                    m_GuardPosition = m_PatrolPath.GetWaypointPosition(m_CurrentWaypointIndex);
                 }
                 else
                 {
@@ -99,8 +101,8 @@ namespace WizardsCode.MinDiab.Controller
                 }
                 else if (Time.timeSinceLevelLoad > timeToEndDwell) 
                 {
-                    currentWaypointIndex = m_PatrolPath.GetNextWaypointIndex(currentWaypointIndex);
-                    mover.MoveTo(m_PatrolPath.GetWaypointPosition(currentWaypointIndex));
+                    m_CurrentWaypointIndex = m_PatrolPath.GetNextWaypointIndex(m_CurrentWaypointIndex);
+                    mover.MoveTo(m_PatrolPath.GetWaypointPosition(m_CurrentWaypointIndex));
                     timeToEndDwell = Mathf.NegativeInfinity;
                 }
             }
