@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using WizardsCode.MinDiab.Character;
 using WizardsCode.MinDiab.Configuration;
 using WizardsCode.MinDiab.Core;
@@ -49,7 +47,7 @@ namespace WizardsCode.MinDiab.Combat
 
         private void Update()
         {
-            if (!combatTarget || health.IsDead) { 
+            if (!CanAttack(combatTarget) || health.IsDead) { 
                 return; 
             }
 
@@ -101,7 +99,6 @@ namespace WizardsCode.MinDiab.Combat
         /// </summary>
         public void StopAction()
         {
-            combatTarget = null;
             animator.SetTrigger(AnimationParameters.StopActionTriggerID);
             mover.StopAction();
         }
