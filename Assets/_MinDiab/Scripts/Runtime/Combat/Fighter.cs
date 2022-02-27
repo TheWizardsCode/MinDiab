@@ -103,6 +103,7 @@ namespace WizardsCode.MinDiab.Combat
         {
             combatTarget = null;
             animator.SetTrigger(AnimationParameters.StopActionTriggerID);
+            mover.StopAction();
         }
 
         /// <summary>
