@@ -80,7 +80,7 @@ namespace WizardsCode.MinDiab.Controller
                 // we are attacking and not suspuscious anymore so go back to the 
                 isAttacking = false;
                 timeToEndDwell = Mathf.NegativeInfinity;
-                mover.MoveTo(m_GuardPosition);
+                mover.MoveTo(m_GuardPosition, 1);
             } else if (m_PatrolPath)
             {
                 PatrolBehaviour();
@@ -102,7 +102,7 @@ namespace WizardsCode.MinDiab.Controller
                 else if (Time.timeSinceLevelLoad > timeToEndDwell) 
                 {
                     m_CurrentWaypointIndex = m_PatrolPath.GetNextWaypointIndex(m_CurrentWaypointIndex);
-                    mover.MoveTo(m_PatrolPath.GetWaypointPosition(m_CurrentWaypointIndex));
+                    mover.MoveTo(m_PatrolPath.GetWaypointPosition(m_CurrentWaypointIndex), m_PatrolPath.SpeedMultiplier);
                     timeToEndDwell = Mathf.NegativeInfinity;
                 }
             }

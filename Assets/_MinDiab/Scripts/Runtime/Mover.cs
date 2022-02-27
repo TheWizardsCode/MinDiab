@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using WizardsCode.MinDiab.Configuration;
 using WizardsCode.MinDiab.Core;
 
 namespace WizardsCode.MinDiab.Character
@@ -10,12 +11,12 @@ namespace WizardsCode.MinDiab.Character
     [RequireComponent(typeof(Scheduler))]
     public class Mover : MonoBehaviour, IAction
     {
-        const string ANIMATOR_FORWARD_SPEED = "forwardSpeed";
+        [SerializeField, Tooltip("The maximum speed of mocement under normal circumstances, i.e. with no buffs or nerfs.")]
+        float m_MaxSpeed = 6;
 
         private NavMeshAgent agent;
         private Animator animator;
         Scheduler scheduler;
-        private int forwardSpeedParameter;
 
         public bool AtDestination {
             get
@@ -29,7 +30,6 @@ namespace WizardsCode.MinDiab.Character
             agent = GetComponent<NavMeshAgent>();
             animator = GetComponent<Animator>();
             scheduler = GetComponent<Scheduler>();
-            forwardSpeedParameter = Animator.StringToHash(ANIMATOR_FORWARD_SPEED);
         }
 
         private void Update()
@@ -37,8 +37,10 @@ namespace WizardsCode.MinDiab.Character
             UpdateAnimator();
         }
 
-        public void MoveTo(Vector3 pos)
+        public void MoveTo(Vector3 pos, float speedMultiplier)
         {
+            agent.speed = m_MaxSpeed * speedMultiplier;
+
             scheduler.StartAction(this);
             agent.SetDestination(pos);
             agent.isStopped = false;
@@ -53,7 +55,7 @@ namespace WizardsCode.MinDiab.Character
         {
             Vector3 localVelocity = transform.InverseTransformDirection(agent.velocity);
             float speed = localVelocity.z;
-            animator.SetFloat(forwardSpeedParameter, speed);
+            animator.SetFloat(AnimationParameters.ForwardSpeed, speed);
         }
 
         internal void Warp(Vector3 position)

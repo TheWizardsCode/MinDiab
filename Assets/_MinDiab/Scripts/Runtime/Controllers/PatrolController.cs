@@ -9,11 +9,20 @@ namespace WizardsCode.MinDiab.Controller
     {
         [SerializeField, Tooltip("The average time to dwell at each waypoint.")]
         float m_AverageDwellTime = 0.5f;
+        [SerializeField, Tooltip("Average speed a character will move on this patrol path as a fraction of their max speed. That is, 1 will be maximum speed, 0.1 will be 10% of max speed."), Range(0f, 1f)]
+        float m_AverageMovementSpeed = 0.5f;
 
         public float DwellTime {
             get
             {
                 return m_AverageDwellTime * Random.Range(0.8f, 1.2f);
+            }
+        }
+
+        public float SpeedMultiplier {
+            get
+            {
+                return Mathf.Clamp01(m_AverageMovementSpeed * Random.Range(0.8f, 1.2f));
             }
         }
 

@@ -55,7 +55,7 @@ namespace WizardsCode.MinDiab.Combat
 
             if (!IsInRange)
             {
-                mover.MoveTo(combatTarget.transform.position);
+                mover.MoveTo(combatTarget.transform.position, 1);
             } else
             {
                 if (Time.timeSinceLevelLoad > timeOfNextAttack)

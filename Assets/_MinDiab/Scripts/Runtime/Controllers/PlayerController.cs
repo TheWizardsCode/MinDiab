@@ -71,7 +71,7 @@ namespace WizardsCode.MinDiab.Controller
                 if (NavMesh.SamplePosition(hit.point, out navHit, 0.2f, NavMesh.AllAreas))
                 {
                     fighter.StopAction();
-                    mover.MoveTo(navHit.position);
+                    mover.MoveTo(navHit.position, 1);
                     return true;
                 }
             }
