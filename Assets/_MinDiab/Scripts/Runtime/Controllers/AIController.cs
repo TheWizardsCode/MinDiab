@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WizardsCode.MinDiab.Character;
 using WizardsCode.MinDiab.Combat;
+using WizardsCode.MinDiab.Core;
 
 namespace WizardsCode.MinDiab.Controller
 {
@@ -11,43 +13,111 @@ namespace WizardsCode.MinDiab.Controller
     {
         [SerializeField, Tooltip("If an enemy is within this distance then give chase.")]
         float m_ChaseDistance = 5f;
-        [SerializeField, Tooltip("The location that this AI is set to guard. If Vector3.zero it will automatically be set to the start location of the AI.")]
-        Vector3 guardPosition;
+        [SerializeField, Tooltip("The location that this AI is set to guard. If Vector3.zero it will automatically be set to the first wapoint in the patrol path, if one is provided, otherwise it will be set to the start location of the AI.")]
+        Vector3 m_GuardPosition;
+        [SerializeField, Tooltip("The time this AI will remain suspicious wants they are made aware of an enemy.")]
+        float m_SuspicionDuration = 4;
+        [SerializeField, Tooltip("The patrol path the AI shuold follow, if any. This will override any assigned guard position.")]
+        PatrolController m_PatrolPath;
 
         Fighter fighter;
         HealthController health;
+        Scheduler scheduler;
         Mover mover;
         HealthController player;
         float chaseDistanceSqr;
         bool isAttacking = false;
+        int currentWaypointIndex = 0;
 
-        private void Start()
+        float timeToEndDwell = Mathf.NegativeInfinity;
+
+        void Start()
         {
             fighter = GetComponent<Fighter>();
             health = GetComponent<HealthController>();
             mover = GetComponent<Mover>();
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthController>();
+            scheduler = GetComponent<Scheduler>();
+
             chaseDistanceSqr = m_ChaseDistance * m_ChaseDistance;
 
-            if (guardPosition == Vector3.zero)
+            if (m_GuardPosition == Vector3.zero)
             {
-                guardPosition = transform.position;
+                if (m_PatrolPath)
+                {
+                    m_GuardPosition = m_PatrolPath.GetWaypointPosition(currentWaypointIndex);
+                }
+                else
+                {
+                    m_GuardPosition = transform.position;
+                }
             }
+
+            mover.Warp(m_GuardPosition);
         }
 
-        private void Update()
+        void Update()
         {
             if (health.IsDead) return;
 
             if (Vector3.SqrMagnitude(transform.position - player.transform.position) <= chaseDistanceSqr)
             {
-                isAttacking = true;
-                fighter.Attack(player);
-            } else if (isAttacking)
-            {
-                isAttacking = false;
-                mover.MoveTo(guardPosition);
+                AttackBehaviour();
             }
+            else if (isAttacking && timeToEndDwell == Mathf.NegativeInfinity)
+            {
+                timeToEndDwell = Time.timeSinceLevelLoad + m_SuspicionDuration;
+                scheduler.StopCurrentAction();
+            }
+            else if (isAttacking && Time.timeSinceLevelLoad < timeToEndDwell)
+            {
+                // not in range but we are suspicious, do nothing
+            }
+            else if (isAttacking)
+            {
+                // we are attacking and not suspuscious anymore so go back to the 
+                isAttacking = false;
+                timeToEndDwell = Mathf.NegativeInfinity;
+                mover.MoveTo(m_GuardPosition);
+            } else if (m_PatrolPath)
+            {
+                PatrolBehaviour();
+            }
+            else
+            {
+                GuardBehaviur();
+            }
+        }
+
+        private void PatrolBehaviour()
+        {
+            if (mover.AtDestination)
+            {
+                if (timeToEndDwell == Mathf.NegativeInfinity)
+                {
+                    timeToEndDwell = Time.timeSinceLevelLoad + m_PatrolPath.DwellTime;
+                }
+                else if (Time.timeSinceLevelLoad > timeToEndDwell) 
+                {
+                    currentWaypointIndex = m_PatrolPath.GetNextWaypointIndex(currentWaypointIndex);
+                    mover.MoveTo(m_PatrolPath.GetWaypointPosition(currentWaypointIndex));
+                    timeToEndDwell = Mathf.NegativeInfinity;
+                }
+            }
+        }
+
+        private void GuardBehaviur()
+        {
+            // Just stand there for now.
+        }
+
+        /// <summary>
+        /// AI is within the chase distance so attack target (which may include a move)
+        /// </summary>
+        private void AttackBehaviour()
+        {
+            isAttacking = true;
+            fighter.Attack(player);
         }
 
         private void OnDrawGizmosSelected()

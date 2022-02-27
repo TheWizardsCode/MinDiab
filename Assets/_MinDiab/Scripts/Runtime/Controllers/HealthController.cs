@@ -43,7 +43,7 @@ namespace WizardsCode.MinDiab.Character
         void Die()
         {
             animator.SetTrigger(AnimationParameters.DefaultDieTriggerID);
-            scheduler.CancelCurrentAction();
+            scheduler.StopCurrentAction();
         }
     }
 }

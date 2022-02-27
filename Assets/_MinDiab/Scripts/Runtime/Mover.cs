@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -16,7 +17,14 @@ namespace WizardsCode.MinDiab.Character
         Scheduler scheduler;
         private int forwardSpeedParameter;
 
-        void Start()
+        public bool AtDestination {
+            get
+            {
+                return !agent.hasPath || agent.remainingDistance < agent.stoppingDistance;
+            }
+        }
+
+        void Awake()
         {
             agent = GetComponent<NavMeshAgent>();
             animator = GetComponent<Animator>();
@@ -46,6 +54,11 @@ namespace WizardsCode.MinDiab.Character
             Vector3 localVelocity = transform.InverseTransformDirection(agent.velocity);
             float speed = localVelocity.z;
             animator.SetFloat(forwardSpeedParameter, speed);
+        }
+
+        internal void Warp(Vector3 position)
+        {
+            agent.Warp(position);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace WizardsCode.MinDiab.Combat
             }
         }
 
-        private void Start()
+        private void Awake()
         {
             animator = GetComponent<Animator>();
             health = GetComponent<HealthController>();

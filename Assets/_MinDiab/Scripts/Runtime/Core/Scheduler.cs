@@ -19,7 +19,7 @@ namespace WizardsCode.MinDiab.Core
             currentAction = action;
         }
 
-        public void CancelCurrentAction()
+        public void StopCurrentAction()
         {
             StartAction(null);
         }
