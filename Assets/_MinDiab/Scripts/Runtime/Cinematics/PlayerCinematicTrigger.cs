@@ -9,7 +9,7 @@ using WizardsCode.MinDiab.Core;
 
 namespace WizardsCode.MinDiab.Cinematics
 {
-    public class PlayerCinematicTrigger : MonoBehaviour
+    public class PlayerCinematicTrigger : MonoBehaviour, ISaveable
     {
 
         Scheduler playerScheduler;
@@ -39,8 +39,6 @@ namespace WizardsCode.MinDiab.Cinematics
             {
                 if (other.CompareTag("Player"))
                 {
-                    TimelineAsset timeline = director.playableAsset as TimelineAsset;
-                    director.SetGenericBinding(timeline.GetOutputTrack(0), Camera.main.GetComponent<CinemachineBrain>());
                     director.Play();
                     hasPlayed = true;
                 }
@@ -58,6 +56,14 @@ namespace WizardsCode.MinDiab.Cinematics
             playerController.enabled = true;
         }
 
+        public object CaptureState()
+        {
+            return hasPlayed;
+        }
 
+        public void RestoreState(object state)
+        {
+            hasPlayed = (bool)state;
+        }
     }
 }

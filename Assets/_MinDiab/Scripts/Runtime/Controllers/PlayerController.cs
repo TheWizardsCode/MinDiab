@@ -10,13 +10,13 @@ using WizardsCode.MinDiab.Core;
 namespace WizardsCode.MinDiab.Controller
 {
     [RequireComponent(typeof(Fighter))]
-    [RequireComponent(typeof(Mover))]
+    [RequireComponent(typeof(MoveController))]
     [RequireComponent(typeof(Scheduler))]
     public class PlayerController : MonoBehaviour
     {
         Fighter fighter;
         HealthController health;
-        Mover mover;
+        MoveController mover;
         Scheduler scheduler;
         Camera mainCamera;
 
@@ -24,7 +24,7 @@ namespace WizardsCode.MinDiab.Controller
         {
             fighter = GetComponent<Fighter>();
             health = GetComponent<HealthController>();
-            mover = GetComponent<Mover>();
+            mover = GetComponent<MoveController>();
             scheduler = GetComponent<Scheduler>();
             mainCamera = Camera.main;
         }

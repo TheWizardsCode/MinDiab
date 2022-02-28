@@ -6,7 +6,7 @@ using WizardsCode.MinDiab.Core;
 
 namespace WizardsCode.MinDiab.Character
 {
-    public class HealthController : MonoBehaviour
+    public class HealthController : MonoBehaviour, ISaveable
     {
         [SerializeField, Tooltip("The current health of this character in hitpoints.")]
         float m_HealthPoints = 100;
@@ -44,6 +44,21 @@ namespace WizardsCode.MinDiab.Character
         {
             animator.SetTrigger(AnimationParameters.DefaultDieTriggerID);
             scheduler.StopCurrentAction();
+        }
+
+        public object CaptureState()
+        {
+            return m_HealthPoints;
+        }
+
+        public void RestoreState(object state)
+        {
+            m_HealthPoints = (float)state;
+
+            if (m_HealthPoints <= 0)
+            {
+                Die();
+            }
         }
     }
 }

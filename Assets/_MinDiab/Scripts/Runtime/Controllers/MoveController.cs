@@ -9,7 +9,7 @@ using WizardsCode.MinDiab.Core;
 namespace WizardsCode.MinDiab.Character
 {
     [RequireComponent(typeof(Scheduler))]
-    public class Mover : MonoBehaviour, IAction
+    public class MoveController : MonoBehaviour, IAction, ISaveable
     {
         [SerializeField, Tooltip("The maximum speed of mocement under normal circumstances, i.e. with no buffs or nerfs.")]
         float m_MaxSpeed = 6;
@@ -61,6 +61,18 @@ namespace WizardsCode.MinDiab.Character
         internal void Warp(Vector3 position)
         {
             agent.Warp(position);
+        }
+
+        public object CaptureState()
+        {
+            return new SerializableVector3(transform.position);
+        }
+
+        public void RestoreState(object state)
+        {
+            SerializableVector3 position = (SerializableVector3)state;
+            GetComponent<NavMeshAgent>().Warp(position.ToVector());
+
         }
     }
 }

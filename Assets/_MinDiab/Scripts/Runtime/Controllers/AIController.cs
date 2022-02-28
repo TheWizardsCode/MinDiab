@@ -26,7 +26,7 @@ namespace WizardsCode.MinDiab.Controller
         Fighter fighter;
         HealthController health;
         Scheduler scheduler;
-        Mover mover;
+        MoveController mover;
         HealthController player;
         float chaseDistanceSqr;
         bool isAttacking = false;
@@ -37,7 +37,7 @@ namespace WizardsCode.MinDiab.Controller
         {
             fighter = GetComponent<Fighter>();
             health = GetComponent<HealthController>();
-            mover = GetComponent<Mover>();
+            mover = GetComponent<MoveController>();
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthController>();
             scheduler = GetComponent<Scheduler>();
 

@@ -26,7 +26,7 @@ namespace WizardsCode.MinDiab.Combat
         Scheduler scheduler;
         HealthController combatTarget;
 
-        private Mover mover;
+        private MoveController mover;
 
         bool IsInRange
         {
@@ -40,7 +40,7 @@ namespace WizardsCode.MinDiab.Combat
         {
             animator = GetComponent<Animator>();
             health = GetComponent<HealthController>();
-            mover = GetComponent<Mover>();
+            mover = GetComponent<MoveController>();
             scheduler = GetComponent<Scheduler>();
             weaponRangeSqr = m_WeaponRange * m_WeaponRange;
         }
