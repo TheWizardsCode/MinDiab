@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Timeline;
 using WizardsCode.MinDiab.Controller;
 using WizardsCode.MinDiab.Core;
 
@@ -37,6 +39,8 @@ namespace WizardsCode.MinDiab.Cinematics
             {
                 if (other.CompareTag("Player"))
                 {
+                    TimelineAsset timeline = director.playableAsset as TimelineAsset;
+                    director.SetGenericBinding(timeline.GetOutputTrack(0), Camera.main.GetComponent<CinemachineBrain>());
                     director.Play();
                     hasPlayed = true;
                 }
@@ -53,5 +57,7 @@ namespace WizardsCode.MinDiab.Cinematics
         {
             playerController.enabled = true;
         }
+
+
     }
 }

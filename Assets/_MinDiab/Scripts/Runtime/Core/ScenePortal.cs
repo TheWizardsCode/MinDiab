@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using WizardsCode.MinDiab.Cinematics;
+using WizardsCode.MinDiab.Controller;
 
 namespace WizardsCode.MinDiab.SceneManagement
 {
@@ -15,13 +17,29 @@ namespace WizardsCode.MinDiab.SceneManagement
         string m_DestinationScene;
         [SerializeField, Tooltip("The point at which items coming through this portal will be spawned in this world.")]
         Transform m_SpawnPoint;
+        [SerializeField, Tooltip("The time taken to fade out when changing scenes.")]
+        float m_FadeOutTime = 2;
+        [SerializeField, Tooltip("The time to pause between fade in and out after the scene has loaded.")]
+        float m_FadePauseTime = 1;
+        [SerializeField, Tooltip("The time taken to fade back in when the scene has loaded.")]
+        float m_FadeInTime = 1;
+
+
+        Fader fadeToBlack;
+
+        private void Start()
+        {
+            fadeToBlack = GameObject.FindObjectOfType<Fader>();
+        }
 
         private void OnTriggerEnter(Collider other)
         {
             if (!string.IsNullOrEmpty(m_DestinationScene))
             {
-                if (other.CompareTag("Player"))
+                PlayerController player = other.GetComponent<PlayerController>();
+                if (player)
                 {
+                    player.StopAllActions();
                     StartCoroutine(TransitionToScene(m_DestinationScene));
                 }
             }
@@ -29,6 +47,8 @@ namespace WizardsCode.MinDiab.SceneManagement
 
         private IEnumerator TransitionToScene(string sceneName)
         {
+            yield return fadeToBlack.FadeOut(m_FadeOutTime);
+
             DontDestroyOnLoad(gameObject);
 
             yield return SceneManager.LoadSceneAsync(sceneName);
@@ -44,7 +64,9 @@ namespace WizardsCode.MinDiab.SceneManagement
                 Debug.LogError($"Unable to find the spawn point when travelling through {this}.");
             }
 
-            yield return null;
+            yield return new WaitForSeconds(m_FadePauseTime);
+
+            yield return fadeToBlack.FadeIn(m_FadeInTime);
 
             Destroy(gameObject);
         }
