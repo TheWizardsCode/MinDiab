@@ -39,6 +39,7 @@ namespace WizardsCode.MinDiab.Character
 
         public void MoveTo(Vector3 pos, float speedMultiplier)
         {
+            agent.enabled = true;
             agent.speed = m_MaxSpeed * speedMultiplier;
 
             scheduler.StartAction(this);
@@ -48,7 +49,10 @@ namespace WizardsCode.MinDiab.Character
 
         public void StopAction()
         {
-            agent.isStopped = true;
+            if (agent.enabled)
+            {
+                agent.isStopped = true;
+            }
         }
 
         private void UpdateAnimator()
@@ -72,7 +76,6 @@ namespace WizardsCode.MinDiab.Character
         {
             SerializableVector3 position = (SerializableVector3)state;
             GetComponent<NavMeshAgent>().Warp(position.ToVector());
-
         }
     }
 }

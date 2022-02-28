@@ -8,7 +8,7 @@ namespace WizardsCode.MinDiab.Core
     [ExecuteAlways]
     public class SaveableEntity : MonoBehaviour
     {
-        [SerializeField, HideInInspector] string uniqueIdentifier = "";
+        [SerializeField] string uniqueIdentifier = "";
         static Dictionary<string, SaveableEntity> globalLookup = new Dictionary<string, SaveableEntity>();
 
         public string GetUniqueIdentifier()

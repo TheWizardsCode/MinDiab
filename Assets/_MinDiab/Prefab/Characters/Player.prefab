@@ -141,6 +141,11 @@ PrefabInstance:
       propertyPath: m_HealthPoints
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 3054032838430911731, guid: 3944535b9ac2b534daccbd8d41068dd8,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: player
+      objectReference: {fileID: 0}
     - target: {fileID: 4082071976346427140, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
       propertyPath: m_Height

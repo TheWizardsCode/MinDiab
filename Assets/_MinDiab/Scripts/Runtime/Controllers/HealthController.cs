@@ -22,7 +22,12 @@ namespace WizardsCode.MinDiab.Character
             }
         }
 
-        private void Start()
+        private void Awake()
+        {
+            Init();
+        }
+
+        private void Init()
         {
             animator = GetComponent<Animator>();
             scheduler = GetComponent<Scheduler>();
@@ -57,6 +62,7 @@ namespace WizardsCode.MinDiab.Character
 
             if (m_HealthPoints <= 0)
             {
+                
                 Die();
             }
         }

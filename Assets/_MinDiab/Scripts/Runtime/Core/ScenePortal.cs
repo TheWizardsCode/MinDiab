@@ -6,6 +6,7 @@ using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 using WizardsCode.MinDiab.Cinematics;
 using WizardsCode.MinDiab.Controller;
+using WizardsCode.MinDiab.Core;
 
 namespace WizardsCode.MinDiab.SceneManagement
 {
@@ -26,10 +27,12 @@ namespace WizardsCode.MinDiab.SceneManagement
 
 
         Fader fadeToBlack;
+        SavingWrapper saveWrapper;
 
-        private void Start()
+        private void Awake()
         {
             fadeToBlack = GameObject.FindObjectOfType<Fader>();
+            saveWrapper = GameObject.FindObjectOfType<SavingWrapper>();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -48,10 +51,15 @@ namespace WizardsCode.MinDiab.SceneManagement
         private IEnumerator TransitionToScene(string sceneName)
         {
             yield return fadeToBlack.FadeOut(m_FadeOutTime);
+            saveWrapper.Save();
 
             DontDestroyOnLoad(gameObject);
 
             yield return SceneManager.LoadSceneAsync(sceneName);
+
+            yield return null;
+
+            saveWrapper.Load();
 
             ScenePortal otherPortal = GetOtherPortal();
             if (otherPortal)
@@ -63,6 +71,9 @@ namespace WizardsCode.MinDiab.SceneManagement
             {
                 Debug.LogError($"Unable to find the spawn point when travelling through {this}.");
             }
+
+            // OPTIMIZATION: this save is to ensure we have the right position for the player when the load back into a scene, we should find a better way of doing this.
+            saveWrapper.Save();
 
             yield return new WaitForSeconds(m_FadePauseTime);
 
@@ -79,6 +90,8 @@ namespace WizardsCode.MinDiab.SceneManagement
             ScenePortal[] portals = FindObjectsOfType<ScenePortal>();
             for (int i = 0; i < portals.Length; i++)
             {
+                if (portals[i] == this) continue;
+
                 if (m_DestinationScene == SceneManager.GetActiveScene().name)
                 {
                     return portals[i];
