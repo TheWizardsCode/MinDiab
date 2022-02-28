@@ -38,6 +38,7 @@ namespace WizardsCode.MinDiab.Cinematics
                 if (other.CompareTag("Player"))
                 {
                     director.Play();
+                    hasPlayed = true;
                 }
             }
         }
