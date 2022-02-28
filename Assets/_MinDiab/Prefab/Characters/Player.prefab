@@ -183,6 +183,12 @@ PrefabInstance:
       propertyPath: m_TimeBetweenAttacks
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 126636721330483064, guid: 3944535b9ac2b534daccbd8d41068dd8,
+        type: 3}
+      propertyPath: weaponAnimationController
+      value: 
+      objectReference: {fileID: 22100000, guid: 76b4cd4b31dbcd84a89097f14bdf28a4,
+        type: 2}
     - target: {fileID: 250467892228896367, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
       propertyPath: m_HealthPoints

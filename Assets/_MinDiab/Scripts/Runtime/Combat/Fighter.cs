@@ -11,18 +11,21 @@ namespace WizardsCode.MinDiab.Combat
     [RequireComponent(typeof(HealthController))]
     public class Fighter : MonoBehaviour, IAction
     {
+        [SerializeField, Tooltip("The position to equip items in the right hand.")]
+        Transform m_RightHandMount;
+
+        [Header("Weapon")]
+        [SerializeField, Tooltip("The weapon to equip.")]
+        GameObject m_WeaponPrefab = null;
         [SerializeField, Tooltip("The range we need to be within in order to attack.")]
         float m_WeaponRange = 2;
         [SerializeField, Tooltip("The time between attacks in seconds.")]
         float m_TimeBetweenAttacks = 1;
         [SerializeField, Tooltip("The amount of damage to do on each hit.")]
         int m_Damage = 10;
+        [SerializeField, Tooltip("The animation controller override to use when the weapon is equipped.")]
+        AnimatorOverrideController weaponAnimationController;
 
-        [Header("Weapon")]
-        [SerializeField, Tooltip("The weapon to equip.")]
-        GameObject m_WeaponPrefab = null;
-        [SerializeField, Tooltip("The position to equip items in the right hand.")]
-        Transform m_RightHandMount;
 
         float weaponRangeSqr;
         float timeOfNextAttack;
@@ -82,6 +85,7 @@ namespace WizardsCode.MinDiab.Combat
             if (m_WeaponPrefab)
             {
                 equippedItemRightHand = Instantiate(m_WeaponPrefab, m_RightHandMount);
+                animator.runtimeAnimatorController = weaponAnimationController;
             }
         }
 
