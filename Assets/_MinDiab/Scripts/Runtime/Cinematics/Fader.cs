@@ -6,17 +6,11 @@ namespace WizardsCode.MinDiab.Cinematics
 {
     public class Fader : MonoBehaviour
     {
-        static bool alreadyExists = false;
-
-        CanvasGroup group;
+        static CanvasGroup group;
 
         void Awake()
         {
-            if (alreadyExists) return;
-
             group = GetComponent<CanvasGroup>();
-            DontDestroyOnLoad(group.gameObject);
-            DontDestroyOnLoad(gameObject);
         }
 
         /// <summary>

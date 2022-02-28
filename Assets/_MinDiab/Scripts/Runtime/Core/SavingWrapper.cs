@@ -2,31 +2,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using WizardsCode.MinDiab.Cinematics;
 
 namespace WizardsCode.MinDiab.Core
 {
     public class SavingWrapper : MonoBehaviour
     {
+        [SerializeField, Tooltip("The Save System that will manage loading and saving of the game.")]
+        SavingSystem m_SaveSystem;
+        [SerializeField, Tooltip("The screen fader effect to use when loading.")]
+        Fader m_FadeToBlack;
+
         const string defaultSaveFile = "Save";
-        static bool alreadyExists = false;
-        SavingSystem saveSystem;
-        Fader fadeToBlack;
-
-        void Awake()
-        {
-            if (alreadyExists) return;
-
-            fadeToBlack = GameObject.FindObjectOfType<Fader>();
-            saveSystem = GetComponent<SavingSystem>();
-            DontDestroyOnLoad(gameObject);
-        }
+        static bool alreadyLoaded = false;
+        
         IEnumerator Start()
         {
-            yield return fadeToBlack.FadeOut(0.25f);
-            yield return saveSystem.LoadLastScene(defaultSaveFile);
+            if (alreadyLoaded) yield break;
+            alreadyLoaded = true;
+
+            yield return m_FadeToBlack.FadeOut(0.25f);
+            yield return m_SaveSystem.LoadLastScene(defaultSaveFile);
             yield return new WaitForSeconds(2);
-            yield return fadeToBlack.FadeIn(0.25f);
+            yield return m_FadeToBlack.FadeIn(0.25f);
         }
 
         private void Update()
@@ -43,22 +42,22 @@ namespace WizardsCode.MinDiab.Core
 
             if (Input.GetKeyDown(KeyCode.Minus))
             {
-                Save();
+                Delete();
             }
         }
 
         public void Load()
         {
-            saveSystem.Load(defaultSaveFile);
+            m_SaveSystem.Load(defaultSaveFile);
         }
         public void Save()
         {
-            saveSystem.Save(defaultSaveFile);
+            m_SaveSystem.Save(defaultSaveFile);
         }
 
         private void Delete()
         {
-            saveSystem.Delete(defaultSaveFile);
+            m_SaveSystem.Delete(defaultSaveFile);
         }
     }
 }

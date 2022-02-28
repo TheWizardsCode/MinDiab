@@ -69,13 +69,24 @@ namespace WizardsCode.MinDiab.Character
 
         public object CaptureState()
         {
-            return new SerializableVector3(transform.position);
+            MoveControllerSaveData data = new MoveControllerSaveData();
+            data.position = new SerializableVector3(transform.position);
+            data.rotation = new SerializableVector3(transform.rotation.eulerAngles);
+            return data;
         }
 
         public void RestoreState(object state)
         {
-            SerializableVector3 position = (SerializableVector3)state;
-            GetComponent<NavMeshAgent>().Warp(position.ToVector());
+            MoveControllerSaveData data = (MoveControllerSaveData)state;
+            GetComponent<NavMeshAgent>().Warp(data.position.ToVector());
+            transform.rotation = Quaternion.Euler(data.rotation.ToVector());
+        }
+
+        [Serializable]
+        struct MoveControllerSaveData
+        {
+            public SerializableVector3 position;
+            public SerializableVector3 rotation;
         }
     }
 }

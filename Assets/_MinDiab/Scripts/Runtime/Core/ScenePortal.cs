@@ -50,14 +50,12 @@ namespace WizardsCode.MinDiab.SceneManagement
 
         private IEnumerator TransitionToScene(string sceneName)
         {
+            DontDestroyOnLoad(gameObject);
+
             yield return fadeToBlack.FadeOut(m_FadeOutTime);
             saveWrapper.Save();
 
-            DontDestroyOnLoad(gameObject);
-
             yield return SceneManager.LoadSceneAsync(sceneName);
-
-            yield return null;
 
             saveWrapper.Load();
 
@@ -71,9 +69,6 @@ namespace WizardsCode.MinDiab.SceneManagement
             {
                 Debug.LogError($"Unable to find the spawn point when travelling through {this}.");
             }
-
-            // OPTIMIZATION: this save is to ensure we have the right position for the player when the load back into a scene, we should find a better way of doing this.
-            saveWrapper.Save();
 
             yield return new WaitForSeconds(m_FadePauseTime);
 
