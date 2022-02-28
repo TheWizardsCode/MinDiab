@@ -58,6 +58,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 283f262aaecb4444184235bc4d6e3573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &7479815403171134068
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8017923587765783403}
+  m_Layer: 0
+  m_Name: Mount Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8017923587765783403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7479815403171134068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5277754506973884471}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5277754506973759289
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -119,6 +149,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 3f6fc0cf5e5d31c458bc74ede87cb8ae, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30cf93deff988e74e88a144bd2127c18, type: 3}
+--- !u!4 &5277754506973884471 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 423694, guid: 30cf93deff988e74e88a144bd2127c18,
+    type: 3}
+  m_PrefabInstance: {fileID: 5277754506973759289}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7067165124163060417
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -131,6 +167,17 @@ PrefabInstance:
       propertyPath: m_WeaponRange
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 126636721330483064, guid: 3944535b9ac2b534daccbd8d41068dd8,
+        type: 3}
+      propertyPath: m_WeaponPrefab
+      value: 
+      objectReference: {fileID: 2455096453065304517, guid: 1627f1b7734e45547840f935acb96e30,
+        type: 3}
+    - target: {fileID: 126636721330483064, guid: 3944535b9ac2b534daccbd8d41068dd8,
+        type: 3}
+      propertyPath: m_RightHandMount
+      value: 
+      objectReference: {fileID: 8017923587765783403}
     - target: {fileID: 126636721330483064, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
       propertyPath: m_TimeBetweenAttacks

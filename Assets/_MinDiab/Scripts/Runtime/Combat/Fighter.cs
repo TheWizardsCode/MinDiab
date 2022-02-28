@@ -18,6 +18,12 @@ namespace WizardsCode.MinDiab.Combat
         [SerializeField, Tooltip("The amount of damage to do on each hit.")]
         int m_Damage = 10;
 
+        [Header("Weapon")]
+        [SerializeField, Tooltip("The weapon to equip.")]
+        GameObject m_WeaponPrefab = null;
+        [SerializeField, Tooltip("The position to equip items in the right hand.")]
+        Transform m_RightHandMount;
+
         float weaponRangeSqr;
         float timeOfNextAttack;
 
@@ -25,6 +31,8 @@ namespace WizardsCode.MinDiab.Combat
         HealthController health;
         Scheduler scheduler;
         HealthController combatTarget;
+
+        GameObject equippedItemRightHand;
 
         private MoveController mover;
 
@@ -51,6 +59,11 @@ namespace WizardsCode.MinDiab.Combat
                 return; 
             }
 
+            if (equippedItemRightHand == null)
+            {
+                EquipPrimaryWeapon();
+            }
+
             if (!IsInRange)
             {
                 mover.MoveTo(combatTarget.transform.position, 1);
@@ -62,6 +75,13 @@ namespace WizardsCode.MinDiab.Combat
                     animator.SetTrigger(AnimationParameters.DefaultAttackTriggerID);
                     timeOfNextAttack = Time.timeSinceLevelLoad + m_TimeBetweenAttacks;
                 }
+            }
+        }
+
+        public void EquipPrimaryWeapon() {
+            if (m_WeaponPrefab)
+            {
+                equippedItemRightHand = Instantiate(m_WeaponPrefab, m_RightHandMount);
             }
         }
 
