@@ -60,6 +60,10 @@ namespace WizardsCode.MinDiab.Combat
             health = GetComponent<HealthController>();
             mover = GetComponent<MoveController>();
             scheduler = GetComponent<Scheduler>();
+        }
+
+        private void Start()
+        {
             EquipWeapon(m_DefaultWeapon);
         }
 
@@ -91,6 +95,8 @@ namespace WizardsCode.MinDiab.Combat
         public void EquipWeapon(Weapon weapon) {
             if (weapon == null) return;
 
+            DiscardItemInHand(weapon.Hand);
+
             switch (weapon.Hand)
             {
                 case Handedness.Dominant:
@@ -104,11 +110,13 @@ namespace WizardsCode.MinDiab.Combat
                 case Handedness.BothDominantLead:
                     equippedWeaponDominantHand = Instantiate(weapon.gameObject, m_DominantMount).GetComponent<Weapon>();
                     equippedWeaponDominantHand.transform.SetParent(m_DominantMount);
+                    
                     equippedWeaponNonDominantHand = equippedWeaponDominantHand;
                     break;
                 case Handedness.BothNonDominantLead:
                     equippedWeaponNonDominantHand = Instantiate(weapon.gameObject, m_NonDominantMount).GetComponent<Weapon>();
                     equippedWeaponNonDominantHand.transform.SetParent(m_NonDominantMount);
+
                     equippedWeaponDominantHand = equippedWeaponNonDominantHand;
                     break;
             }
@@ -117,8 +125,45 @@ namespace WizardsCode.MinDiab.Combat
             {
                 animator.runtimeAnimatorController = weapon.AnimationController;
             }
+        }
 
-            equippedWeaponDominantHand = weapon;
+        public void DiscardItemInHand(Handedness hand)
+        {
+            switch (hand)
+            {
+                case Handedness.Dominant:
+                    if (equippedWeaponDominantHand)
+                    {
+                        Destroy(equippedWeaponDominantHand.gameObject);
+                    }
+                    break;
+                case Handedness.NonDominant:
+                    if (equippedWeaponDominantHand)
+                    {
+                        Destroy(equippedWeaponDominantHand.gameObject);
+                    }
+                    break;
+                case Handedness.BothDominantLead:
+                    if (equippedWeaponDominantHand)
+                    {
+                        Destroy(equippedWeaponDominantHand.gameObject);
+                    }
+                    if (equippedWeaponDominantHand)
+                    {
+                        Destroy(equippedWeaponDominantHand.gameObject);
+                    }
+                    break;
+                case Handedness.BothNonDominantLead:
+                    if (equippedWeaponDominantHand)
+                    {
+                        Destroy(equippedWeaponDominantHand.gameObject);
+                    }
+                    if (equippedWeaponDominantHand)
+                    {
+                        Destroy(equippedWeaponDominantHand.gameObject);
+                    }
+                    break;
+            }
         }
 
         /// <summary>
