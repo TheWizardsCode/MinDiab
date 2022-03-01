@@ -45,7 +45,7 @@ namespace WizardsCode.MinDiab.Combat
         public void LaunchProjectileAt(HealthController target, Fighter fighter)
         {
             Projectile projectileInstance = Instantiate(projectile, fighter.transform.position + m_ProjectileLaunchPoint.localPosition, projectile.transform.rotation);
-            projectileInstance.Target = target;
+            projectileInstance.Launch(target, Damage);
         }
     }
 }
