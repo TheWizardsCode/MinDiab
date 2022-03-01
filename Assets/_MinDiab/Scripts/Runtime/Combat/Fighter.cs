@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using WizardsCode.MinDiab.Character;
 using WizardsCode.MinDiab.Configuration;
 using WizardsCode.MinDiab.Core;
+using static WizardsCode.MinDiab.Combat.Weapon;
 
 namespace WizardsCode.MinDiab.Combat
 {
@@ -11,10 +13,12 @@ namespace WizardsCode.MinDiab.Combat
     [RequireComponent(typeof(HealthController))]
     public class Fighter : MonoBehaviour, IAction
     {
-        [SerializeField, Tooltip("The position to equip items in the right hand.")]
-        Transform m_RightHandMount;
         [SerializeField, Tooltip("The currently equipable weapon.")]
-        Weapon m_EquippableWeapon;
+        Weapon m_DefaultWeapon;
+        [SerializeField, Tooltip("The position to equip items in the dominant hand.")]
+        Transform m_DominantMount;
+        [SerializeField, Tooltip("The position to equip items in the non-dominant hand.")]
+        Transform m_NonDominantMount;
 
         float timeOfNextAttack;
 
@@ -23,7 +27,8 @@ namespace WizardsCode.MinDiab.Combat
         Scheduler scheduler;
         HealthController combatTarget;
 
-        Weapon equippedItemRightHand;
+        Weapon equippedWeaponDominantHand; 
+        Weapon equippedWeaponNonDominantHand;
 
         private MoveController mover;
 
@@ -31,9 +36,21 @@ namespace WizardsCode.MinDiab.Combat
         {
             get
             {
-                if (equippedItemRightHand == null) { return false;  }
+                if (equippedWeaponDominantHand == null) { return false;  }
 
-                return Vector3.SqrMagnitude(transform.position - combatTarget.transform.position) < equippedItemRightHand.WeaponRangeSqr;
+                if (equippedWeaponDominantHand && 
+                    Vector3.SqrMagnitude(transform.position - combatTarget.transform.position) < equippedWeaponDominantHand.WeaponRangeSqr) 
+                { 
+                    return true; 
+                }
+
+                if (equippedWeaponNonDominantHand &&
+                    Vector3.SqrMagnitude(transform.position - combatTarget.transform.position) < equippedWeaponNonDominantHand.WeaponRangeSqr) 
+                { 
+                    return true; 
+                }
+
+                return false;
             }
         }
 
@@ -43,7 +60,7 @@ namespace WizardsCode.MinDiab.Combat
             health = GetComponent<HealthController>();
             mover = GetComponent<MoveController>();
             scheduler = GetComponent<Scheduler>();
-            EquipPrimaryWeapon();
+            EquipWeapon(m_DefaultWeapon);
         }
 
         private void Update()
@@ -52,9 +69,9 @@ namespace WizardsCode.MinDiab.Combat
                 return; 
             }
 
-            if (equippedItemRightHand == null)
+            if (equippedWeaponDominantHand == null)
             {
-                EquipPrimaryWeapon();
+                EquipWeapon(m_DefaultWeapon);
             }
 
             if (!IsInRange)
@@ -66,16 +83,54 @@ namespace WizardsCode.MinDiab.Combat
                 {
                     mover.StopAction();
                     animator.SetTrigger(AnimationParameters.DefaultAttackTriggerID);
-                    timeOfNextAttack = Time.timeSinceLevelLoad + equippedItemRightHand.TimeBetweenAttacks;
+                    timeOfNextAttack = Time.timeSinceLevelLoad + equippedWeaponDominantHand.TimeBetweenAttacks;
                 }
             }
         }
 
-        public void EquipPrimaryWeapon() {
-            if (m_EquippableWeapon == null) return;
+        public void EquipWeapon(Weapon weapon) {
+            if (weapon == null) return;
 
-            m_EquippableWeapon.Equip(m_RightHandMount, animator);
-            equippedItemRightHand = m_EquippableWeapon;
+            switch (weapon.Hand)
+            {
+                case Handedness.Dominant:
+                    if (weapon.Prefab)
+                    {
+                        Instantiate(weapon.Prefab, m_DominantMount);
+                    }
+                    equippedWeaponDominantHand = weapon;
+                    break;
+                case Handedness.NonDominant:
+                    if (weapon.Prefab)
+                    {
+                        Instantiate(weapon.Prefab, m_NonDominantMount);
+                    }
+                    equippedWeaponNonDominantHand = weapon;
+                    break;
+                case Handedness.BothDominantLead:
+                    if (weapon.Prefab)
+                    {
+                        Instantiate(weapon.Prefab, m_DominantMount);
+                    }
+                    equippedWeaponDominantHand = weapon;
+                    equippedWeaponNonDominantHand = weapon;
+                    break;
+                case Handedness.BothNonDominantLead:
+                    if (weapon.Prefab)
+                    {
+                        Instantiate(weapon.Prefab, m_NonDominantMount);
+                    }
+                    equippedWeaponDominantHand = weapon;
+                    equippedWeaponNonDominantHand = weapon;
+                    break;
+            }
+
+            if (weapon.AnimationController != null)
+            {
+                animator.runtimeAnimatorController = weapon.AnimationController;
+            }
+
+            equippedWeaponDominantHand = weapon;
         }
 
         /// <summary>
@@ -123,12 +178,36 @@ namespace WizardsCode.MinDiab.Combat
         {
             if (combatTarget)
             {
-                combatTarget.TakeDamage(equippedItemRightHand.Damage);
+                combatTarget.TakeDamage(equippedWeaponDominantHand.Damage);
                 if (combatTarget.IsDead)
                 {
                     StopAction();
                 }
             }
         }
+
+        /*
+        public object CaptureState()
+        {
+            SaveData data = new SaveData();
+            data.defaultWeapon = m_DefaultWeapon;
+            data.equippedRightHand = equippedWeaponRightHand;
+            return data;
+        }
+
+        public void RestoreState(object state)
+        {
+            SaveData data = (SaveData)state;
+            m_DefaultWeapon = data.defaultWeapon;
+            equippedWeaponRightHand = data.equippedRightHand;
+        }
+
+        [Serializable]
+        struct SaveData
+        {
+            public Weapon defaultWeapon;
+            public Weapon equippedRightHand;
+        }
+        */
     }
 }

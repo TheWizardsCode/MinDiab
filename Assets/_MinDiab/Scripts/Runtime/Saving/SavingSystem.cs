@@ -41,16 +41,20 @@ namespace WizardsCode.MinDiab.Core
 
         private Dictionary<string, object> LoadFile(string saveFile)
         {
-            string path = GetPathFromSaveFile(saveFile);
-            if (!File.Exists(path))
+            if (!Exists(saveFile))
             {
                 return new Dictionary<string, object>();
             }
-            using (FileStream stream = File.Open(path, FileMode.Open))
+            using (FileStream stream = File.Open(GetPathFromSaveFile(saveFile), FileMode.Open))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
                 return (Dictionary<string, object>)formatter.Deserialize(stream);
             }
+        }
+
+        public bool Exists(string saveFile)
+        {
+            return File.Exists(GetPathFromSaveFile(saveFile));
         }
 
         private void SaveFile(string saveFile, object state)

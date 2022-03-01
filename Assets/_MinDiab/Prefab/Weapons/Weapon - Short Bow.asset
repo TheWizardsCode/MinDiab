@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e66943530b14d84b8f79b1ee640f237, type: 3}
-  m_Name: Weapon - Fists
+  m_Name: Weapon - Short Bow
   m_EditorClassIdentifier: 
   Prefab: {fileID: 0}
-  m_Range: 1.5
-  TimeBetweenAttacks: 0.7
-  Damage: 5
-  AnimationController: {fileID: 0}
-  Hand: 2
+  m_Range: 15
+  TimeBetweenAttacks: 2
+  Damage: 8
+  AnimationController: {fileID: 22100000, guid: 2ea371bbf9fd8df4c8fdd8b1efd2aa22,
+    type: 2}
+  Hand: 3

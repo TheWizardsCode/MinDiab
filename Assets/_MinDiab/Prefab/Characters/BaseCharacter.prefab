@@ -104,8 +104,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63d6bbc033eeefe4ca7313e50470fe63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RightHandMount: {fileID: 0}
-  m_EquippableWeapon: {fileID: 11400000, guid: 9703cbaa8ecb75c418aa992914099d37, type: 2}
+  m_DominantMount: {fileID: 0}
+  m_NonDominantMount: {fileID: 0}
+  m_DefaultWeapon: {fileID: 11400000, guid: 9703cbaa8ecb75c418aa992914099d37, type: 2}
 --- !u!114 &4333166320969842438
 MonoBehaviour:
   m_ObjectHideFlags: 0

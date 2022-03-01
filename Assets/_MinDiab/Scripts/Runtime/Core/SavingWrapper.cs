@@ -15,6 +15,7 @@ namespace WizardsCode.MinDiab.Core
         Fader m_FadeToBlack;
 
         const string defaultSaveFile = "Save";
+        const string defaultScene = "Sandbox Level 1";
         static bool alreadyLoaded = false;
         
         IEnumerator Start()
@@ -23,7 +24,13 @@ namespace WizardsCode.MinDiab.Core
             alreadyLoaded = true;
 
             yield return m_FadeToBlack.FadeOut(0.25f);
-            yield return m_SaveSystem.LoadLastScene(defaultSaveFile);
+            if (m_SaveSystem.Exists(defaultSaveFile))
+            {
+                yield return m_SaveSystem.LoadLastScene(defaultSaveFile);
+            } else
+            {
+                yield return SceneManager.LoadSceneAsync(defaultScene);
+            }
             yield return new WaitForSeconds(2);
             yield return m_FadeToBlack.FadeIn(0.25f);
         }

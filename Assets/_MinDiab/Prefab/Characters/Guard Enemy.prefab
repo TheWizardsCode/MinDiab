@@ -29,6 +29,66 @@ MonoBehaviour:
   m_SuspicionDuration: 4
   m_PatrolPath: {fileID: 0}
   m_CurrentWaypointIndex: 0
+--- !u!1 &1890393185508882123
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6074215908217220928}
+  m_Layer: 0
+  m_Name: Right Mount Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6074215908217220928
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890393185508882123}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7020599782225674943}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8302552957942145656
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7071303765433547573}
+  m_Layer: 0
+  m_Name: Left Mount Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7071303765433547573
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8302552957942145656}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7020599782225617623}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1412588200950017725
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45,6 +105,16 @@ PrefabInstance:
       propertyPath: m_Damage
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 126636721330483064, guid: 3944535b9ac2b534daccbd8d41068dd8,
+        type: 3}
+      propertyPath: m_DominantMount
+      value: 
+      objectReference: {fileID: 6074215908217220928}
+    - target: {fileID: 126636721330483064, guid: 3944535b9ac2b534daccbd8d41068dd8,
+        type: 3}
+      propertyPath: m_NonDominantMount
+      value: 
+      objectReference: {fileID: 7071303765433547573}
     - target: {fileID: 250467892228896367, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
       propertyPath: m_HealthPoints
@@ -58,7 +128,7 @@ PrefabInstance:
     - target: {fileID: 7351778425547091557, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
       propertyPath: m_Name
-      value: Enemy
+      value: Guard Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 7351778425547091563, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
@@ -187,3 +257,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
+--- !u!4 &7020599782225617623 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 403948, guid: 679ff741e12a7e740819ede24a7000b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 7020599782225218363}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7020599782225674943 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 461188, guid: 679ff741e12a7e740819ede24a7000b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 7020599782225218363}
+  m_PrefabAsset: {fileID: 0}

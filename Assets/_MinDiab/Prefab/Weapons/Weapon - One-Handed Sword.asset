@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e66943530b14d84b8f79b1ee640f237, type: 3}
   m_Name: Weapon - One-Handed Sword
   m_EditorClassIdentifier: 
-  m_WeaponPrefab: {fileID: 2455096453065304517, guid: 1627f1b7734e45547840f935acb96e30,
-    type: 3}
-  m_WeaponRange: 2
+  Prefab: {fileID: 0}
+  m_Range: 2.5
   TimeBetweenAttacks: 1
   Damage: 12
-  m_WeaponAnimationController: {fileID: 22100000, guid: 76b4cd4b31dbcd84a89097f14bdf28a4,
+  AnimationController: {fileID: 22100000, guid: 76b4cd4b31dbcd84a89097f14bdf28a4,
     type: 2}
+  Hand: 0
