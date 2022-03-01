@@ -13,21 +13,9 @@ namespace WizardsCode.MinDiab.Combat
     {
         [SerializeField, Tooltip("The position to equip items in the right hand.")]
         Transform m_RightHandMount;
+        [SerializeField, Tooltip("The currently equipable weapon.")]
+        Weapon m_EquippableWeapon;
 
-        [Header("Weapon")]
-        [SerializeField, Tooltip("The weapon to equip.")]
-        GameObject m_WeaponPrefab = null;
-        [SerializeField, Tooltip("The range we need to be within in order to attack.")]
-        float m_WeaponRange = 2;
-        [SerializeField, Tooltip("The time between attacks in seconds.")]
-        float m_TimeBetweenAttacks = 1;
-        [SerializeField, Tooltip("The amount of damage to do on each hit.")]
-        int m_Damage = 10;
-        [SerializeField, Tooltip("The animation controller override to use when the weapon is equipped.")]
-        AnimatorOverrideController weaponAnimationController;
-
-
-        float weaponRangeSqr;
         float timeOfNextAttack;
 
         Animator animator;
@@ -35,7 +23,7 @@ namespace WizardsCode.MinDiab.Combat
         Scheduler scheduler;
         HealthController combatTarget;
 
-        GameObject equippedItemRightHand;
+        Weapon equippedItemRightHand;
 
         private MoveController mover;
 
@@ -43,7 +31,9 @@ namespace WizardsCode.MinDiab.Combat
         {
             get
             {
-                return Vector3.SqrMagnitude(transform.position - combatTarget.transform.position) < weaponRangeSqr;
+                if (equippedItemRightHand == null) { return false;  }
+
+                return Vector3.SqrMagnitude(transform.position - combatTarget.transform.position) < equippedItemRightHand.WeaponRangeSqr;
             }
         }
 
@@ -53,7 +43,7 @@ namespace WizardsCode.MinDiab.Combat
             health = GetComponent<HealthController>();
             mover = GetComponent<MoveController>();
             scheduler = GetComponent<Scheduler>();
-            weaponRangeSqr = m_WeaponRange * m_WeaponRange;
+            EquipPrimaryWeapon();
         }
 
         private void Update()
@@ -76,17 +66,16 @@ namespace WizardsCode.MinDiab.Combat
                 {
                     mover.StopAction();
                     animator.SetTrigger(AnimationParameters.DefaultAttackTriggerID);
-                    timeOfNextAttack = Time.timeSinceLevelLoad + m_TimeBetweenAttacks;
+                    timeOfNextAttack = Time.timeSinceLevelLoad + equippedItemRightHand.TimeBetweenAttacks;
                 }
             }
         }
 
         public void EquipPrimaryWeapon() {
-            if (m_WeaponPrefab)
-            {
-                equippedItemRightHand = Instantiate(m_WeaponPrefab, m_RightHandMount);
-                animator.runtimeAnimatorController = weaponAnimationController;
-            }
+            if (m_EquippableWeapon == null) return;
+
+            m_EquippableWeapon.Equip(m_RightHandMount, animator);
+            equippedItemRightHand = m_EquippableWeapon;
         }
 
         /// <summary>
@@ -134,7 +123,7 @@ namespace WizardsCode.MinDiab.Combat
         {
             if (combatTarget)
             {
-                combatTarget.TakeDamage(m_Damage);
+                combatTarget.TakeDamage(equippedItemRightHand.Damage);
                 if (combatTarget.IsDead)
                 {
                     StopAction();

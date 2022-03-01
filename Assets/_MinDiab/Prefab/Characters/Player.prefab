@@ -180,6 +180,12 @@ PrefabInstance:
       objectReference: {fileID: 8017923587765783403}
     - target: {fileID: 126636721330483064, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
+      propertyPath: m_EquippableWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: d340ba001d0853e4faf41531261419e1,
+        type: 2}
+    - target: {fileID: 126636721330483064, guid: 3944535b9ac2b534daccbd8d41068dd8,
+        type: 3}
       propertyPath: m_TimeBetweenAttacks
       value: 0.5
       objectReference: {fileID: 0}
