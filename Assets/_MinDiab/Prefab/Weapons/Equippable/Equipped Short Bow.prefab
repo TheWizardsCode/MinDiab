@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4281075886339594}
   - component: {fileID: 33439128244052482}
   - component: {fileID: 23611415075500588}
+  - component: {fileID: 5703043567397219447}
   m_Layer: 0
   m_Name: Equipped Short Bow
   m_TagString: Untagged
@@ -25,13 +26,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1563655986059756}
-  m_LocalRotation: {x: -0.13701217, y: 0.6354302, z: -0.7595968, w: 0.021652045}
-  m_LocalPosition: {x: 0.3514, y: 0.17, z: 0.6217}
+  m_LocalRotation: {x: 0, y: 0.70710677, z: -0.70710677, w: 0}
+  m_LocalPosition: {x: 0.212, y: -0.025, z: 0.617}
   m_LocalScale: {x: 0.8, y: 0.76, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2949972956572034497}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 73.619, y: 56.681004, z: -132.77301}
+  m_LocalEulerAnglesHint: {x: 90, y: 90, z: -90}
 --- !u!33 &33439128244052482
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -79,3 +81,53 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &5703043567397219447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563655986059756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e66943530b14d84b8f79b1ee640f237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Range: 15
+  TimeBetweenAttacks: 1.6
+  Damage: 8
+  AnimationController: {fileID: 22100000, guid: 2ea371bbf9fd8df4c8fdd8b1efd2aa22,
+    type: 2}
+  Hand: 3
+  projectile: {fileID: 208101432, guid: 846d7e8ece7785744816940b273eadf2, type: 3}
+  m_ProjectileLaunchPoint: {fileID: 2949972956572034497}
+--- !u!1 &8656930645589507062
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2949972956572034497}
+  m_Layer: 0
+  m_Name: Projectile Launch Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2949972956572034497
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8656930645589507062}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0.42819685, y: 0.78609324, z: 0.028389573}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4281075886339594}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}

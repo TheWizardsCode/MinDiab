@@ -1,34 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &5581565552585192303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8474726642010669272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69fdc442ac398d74486fb51c828019bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6718659787265962764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8474726642010669272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66a0bcfc570c8af4d9ac8c90dd705dbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ChaseDistance: 5
-  m_GuardPosition: {x: 0, y: 0, z: 0}
-  m_SuspicionDuration: 4
-  m_PatrolPath: {fileID: 0}
-  m_CurrentWaypointIndex: 0
 --- !u!1 &1781296110272263219
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,6 +60,35 @@ Transform:
   m_Father: {fileID: 7020599782225674943}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5581565552585192303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8474726642010669272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69fdc442ac398d74486fb51c828019bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6718659787265962764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8474726642010669272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66a0bcfc570c8af4d9ac8c90dd705dbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ChaseDistance: 5
+  m_GuardPosition: {x: 0, y: 0, z: 0}
+  m_SuspicionDuration: 4
+  m_PatrolPath: {fileID: 0}
+  m_CurrentWaypointIndex: 0
 --- !u!1001 &1412588200950017725
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109,8 +109,8 @@ PrefabInstance:
         type: 3}
       propertyPath: m_DefaultWeapon
       value: 
-      objectReference: {fileID: 11400000, guid: d340ba001d0853e4faf41531261419e1,
-        type: 2}
+      objectReference: {fileID: 3455225931919993260, guid: 1627f1b7734e45547840f935acb96e30,
+        type: 3}
     - target: {fileID: 126636721330483064, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
       propertyPath: m_DominantMount

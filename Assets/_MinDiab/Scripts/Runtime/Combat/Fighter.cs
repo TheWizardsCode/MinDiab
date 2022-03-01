@@ -94,34 +94,22 @@ namespace WizardsCode.MinDiab.Combat
             switch (weapon.Hand)
             {
                 case Handedness.Dominant:
-                    if (weapon.Prefab)
-                    {
-                        Instantiate(weapon.Prefab, m_DominantMount);
-                    }
-                    equippedWeaponDominantHand = weapon;
+                    equippedWeaponDominantHand = Instantiate(weapon.gameObject, m_DominantMount).GetComponent<Weapon>();
+                    equippedWeaponDominantHand.transform.SetParent(m_DominantMount);
                     break;
                 case Handedness.NonDominant:
-                    if (weapon.Prefab)
-                    {
-                        Instantiate(weapon.Prefab, m_NonDominantMount);
-                    }
-                    equippedWeaponNonDominantHand = weapon;
+                    equippedWeaponNonDominantHand = Instantiate(weapon.gameObject, m_NonDominantMount).GetComponent<Weapon>();
+                    equippedWeaponNonDominantHand.transform.SetParent(m_NonDominantMount);
                     break;
                 case Handedness.BothDominantLead:
-                    if (weapon.Prefab)
-                    {
-                        Instantiate(weapon.Prefab, m_DominantMount);
-                    }
-                    equippedWeaponDominantHand = weapon;
-                    equippedWeaponNonDominantHand = weapon;
+                    equippedWeaponDominantHand = Instantiate(weapon.gameObject, m_DominantMount).GetComponent<Weapon>();
+                    equippedWeaponDominantHand.transform.SetParent(m_DominantMount);
+                    equippedWeaponNonDominantHand = equippedWeaponDominantHand;
                     break;
                 case Handedness.BothNonDominantLead:
-                    if (weapon.Prefab)
-                    {
-                        Instantiate(weapon.Prefab, m_NonDominantMount);
-                    }
-                    equippedWeaponDominantHand = weapon;
-                    equippedWeaponNonDominantHand = weapon;
+                    equippedWeaponNonDominantHand = Instantiate(weapon.gameObject, m_NonDominantMount).GetComponent<Weapon>();
+                    equippedWeaponNonDominantHand.transform.SetParent(m_NonDominantMount);
+                    equippedWeaponDominantHand = equippedWeaponNonDominantHand;
                     break;
             }
 
@@ -178,12 +166,25 @@ namespace WizardsCode.MinDiab.Combat
         {
             if (combatTarget)
             {
-                combatTarget.TakeDamage(equippedWeaponDominantHand.Damage);
+                if (equippedWeaponDominantHand.HasProjectile)
+                {
+                    equippedWeaponDominantHand.LaunchProjectileAt(combatTarget, this);
+                }
+                else
+                {
+                    combatTarget.TakeDamage(equippedWeaponDominantHand.Damage);
+                }
+
                 if (combatTarget.IsDead)
                 {
                     StopAction();
                 }
             }
+        }
+
+        void Shoot()
+        {
+            Hit();
         }
 
         /*

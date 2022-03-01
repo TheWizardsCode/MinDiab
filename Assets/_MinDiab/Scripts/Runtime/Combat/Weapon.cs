@@ -2,17 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WizardsCode.MinDiab.Character;
 
 namespace WizardsCode.MinDiab.Combat
 {
-    [Serializable]
-    [CreateAssetMenu(fileName = "Weapon", menuName = "Wizards Code/MinDiab/New Weapon")]
-    public class Weapon : ScriptableObject
+    public class Weapon : MonoBehaviour
     {
         public enum Handedness { Dominant, NonDominant, BothDominantLead, BothNonDominantLead }
 
-        [SerializeField, Tooltip("The weapon to equip.")]
-        internal GameObject Prefab = null;
         [SerializeField, Tooltip("The range we need to be within in order to attack.")]
         float m_Range = 2;
         [SerializeField, Tooltip("The time between attacks in seconds.")]
@@ -23,6 +20,10 @@ namespace WizardsCode.MinDiab.Combat
         internal AnimatorOverrideController AnimationController;
         [SerializeField, Tooltip("Indicate whether this is a Dominant, Non-Dominant, or both hands. In the case of both hands the dominant and non-dominant versions will indicate which hand the model will be placed in.")]
         internal Handedness Hand = Handedness.Dominant;
+        [SerializeField, Tooltip("The projectile this weapon uses. If null then it is assumed no projectile is used.")]
+        Projectile projectile = null;
+        [SerializeField, Tooltip("The name of the transform which marks position from which the project will fire.")]
+        Transform m_ProjectileLaunchPoint;
 
         float? rangeSqr = null;
         internal float WeaponRangeSqr { 
@@ -34,6 +35,17 @@ namespace WizardsCode.MinDiab.Combat
                 }
                 return (float)rangeSqr;
             }
+        }
+
+        public bool HasProjectile
+        {
+            get { return projectile != null; }
+        }
+
+        public void LaunchProjectileAt(HealthController target, Fighter fighter)
+        {
+            Projectile projectileInstance = Instantiate(projectile, fighter.transform.position + m_ProjectileLaunchPoint.localPosition, projectile.transform.rotation);
+            projectileInstance.Target = target;
         }
     }
 }
