@@ -4,6 +4,7 @@ using UnityEngine;
 using WizardsCode.MinDiab.Configuration;
 using WizardsCode.MinDiab.Controller;
 using WizardsCode.MinDiab.Core;
+using WizardsCode.MinDiab.Stats;
 
 namespace WizardsCode.MinDiab.Character
 {
@@ -25,6 +26,11 @@ namespace WizardsCode.MinDiab.Character
         private void Awake()
         {
             Init();
+        }
+
+        private void Start()
+        {
+            m_HealthPoints = GetComponent<BaseStats>().Health;
         }
 
         private void Init()
