@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using WizardsCode.MinDiab.Configuration;
+using WizardsCode.MinDiab.Controller;
 using WizardsCode.MinDiab.Core;
 
 namespace WizardsCode.MinDiab.Character
@@ -11,8 +12,7 @@ namespace WizardsCode.MinDiab.Character
         [SerializeField, Tooltip("The current health of this character in hitpoints.")]
         float m_HealthPoints = 100;
 
-        Animator animator;
-        Scheduler scheduler;
+        PlayerController player;
 
         public bool IsDead
         {
@@ -29,8 +29,7 @@ namespace WizardsCode.MinDiab.Character
 
         private void Init()
         {
-            animator = GetComponent<Animator>();
-            scheduler = GetComponent<Scheduler>();
+            player = GetComponent<PlayerController>();
         }
 
         public void TakeDamage(float damage)
@@ -47,8 +46,8 @@ namespace WizardsCode.MinDiab.Character
 
         void Die()
         {
-            animator.SetTrigger(AnimationParameters.DefaultDieTriggerID);
-            scheduler.StopCurrentAction();
+            player.animator.SetTrigger(AnimationParameters.DefaultDieTriggerID);
+            player.scheduler.StopCurrentAction();
 
             CapsuleCollider capsuleCollider = gameObject.GetComponent<CapsuleCollider>();
             if (capsuleCollider) { capsuleCollider.enabled = false; }

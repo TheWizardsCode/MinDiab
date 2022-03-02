@@ -2,15 +2,13 @@
 using UnityEngine;
 using WizardsCode.MinDiab.Character;
 using WizardsCode.MinDiab.Configuration;
+using WizardsCode.MinDiab.Controller;
 using WizardsCode.MinDiab.Core;
 using static WizardsCode.MinDiab.Combat.Weapon;
 
 namespace WizardsCode.MinDiab.Combat
 {
-    [RequireComponent(typeof(Animator))]
-    [RequireComponent(typeof(Scheduler))]
-    [RequireComponent(typeof(Animator))]
-    [RequireComponent(typeof(HealthController))]
+    [RequireComponent(typeof(PlayerController))]
     public class Fighter : MonoBehaviour, IAction
     {
         [SerializeField, Tooltip("The currently equipable weapon.")]
@@ -23,15 +21,11 @@ namespace WizardsCode.MinDiab.Combat
         float timeOfNextAttack;
         Weapon selectedWeapon;
 
-        Animator animator;
-        HealthController health;
-        Scheduler scheduler;
+        PlayerController controller;
         HealthController combatTarget;
 
         Weapon equippedWeaponDominantHand; 
         Weapon equippedWeaponNonDominantHand;
-
-        private MoveController mover;
 
         bool IsInRange
         {
@@ -51,10 +45,7 @@ namespace WizardsCode.MinDiab.Combat
 
         private void Awake()
         {
-            animator = GetComponent<Animator>();
-            health = GetComponent<HealthController>();
-            mover = GetComponent<MoveController>();
-            scheduler = GetComponent<Scheduler>();
+            controller = GetComponent<PlayerController>();
         }
 
         private void Start()
@@ -64,21 +55,21 @@ namespace WizardsCode.MinDiab.Combat
 
         private void Update()
         {
-            if (!CanAttack(combatTarget) || health.IsDead)
+            if (!CanAttack(combatTarget) || controller.IsDead)
             {
                 return;
             }
             
             if (!IsInRange)
             {
-                mover.MoveTo(combatTarget.transform.position, 1);
+                controller.mover.MoveTo(combatTarget.transform.position, 1);
             }
             else
             {
                 if (Time.timeSinceLevelLoad > timeOfNextAttack)
                 {
-                    mover.StopAction();
-                    animator.SetTrigger(AnimationParameters.DefaultAttackTriggerID);
+                    controller.mover.StopAction();
+                    controller.animator.SetTrigger(AnimationParameters.DefaultAttackTriggerID);
                     timeOfNextAttack = Time.timeSinceLevelLoad + selectedWeapon.TimeBetweenAttacks;
                 }
             }
@@ -132,7 +123,10 @@ namespace WizardsCode.MinDiab.Combat
 
             if (weapon.AnimationController != null)
             {
-                animator.runtimeAnimatorController = weapon.AnimationController;
+                controller.animator.runtimeAnimatorController = weapon.AnimationController;
+            } else
+            {
+                controller.ResetAnimatorController();
             }
         }
 
@@ -186,7 +180,7 @@ namespace WizardsCode.MinDiab.Combat
             selectedWeapon = SelectWeapon();
             if (CanAttack(target)) { 
                 transform.LookAt(target.transform);
-                scheduler.StartAction(this);
+                controller.scheduler.StartAction(this);
                 combatTarget = target;
                 return true;
             } else {
@@ -200,7 +194,7 @@ namespace WizardsCode.MinDiab.Combat
             selectedWeapon = SelectWeapon();
             if (!selectedWeapon) return false;
 
-            if (target == health)
+            if (target == controller.health)
             {
                 return false;
             }
@@ -213,8 +207,8 @@ namespace WizardsCode.MinDiab.Combat
         /// </summary>
         public void StopAction()
         {
-            animator.SetTrigger(AnimationParameters.StopActionTriggerID);
-            mover.StopAction();
+            controller.animator.SetTrigger(AnimationParameters.StopActionTriggerID);
+            controller.mover.StopAction();
         }
 
         /// <summary>

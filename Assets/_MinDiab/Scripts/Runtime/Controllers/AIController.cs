@@ -9,7 +9,7 @@ using WizardsCode.MinDiab.Core;
 namespace WizardsCode.MinDiab.Controller
 {
 
-    public class AIController : MonoBehaviour
+    public class AIController : PlayerController
     {
         [SerializeField, Tooltip("If an enemy is within this distance then give chase.")]
         float m_ChaseDistance = 5f;
@@ -23,23 +23,16 @@ namespace WizardsCode.MinDiab.Controller
         int m_CurrentWaypointIndex = 0;
 
 
-        Fighter fighter;
-        HealthController health;
-        Scheduler scheduler;
-        MoveController mover;
         HealthController player;
         float chaseDistanceSqr;
         bool isAttacking = false;
 
         float timeToEndDwell = Mathf.NegativeInfinity;
 
-        void Start()
+        internal override void Start()
         {
-            fighter = GetComponent<Fighter>();
-            health = GetComponent<HealthController>();
-            mover = GetComponent<MoveController>();
+            base.Start();
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthController>();
-            scheduler = GetComponent<Scheduler>();
 
             chaseDistanceSqr = m_ChaseDistance * m_ChaseDistance;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.AI;
 using WizardsCode.MinDiab.Character;
@@ -12,16 +13,23 @@ namespace WizardsCode.MinDiab.Controller
     [RequireComponent(typeof(Fighter))]
     [RequireComponent(typeof(MoveController))]
     [RequireComponent(typeof(Scheduler))]
+    [RequireComponent(typeof(Animator))]
     public class PlayerController : MonoBehaviour
     {
-        Fighter fighter;
-        HealthController health;
-        MoveController mover;
-        Scheduler scheduler;
+        internal Animator animator;
+        internal Fighter fighter;
+        internal HealthController health;
+        internal MoveController mover;
+        internal Scheduler scheduler;
         Camera mainCamera;
+        RuntimeAnimatorController m_DefaultAnimationController;
 
-        private void Start()
+        public bool IsDead => health.IsDead;
+
+        internal virtual void Start()
         {
+            animator = GetComponent<Animator>();
+            m_DefaultAnimationController = animator.runtimeAnimatorController;
             fighter = GetComponent<Fighter>();
             health = GetComponent<HealthController>();
             mover = GetComponent<MoveController>();
@@ -34,6 +42,11 @@ namespace WizardsCode.MinDiab.Controller
             if (health.IsDead) return;
             if (HandleCombatInput()) return;
             if (HandleMovementInput()) return;
+        }
+
+        public void ResetAnimatorController()
+        {
+            animator.runtimeAnimatorController = m_DefaultAnimationController;
         }
 
         RaycastHit[] hits = new RaycastHit[5];
