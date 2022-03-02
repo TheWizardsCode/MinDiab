@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7462609758474485827}
   - component: {fileID: 5436127306922376683}
   m_Layer: 0
-  m_Name: Fists
+  m_Name: Fireball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,11 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e66943530b14d84b8f79b1ee640f237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Range: 1.5
-  TimeBetweenAttacks: 0.6
-  Damage: 4
-  AnimationController: {fileID: 22100000, guid: d36913ff006d535459b5b0cb0001f102,
+  m_Range: 8
+  TimeBetweenAttacks: 0.8
+  Damage: 18
+  AnimationController: {fileID: 22100000, guid: 144a276193f18304ba7bad7cb224c124,
     type: 2}
-  Hand: 2
-  projectile: {fileID: 0}
+  Hand: 1
+  projectile: {fileID: 208101432, guid: a8b1ef045dabb9f48a5a3025e279f565, type: 3}
   m_ProjectileLaunchPoint: {fileID: 0}

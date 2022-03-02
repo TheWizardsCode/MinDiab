@@ -11,6 +11,10 @@ namespace WizardsCode.MinDiab.Combat
         float m_Speed = 1;
         [SerializeField, Tooltip("Is this a homing projectile, that is does it follow its target?")]
         bool m_IsHoming = false;
+        [SerializeField, Tooltip("Should the projectile be destroyed on impact? If false it will be destroyed after a period of time (see below)")]
+        bool m_DestroyOnImpact = false;
+        [SerializeField, Tooltip("How long should the projectile live if it does not make contact with something. If destroyOnImpact is true then the projectile may not live this long.")]
+        float m_TimeToLive = 10;
 
         /// <summary>
         /// The Damage this projectile will do if it hits. This is set when the projectile is
@@ -20,6 +24,7 @@ namespace WizardsCode.MinDiab.Combat
         {
             get; private set;
         }
+        public Fighter Source { get; private set; }
 
         /// <summary>
         /// The Target this projectile attempt to hit. This is set when the project is
@@ -46,12 +51,13 @@ namespace WizardsCode.MinDiab.Combat
         /// </summary>
         /// <param name="target">The health controller of the target.</param>
         /// <param name="damage">The amount of damage to do.</param>
-        internal void Launch(HealthController target, float damage)
+        internal void Launch(HealthController target, float damage, Fighter source)
         {
             Target = target;
             Damage = damage;
+            Source = source;
             transform.LookAt(GetAimLocation());
-            Destroy(gameObject, 10);
+            Destroy(gameObject, m_TimeToLive);
         }
 
         Vector3 GetAimLocation()
@@ -66,16 +72,24 @@ namespace WizardsCode.MinDiab.Combat
         private void OnTriggerEnter(Collider other)
         {
             HealthController hit = other.GetComponent<HealthController>();
-            if (hit && !hit.IsDead)
+            if (hit.gameObject == Source.gameObject)
             {
-                DoDamage(hit);
+                return;
             }
-            m_Speed = 0;
-        }
 
-        private void DoDamage(HealthController hit) 
-        {
-            hit.TakeDamage(Damage);
+            if (hit)
+            {
+                hit.TakeDamage(Damage);
+            }
+
+            if (m_DestroyOnImpact)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                m_Speed = 0;
+            }
         }
     }
 }

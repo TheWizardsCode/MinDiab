@@ -22,7 +22,7 @@ namespace WizardsCode.MinDiab.Combat
         internal Handedness Hand = Handedness.Dominant;
         [SerializeField, Tooltip("The projectile this weapon uses. If null then it is assumed no projectile is used.")]
         Projectile projectile = null;
-        [SerializeField, Tooltip("The name of the transform which marks position from which the project will fire.")]
+        [SerializeField, Tooltip("The name of the transform which marks position from which the project will fire. Leave as null to make the launch point the same as the weapon mount point - useful for spells and similar that don't have a model and come from the hand.")]
         Transform m_ProjectileLaunchPoint;
 
         float? rangeSqr = null;
@@ -44,8 +44,16 @@ namespace WizardsCode.MinDiab.Combat
 
         public void LaunchProjectileAt(HealthController target, Fighter fighter)
         {
-            Projectile projectileInstance = Instantiate(projectile, fighter.transform.position + m_ProjectileLaunchPoint.localPosition, projectile.transform.rotation);
-            projectileInstance.Launch(target, Damage);
+            Vector3 launchPoint = fighter.transform.position;
+            if (m_ProjectileLaunchPoint)
+            {
+                launchPoint += m_ProjectileLaunchPoint.localPosition;
+            } else
+            {
+                launchPoint = transform.position;
+            }
+            Projectile projectileInstance = Instantiate(projectile, launchPoint, projectile.transform.rotation);
+            projectileInstance.Launch(target, Damage, fighter);
         }
     }
 }

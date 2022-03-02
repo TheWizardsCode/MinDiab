@@ -21,6 +21,7 @@ namespace WizardsCode.MinDiab.Combat
         Transform m_NonDominantMount;
 
         float timeOfNextAttack;
+        Weapon selectedWeapon;
 
         Animator animator;
         HealthController health;
@@ -36,16 +37,10 @@ namespace WizardsCode.MinDiab.Combat
         {
             get
             {
-                if (equippedWeaponDominantHand == null) { return false;  }
+                if (selectedWeapon == null) { return false;  }
 
-                if (equippedWeaponDominantHand && 
-                    Vector3.SqrMagnitude(transform.position - combatTarget.transform.position) < equippedWeaponDominantHand.WeaponRangeSqr) 
-                { 
-                    return true; 
-                }
-
-                if (equippedWeaponNonDominantHand &&
-                    Vector3.SqrMagnitude(transform.position - combatTarget.transform.position) < equippedWeaponNonDominantHand.WeaponRangeSqr) 
+                if (selectedWeapon && 
+                    Vector3.SqrMagnitude(transform.position - combatTarget.transform.position) < selectedWeapon.WeaponRangeSqr) 
                 { 
                     return true; 
                 }
@@ -69,27 +64,41 @@ namespace WizardsCode.MinDiab.Combat
 
         private void Update()
         {
-            if (!CanAttack(combatTarget) || health.IsDead) { 
-                return; 
-            }
-
-            if (equippedWeaponDominantHand == null)
+            if (!CanAttack(combatTarget) || health.IsDead)
             {
-                EquipWeapon(m_DefaultWeapon);
+                return;
             }
-
+            
             if (!IsInRange)
             {
                 mover.MoveTo(combatTarget.transform.position, 1);
-            } else
+            }
+            else
             {
                 if (Time.timeSinceLevelLoad > timeOfNextAttack)
                 {
                     mover.StopAction();
                     animator.SetTrigger(AnimationParameters.DefaultAttackTriggerID);
-                    timeOfNextAttack = Time.timeSinceLevelLoad + equippedWeaponDominantHand.TimeBetweenAttacks;
+                    timeOfNextAttack = Time.timeSinceLevelLoad + selectedWeapon.TimeBetweenAttacks;
                 }
             }
+        }
+
+        /// <summary>
+        /// Select a weapon to attack the target from the ones currently equipped.
+        /// </summary>
+        /// <returns>The weapon to use, or null if no suitable weapon is available.</returns>
+        private Weapon SelectWeapon()
+        {
+            if (equippedWeaponDominantHand != null)
+            {
+                return equippedWeaponDominantHand;
+            }
+            if (equippedWeaponNonDominantHand != null)
+            {
+                return equippedWeaponNonDominantHand;
+            }
+            return null;
         }
 
         public void EquipWeapon(Weapon weapon) {
@@ -174,6 +183,7 @@ namespace WizardsCode.MinDiab.Combat
         /// <returns>True if this Fighter can attack the target (possibly some preparation, such as moving). False if the Fighter cannot attack.</returns>
         public bool Attack(HealthController target)
         {
+            selectedWeapon = SelectWeapon();
             if (CanAttack(target)) { 
                 transform.LookAt(target.transform);
                 scheduler.StartAction(this);
@@ -187,6 +197,9 @@ namespace WizardsCode.MinDiab.Combat
         public bool CanAttack(HealthController target)
         {
             if (!target) return false;
+            selectedWeapon = SelectWeapon();
+            if (!selectedWeapon) return false;
+
             if (target == health)
             {
                 return false;
@@ -211,13 +224,13 @@ namespace WizardsCode.MinDiab.Combat
         {
             if (combatTarget)
             {
-                if (equippedWeaponDominantHand.HasProjectile)
+                if (selectedWeapon.HasProjectile)
                 {
-                    equippedWeaponDominantHand.LaunchProjectileAt(combatTarget, this);
+                    selectedWeapon.LaunchProjectileAt(combatTarget, this);
                 }
                 else
                 {
-                    combatTarget.TakeDamage(equippedWeaponDominantHand.Damage);
+                    combatTarget.TakeDamage(selectedWeapon.Damage);
                 }
 
                 if (combatTarget.IsDead)

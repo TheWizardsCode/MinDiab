@@ -49,6 +49,9 @@ namespace WizardsCode.MinDiab.Character
         {
             animator.SetTrigger(AnimationParameters.DefaultDieTriggerID);
             scheduler.StopCurrentAction();
+
+            CapsuleCollider capsuleCollider = gameObject.GetComponent<CapsuleCollider>();
+            if (capsuleCollider) { capsuleCollider.enabled = false; }
         }
 
         public object CaptureState()
