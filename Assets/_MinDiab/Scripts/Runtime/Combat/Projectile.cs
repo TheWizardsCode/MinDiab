@@ -9,6 +9,8 @@ namespace WizardsCode.MinDiab.Combat
     {
         [SerializeField, Tooltip("The base speed of the flight of the arrow.")]
         float m_Speed = 1;
+        [SerializeField, Tooltip("Is this a homing projectile, that is does it follow its target?")]
+        bool m_IsHoming = false;
 
         /// <summary>
         /// The Damage this projectile will do if it hits. This is set when the projectile is
@@ -32,12 +34,15 @@ namespace WizardsCode.MinDiab.Combat
         {
             if (!Target) return;
 
-            transform.LookAt(GetAimLocation());
+            if (m_IsHoming && !Target.IsDead)
+            {
+                transform.LookAt(GetAimLocation());
+            }
             transform.Translate(Vector3.forward * m_Speed * Time.deltaTime);
         }
 
         /// <summary>
-        /// Launch the projectile at a given project, doing a given amount of damage if it hits.
+        /// Launch the projectile at a given target, doing a given amount of damage if it hits.
         /// </summary>
         /// <param name="target">The health controller of the target.</param>
         /// <param name="damage">The amount of damage to do.</param>
@@ -45,6 +50,8 @@ namespace WizardsCode.MinDiab.Combat
         {
             Target = target;
             Damage = damage;
+            transform.LookAt(GetAimLocation());
+            Destroy(gameObject, 10);
         }
 
         Vector3 GetAimLocation()
@@ -59,12 +66,11 @@ namespace WizardsCode.MinDiab.Combat
         private void OnTriggerEnter(Collider other)
         {
             HealthController hit = other.GetComponent<HealthController>();
-            if (hit)
+            if (hit && !hit.IsDead)
             {
                 DoDamage(hit);
             }
             m_Speed = 0;
-            Destroy(gameObject);
         }
 
         private void DoDamage(HealthController hit) 

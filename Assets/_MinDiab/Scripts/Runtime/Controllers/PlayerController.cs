@@ -45,6 +45,8 @@ namespace WizardsCode.MinDiab.Controller
         {
             if (!Input.GetMouseButton(0)) return false;
 
+            Array.Clear(hits, 0, hits.Length);
+
             Physics.RaycastNonAlloc(GetScreenPoint(), hits);
             for (int i = 0; i < hits.Length; i++)
             {
