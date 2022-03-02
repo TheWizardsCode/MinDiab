@@ -1,20 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WizardsCode.MinDiab.Core;
 
 namespace WizardsCode.MinDiab.Combat
 {
-    public class WeaponPickup : MonoBehaviour
+    public class WeaponPickup : Pickup
     {
         [SerializeField, Tooltip("The weapon definition that this pickup represents.")]
         Weapon m_EquipableWeapon;
 
-        private void OnTriggerEnter(Collider other)
+        internal override void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player"))
+            base.OnTriggerEnter(other);
+
+            if (CanPickup(other))
             {
                 other.GetComponent<Fighter>().EquipWeapon(m_EquipableWeapon);
-                Destroy(gameObject);
             }
         }
     }
