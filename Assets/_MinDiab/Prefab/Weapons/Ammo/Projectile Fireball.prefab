@@ -9540,7 +9540,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Speed: 12
   m_IsHoming: 1
-  m_HitEffect: {fileID: 2302457091093092515, guid: 69d1b1037536b504884c93bb73d662db,
+  m_HitEffect: {fileID: -2854973779727504633, guid: 28e846535e1d8e040a6842372253df99,
     type: 3}
   m_DestroyOnImpact: 1
   m_TimeToLive: 10

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using WizardsCode.MinDiab.Character;
+using WizardsCode.MinDiab.FX;
 
 namespace WizardsCode.MinDiab.Combat
 {
@@ -11,8 +12,8 @@ namespace WizardsCode.MinDiab.Combat
         float m_Speed = 1;
         [SerializeField, Tooltip("Is this a homing projectile, that is does it follow its target?")]
         bool m_IsHoming = false;
-        [SerializeField, Tooltip("An effeect object to instantiate when the projectile hits something. If null this will be ignored.")]
-        GameObject m_HitEffect;
+        [SerializeField, Tooltip("An effect object to instantiate when the projectile hits something. If null this will be ignored.")]
+        HitEffect m_HitEffect;
         [SerializeField, Tooltip("Should the projectile be destroyed on impact? If false it will be destroyed after a period of time (see below)")]
         bool m_DestroyOnImpact = false;
         [SerializeField, Tooltip("How long should the projectile live if it does not make contact with something. If destroyOnImpact is true then the projectile may not live this long.")]
@@ -86,7 +87,7 @@ namespace WizardsCode.MinDiab.Combat
 
             if (m_HitEffect)
             {
-                GameObject go = Instantiate(m_HitEffect, transform.position, transform.rotation);
+                GameObject go = Instantiate(m_HitEffect, transform.position, transform.rotation).gameObject;
                 Destroy(go, 5);
             }
 
@@ -96,6 +97,8 @@ namespace WizardsCode.MinDiab.Combat
             }
             else
             {
+                GetComponent<Collider>().enabled = false;
+                transform.SetParent(hit.transform);
                 m_Speed = 0;
             }
         }
