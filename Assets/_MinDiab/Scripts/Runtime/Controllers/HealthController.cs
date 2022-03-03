@@ -1,52 +1,67 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using WizardsCode.MinDiab.Configuration;
 using WizardsCode.MinDiab.Controller;
 using WizardsCode.MinDiab.Core;
 using WizardsCode.MinDiab.Stats;
+using WizardsCode.MinDiab.UI;
 
 namespace WizardsCode.MinDiab.Character
 {
     public class HealthController : MonoBehaviour, ISaveable
     {
-        [SerializeField, Tooltip("The current health of this character in hitpoints.")]
-        float m_HealthPoints = 100;
+        [SerializeField, Tooltip("The UI element to display the current health.")]
+        BaseHUDElement healthHUDElement;
 
         PlayerController player;
+
+        private float currentHealth;
+        private float MaxHealth;
+
+        internal float Health {
+            get { return currentHealth; } 
+            set
+            {
+                currentHealth = Mathf.Max(value, 0);
+                if (healthHUDElement)
+                {
+                    healthHUDElement.UpdateUINormalized(Normalized);
+                }
+                if (Health == 0)
+                {
+                    Die();
+                }
+            } 
+        }
+
+        internal float Normalized
+        {
+            get
+            {
+                return Mathf.Clamp01(Health / MaxHealth);
+            }
+        }
 
         public bool IsDead
         {
             get
             {
-                return m_HealthPoints <= 0;
+                return Health <= 0;
             }
         }
 
         private void Awake()
         {
-            Init();
-        }
-
-        private void Start()
-        {
-            m_HealthPoints = GetComponent<BaseStats>().Health;
-        }
-
-        private void Init()
-        {
             player = GetComponent<PlayerController>();
+            Health = GetComponent<BaseStats>().Health;
+            MaxHealth = GetComponent<BaseStats>().Health;
         }
 
         public void TakeDamage(float damage)
         {
             if (!IsDead)
             {
-                m_HealthPoints = Mathf.Max(m_HealthPoints - damage, 0);
-                if (m_HealthPoints == 0)
-                {
-                    Die();
-                }
+                Health = Health - damage;
             }
         }
 
@@ -61,18 +76,30 @@ namespace WizardsCode.MinDiab.Character
 
         public object CaptureState()
         {
-            return m_HealthPoints;
+            SaveData data = new SaveData();
+            data.currentHealth = Health;
+            data.maxHealth = MaxHealth;
+            return data;
         }
 
         public void RestoreState(object state)
         {
-            m_HealthPoints = (float)state;
+            SaveData data = (SaveData)state;
+            Health = data.currentHealth;
+            MaxHealth = data.maxHealth;
 
-            if (m_HealthPoints <= 0)
+
+            if (Health <= 0)
             {
-                
                 Die();
             }
+        }
+
+        [Serializable]
+        private struct SaveData
+        {
+            public float currentHealth;
+            public float maxHealth;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace WizardsCode.MinDiab.Controller
 
         public bool IsDead => health.IsDead;
 
-        internal virtual void Start()
+        internal virtual void Awake()
         {
             animator = GetComponent<Animator>();
             m_DefaultAnimationController = animator.runtimeAnimatorController;

@@ -29,11 +29,14 @@ namespace WizardsCode.MinDiab.Controller
 
         float timeToEndDwell = Mathf.NegativeInfinity;
 
-        internal override void Start()
+        internal override void Awake()
         {
-            base.Start();
+            base.Awake();
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthController>();
+        }
 
+        private void Start()
+        {
             chaseDistanceSqr = m_ChaseDistance * m_ChaseDistance;
 
             if (m_GuardPosition == Vector3.zero)
