@@ -39,7 +39,7 @@ namespace WizardsCode.MinDiab.SceneManagement
         {
             if (!string.IsNullOrEmpty(m_DestinationScene))
             {
-                PlayerController player = other.GetComponent<PlayerController>();
+                CharacterRoleController player = other.GetComponent<CharacterRoleController>();
                 if (player)
                 {
                     player.StopAllActions();

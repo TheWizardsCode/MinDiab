@@ -7,6 +7,7 @@ using UnityEngine.AI;
 using WizardsCode.MinDiab.Character;
 using WizardsCode.MinDiab.Combat;
 using WizardsCode.MinDiab.Core;
+using WizardsCode.MinDiab.Stats;
 
 namespace WizardsCode.MinDiab.Controller
 {
@@ -14,13 +15,15 @@ namespace WizardsCode.MinDiab.Controller
     [RequireComponent(typeof(MoveController))]
     [RequireComponent(typeof(Scheduler))]
     [RequireComponent(typeof(Animator))]
-    public class PlayerController : MonoBehaviour
+    public class CharacterRoleController : MonoBehaviour
     {
         internal Animator animator;
+        internal Experience experience;
         internal Fighter fighter;
         internal HealthController health;
         internal MoveController mover;
         internal Scheduler scheduler;
+        internal BaseStats stats;
         Camera mainCamera;
         RuntimeAnimatorController m_DefaultAnimationController;
 
@@ -31,9 +34,11 @@ namespace WizardsCode.MinDiab.Controller
             animator = GetComponent<Animator>();
             m_DefaultAnimationController = animator.runtimeAnimatorController;
             fighter = GetComponent<Fighter>();
+            experience = GetComponent<Experience>();
             health = GetComponent<HealthController>();
             mover = GetComponent<MoveController>();
             scheduler = GetComponent<Scheduler>();
+            stats = GetComponent<BaseStats>();
             mainCamera = Camera.main;
         }
 
@@ -44,12 +49,23 @@ namespace WizardsCode.MinDiab.Controller
             if (HandleMovementInput()) return;
         }
 
+        internal float GetStat(Stat stat)
+        {
+            return stats.GetStat(stat);
+        }
+
         public void ResetAnimatorController()
         {
             animator.runtimeAnimatorController = m_DefaultAnimationController;
         }
 
         RaycastHit[] hits = new RaycastHit[5];
+
+        internal void AddExperience(float amount)
+        {
+            experience.Add(amount);
+        }
+
         /// <summary>
         /// Handle any active combat inputs.
         /// </summary>

@@ -14,12 +14,21 @@ namespace WizardsCode.MinDiab.Stats
         [SerializeField, Tooltip("The progression this character is following in their career.")]
         Progression m_Progression = null;
 
-        public float Health
+        public int Level
         {
             get
             {
-                return m_Progression.Health(m_Role, m_Level);
+                return m_Level;
             }
+            set
+            {
+                m_Level = value;
+            }
+        }
+
+        public float GetStat(Stat stat)
+        {
+            return m_Progression.GetStat(stat, m_Role, m_Level);
         }
     }
 }

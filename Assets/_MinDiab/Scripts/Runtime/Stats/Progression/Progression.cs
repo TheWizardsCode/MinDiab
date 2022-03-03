@@ -10,11 +10,17 @@ namespace WizardsCode.MinDiab.Stats
         [SerializeField, Tooltip("The progression data for character classes.")]
         ProgressionCharacterRole[] m_CharacterRoles = null;
 
-        public float Health(CharacterRole role, int level)
+        public float GetStat(Stat stat, CharacterRole role, int level)
         {
             for (int i = 0; i < m_CharacterRoles.Length; i++) {
                 if (m_CharacterRoles[i].Role == role) {
-                    return m_CharacterRoles[i].Health[level - 1];
+                    for (int y = 0; y < m_CharacterRoles[i].stats.Length; y++)
+                    {
+                        if (m_CharacterRoles[i].stats[y].stat == stat)
+                        {
+                            return m_CharacterRoles[i].stats[y].values[level - 1];
+                        }
+                    }
                 }
             }
             return 0;
@@ -25,8 +31,19 @@ namespace WizardsCode.MinDiab.Stats
         {
             [SerializeField, Tooltip("The Character class this progression represents is for")]
             internal CharacterRole Role = CharacterRole.Grunt;
-            [SerializeField, Tooltip("The base health for each level in the role.")]
-            internal float[] Health;
+            [SerializeField, Tooltip("The stats for this character role.")]
+            internal ProgressionStat[] stats;
+            //[SerializeField, Tooltip("The base health for each level in the role.")]
+            //internal float[] Health;
+        }
+
+        [Serializable]
+        class ProgressionStat
+        {
+            [SerializeField, Tooltip("The stat represented here.")]
+            internal Stat stat;
+            [SerializeField, Tooltip("The base value at different levels.")]
+            internal float[] values;
         }
     }
 }

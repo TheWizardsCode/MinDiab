@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using WizardsCode.MinDiab.Combat;
 using WizardsCode.MinDiab.Configuration;
 using WizardsCode.MinDiab.Controller;
 using WizardsCode.MinDiab.Core;
@@ -13,7 +14,7 @@ namespace WizardsCode.MinDiab.Character
         [SerializeField, Tooltip("The UI element to display the current health.")]
         BaseHUDElement healthHUDElement;
 
-        PlayerController player;
+        CharacterRoleController controller;
 
         private float currentHealth;
         private float MaxHealth;
@@ -29,10 +30,12 @@ namespace WizardsCode.MinDiab.Character
                 }
                 if (Health == 0)
                 {
-                    Die();
+                    Die(mostRecentDamageSource);
                 }
             } 
         }
+
+        private Fighter mostRecentDamageSource;
 
         internal float Normalized
         {
@@ -52,23 +55,30 @@ namespace WizardsCode.MinDiab.Character
 
         private void Awake()
         {
-            player = GetComponent<PlayerController>();
-            Health = GetComponent<BaseStats>().Health;
-            MaxHealth = GetComponent<BaseStats>().Health;
+            controller = GetComponent<CharacterRoleController>();
+            Health = controller.GetStat(Stat.Health);
+            MaxHealth = Health;
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, Fighter source)
         {
             if (!IsDead)
             {
+                mostRecentDamageSource = source;
                 Health = Health - damage;
             }
         }
 
-        void Die()
+        void Die(Fighter source)
         {
-            player.animator.SetTrigger(AnimationParameters.DefaultDieTriggerID);
-            player.scheduler.StopCurrentAction();
+            controller.animator.SetTrigger(AnimationParameters.DefaultDieTriggerID);
+            controller.scheduler.StopCurrentAction();
+
+            if (source != null)
+            {
+                CharacterRoleController sourceController = source.GetComponent<CharacterRoleController>();
+                sourceController.GetComponent<CharacterRoleController>().AddExperience(controller.GetStat(Stat.ExperienceReward));
+            }
 
             CapsuleCollider capsuleCollider = gameObject.GetComponent<CapsuleCollider>();
             if (capsuleCollider) { capsuleCollider.enabled = false; }
@@ -91,7 +101,7 @@ namespace WizardsCode.MinDiab.Character
 
             if (Health <= 0)
             {
-                Die();
+                Die(null);
             }
         }
 

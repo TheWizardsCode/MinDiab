@@ -15,7 +15,7 @@ namespace WizardsCode.MinDiab.Character
         [SerializeField, Tooltip("The maximum speed of mocement under normal circumstances, i.e. with no buffs or nerfs.")]
         float m_MaxSpeed = 6;
 
-        private PlayerController controller;
+        private CharacterRoleController controller;
         private NavMeshAgent agent;
 
         public bool AtDestination {
@@ -28,7 +28,7 @@ namespace WizardsCode.MinDiab.Character
         void Awake()
         {
             agent = GetComponent<NavMeshAgent>();
-            controller = GetComponent<PlayerController>();
+            controller = GetComponent<CharacterRoleController>();
         }
 
         private void Update()

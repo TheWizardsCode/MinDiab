@@ -9,11 +9,11 @@ namespace WizardsCode.MinDiab.Cinematics
     public class PlayerControlRemover : MonoBehaviour
     {
         Scheduler playerScehduler;
-        PlayerController playerController;
+        CharacterRoleController playerController;
 
         private void Start()
         {
-            playerController = GetComponent<PlayerController>();
+            playerController = GetComponent<CharacterRoleController>();
             playerScehduler = GetComponent<Scheduler>();
         }
 

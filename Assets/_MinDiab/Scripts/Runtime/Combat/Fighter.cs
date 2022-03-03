@@ -8,7 +8,7 @@ using static WizardsCode.MinDiab.Combat.Weapon;
 
 namespace WizardsCode.MinDiab.Combat
 {
-    [RequireComponent(typeof(PlayerController))]
+    [RequireComponent(typeof(CharacterRoleController))]
     public class Fighter : MonoBehaviour, IAction
     {
         [SerializeField, Tooltip("The currently equipable weapon.")]
@@ -21,7 +21,7 @@ namespace WizardsCode.MinDiab.Combat
         float timeOfNextAttack;
         Weapon selectedWeapon;
 
-        PlayerController controller;
+        CharacterRoleController controller;
         HealthController combatTarget;
 
         Weapon equippedWeaponDominantHand; 
@@ -45,7 +45,7 @@ namespace WizardsCode.MinDiab.Combat
 
         private void Awake()
         {
-            controller = GetComponent<PlayerController>();
+            controller = GetComponent<CharacterRoleController>();
         }
 
         private void Start()
@@ -224,7 +224,7 @@ namespace WizardsCode.MinDiab.Combat
                 }
                 else
                 {
-                    combatTarget.TakeDamage(selectedWeapon.Damage);
+                    combatTarget.TakeDamage(selectedWeapon.Damage, this);
                 }
 
                 if (combatTarget.IsDead)

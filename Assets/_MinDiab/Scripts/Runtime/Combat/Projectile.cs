@@ -82,7 +82,7 @@ namespace WizardsCode.MinDiab.Combat
 
             if (hit)
             {
-                hit.TakeDamage(Damage);
+                hit.TakeDamage(Damage, Source);
             }
 
             if (m_HitEffect)

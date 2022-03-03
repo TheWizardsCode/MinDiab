@@ -9,7 +9,7 @@ using WizardsCode.MinDiab.Core;
 namespace WizardsCode.MinDiab.Controller
 {
 
-    public class AIController : PlayerController
+    public class AIController : CharacterRoleController
     {
         [SerializeField, Tooltip("If an enemy is within this distance then give chase.")]
         float m_ChaseDistance = 5f;

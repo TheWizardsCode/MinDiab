@@ -8,11 +8,11 @@ namespace WizardsCode.MinDiab.UI
 {
     public abstract class BaseHUDElement : MonoBehaviour
     {
-        internal PlayerController Player;
+        internal CharacterRoleController Player;
 
         private void Awake()
         {
-            Player = GameObject.FindObjectOfType<PlayerController>();
+            Player = GameObject.FindObjectOfType<CharacterRoleController>();
         }
 
         public abstract void UpdateUINormalized(float normalizedValue);

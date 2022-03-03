@@ -13,7 +13,7 @@ namespace WizardsCode.MinDiab.Cinematics
     {
 
         Scheduler playerScheduler;
-        PlayerController playerController;
+        CharacterRoleController playerController;
         PlayableDirector director;
         bool hasPlayed = false;
 
@@ -21,7 +21,7 @@ namespace WizardsCode.MinDiab.Cinematics
         {
             director = GetComponent<PlayableDirector>();
             GameObject player = GameObject.FindGameObjectWithTag("Player");
-            playerController = player.GetComponent<PlayerController>();
+            playerController = player.GetComponent<CharacterRoleController>();
             playerScheduler = player.GetComponent<Scheduler>();
             director.played += DisableControl;
             director.stopped += EnableControl;

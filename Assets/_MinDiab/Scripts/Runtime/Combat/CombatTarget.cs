@@ -23,9 +23,9 @@ namespace WizardsCode.MinDiab.Combat
             health = GetComponent<HealthController>();
         }
 
-        internal void TakeDamage(int damage)
+        internal void TakeDamage(int damage, Fighter source)
         {
-            health.TakeDamage(damage);
+            health.TakeDamage(damage, source);
         }
     }
 }

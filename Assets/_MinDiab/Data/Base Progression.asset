@@ -14,27 +14,92 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CharacterRoles:
   - Role: 0
-    Health:
-    - 25
-    - 40
-    - 55
+    stats:
+    - stat: 0
+      values:
+      - 5
+      - 50
+      - 100
+      - 200
+      - 450
+      - 700
+    - stat: 1
+      values:
+      - 10
+      - 20
+      - 35
+      - 55
+      - 80
+      - 110
   - Role: 1
-    Health:
-    - 30
-    - 45
-    - 60
+    stats:
+    - stat: 0
+      values:
+      - 5
+      - 50
+      - 100
+      - 200
+      - 450
+      - 700
+    - stat: 1
+      values:
+      - 10
+      - 20
+      - 35
+      - 55
+      - 80
+      - 110
   - Role: 2
-    Health:
-    - 15
-    - 30
-    - 50
+    stats:
+    - stat: 0
+      values:
+      - 5
+      - 50
+      - 100
+      - 200
+      - 450
+      - 700
+    - stat: 1
+      values:
+      - 10
+      - 20
+      - 35
+      - 55
+      - 80
+      - 110
   - Role: 3
-    Health:
-    - 50
-    - 100
-    - 160
+    stats:
+    - stat: 0
+      values:
+      - 100
+      - 150
+      - 200
+      - 275
+      - 550
+      - 900
+    - stat: 1
+      values:
+      - 10
+      - 20
+      - 35
+      - 55
+      - 80
+      - 110
   - Role: 4
-    Health:
-    - 10
-    - 20
-    - 40
+    stats:
+    - stat: 0
+      values:
+      - 5
+      - 50
+      - 100
+      - 200
+      - 450
+      - 700
+    - stat: 1
+      values:
+      - 10
+      - 20
+      - 35
+      - 55
+      - 80
+      - 110
