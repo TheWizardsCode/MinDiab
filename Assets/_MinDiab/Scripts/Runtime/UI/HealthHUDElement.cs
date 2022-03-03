@@ -17,7 +17,10 @@ namespace WizardsCode.MinDiab.UI
 
         public override void UpdateUINormalized(float normalizedValue)
         {
-            valueText.text = $"{string.Format("{0:0}%", normalizedValue * 100)}";
+            if (valueText)
+            {
+                valueText.text = $"{string.Format("{0:0}%", normalizedValue * 100)}";
+            }
         }
     }
 }
