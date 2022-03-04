@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WizardsCode.MinDiab.Controller;
@@ -12,11 +13,29 @@ namespace WizardsCode.MinDiab.Stats
         [SerializeField]
         ExperienceHUDElement m_ExperienceHUDElement;
 
+        public event Action onExperienceGained;
+
         int currentLevel;
         private BaseStats stats;
-        float experiencePoints;
-        float experienceToLevelUp; 
-        
+        float experienceToLevelUp;
+
+        float m_ExperiencePoints;
+        float ExperiencePoints
+        {
+            get
+            {
+                return m_ExperiencePoints;
+            }
+            set
+            {
+                if (value != m_ExperiencePoints)
+                {
+                    m_ExperiencePoints += value;
+                    onExperienceGained.Invoke();
+                }
+            }
+        }
+
         public int Level
         {
             get
@@ -25,16 +44,40 @@ namespace WizardsCode.MinDiab.Stats
             }
             set
             {
-                currentLevel = value;
+                if (value != currentLevel)
+                {
+                    currentLevel = value;
+                    experienceToLevelUp = stats.GetStat(Stat.ExperienceToLevelUp, currentLevel);
+                    // TODO: Level Up Feedback
+                }
             }
         }
 
         private void Awake()
         {
             stats = GetComponent<BaseStats>();
-            experiencePoints = 0;
+            ExperiencePoints = 0;
             currentLevel = 1;
             experienceToLevelUp = stats.GetStat(Stat.ExperienceToLevelUp, currentLevel);
+        }
+
+        private void OnEnable()
+        {
+            onExperienceGained += OnExperienceGained;
+        }
+
+        private void OnDisable()
+        {
+            onExperienceGained -= OnExperienceGained;
+        }
+
+        private void OnExperienceGained()
+        {
+            Debug.Log("Gained experience");
+            if (ExperiencePoints >= experienceToLevelUp)
+            {
+                currentLevel++;
+            }
             UpdateUI();
         }
 
@@ -42,35 +85,28 @@ namespace WizardsCode.MinDiab.Stats
         {
             if (m_ExperienceHUDElement != null)
             {
-                m_ExperienceHUDElement.UpdateUI($"{currentLevel}\n{experiencePoints}");
+                m_ExperienceHUDElement.UpdateUI($"{currentLevel}\n{ExperiencePoints}");
             }
         }
 
         public void Add(float points)
         {
-            experiencePoints += points;
-            if (experiencePoints >= experienceToLevelUp)
-            {
-                currentLevel++;
-                experienceToLevelUp = stats.GetStat(Stat.ExperienceToLevelUp, currentLevel);
-                // TODO: Level Up Feedback
-            }
-            UpdateUI();
+            ExperiencePoints += points;
         }
 
         public object CaptureState()
         {
-            return experiencePoints;
+            return ExperiencePoints;
         }
 
         public void RestoreState(object state)
         {
-            experiencePoints = (float)state;
+            m_ExperiencePoints = (float)state;
 
             bool foundLevel = false;
             while(!foundLevel)
             {
-                if (stats.GetStat(Stat.ExperienceToLevelUp, currentLevel + 1) < experiencePoints)
+                if (stats.GetStat(Stat.ExperienceToLevelUp, currentLevel + 1) < ExperiencePoints)
                 {
                     currentLevel++;
                 } else
