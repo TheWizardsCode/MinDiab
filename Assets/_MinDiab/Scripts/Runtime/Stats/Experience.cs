@@ -30,7 +30,7 @@ namespace WizardsCode.MinDiab.Stats
             {
                 if (value != m_ExperiencePoints)
                 {
-                    m_ExperiencePoints += value;
+                    m_ExperiencePoints = value;
                     onExperienceGained.Invoke();
                 }
             }
