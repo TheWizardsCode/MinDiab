@@ -8,6 +8,7 @@ namespace WizardsCode.MinDiab.Stats
     {
         ExperienceRewardOnKill = 100,
         ExperienceToLevelUp = 105,
-        Health = 200
+        Health = 200,
+        DamageMultiplier = 300
     }
 }

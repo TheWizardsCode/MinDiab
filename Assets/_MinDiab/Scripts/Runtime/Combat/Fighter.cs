@@ -216,15 +216,16 @@ namespace WizardsCode.MinDiab.Combat
         /// </summary>
         void Hit()
         {
+            float multiplier = controller.GetStat(Stats.Stat.DamageMultiplier);
             if (combatTarget)
             {
                 if (selectedWeapon.HasProjectile)
                 {
-                    selectedWeapon.LaunchProjectileAt(combatTarget, this);
+                    selectedWeapon.LaunchProjectileAt(combatTarget, this, multiplier);
                 }
                 else
                 {
-                    combatTarget.TakeDamage(selectedWeapon.Damage, this);
+                    combatTarget.TakeDamage(selectedWeapon.Damage * multiplier, this);
                 }
 
                 if (combatTarget.IsDead)

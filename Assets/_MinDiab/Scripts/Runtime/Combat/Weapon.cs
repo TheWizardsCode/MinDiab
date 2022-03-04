@@ -42,7 +42,7 @@ namespace WizardsCode.MinDiab.Combat
             get { return projectile != null; }
         }
 
-        public void LaunchProjectileAt(HealthController target, Fighter fighter)
+        public void LaunchProjectileAt(HealthController target, Fighter fighter, float damageMultiplier)
         {
             Vector3 launchPoint = fighter.transform.position;
             if (m_ProjectileLaunchPoint)
@@ -53,7 +53,7 @@ namespace WizardsCode.MinDiab.Combat
                 launchPoint = transform.position;
             }
             Projectile projectileInstance = Instantiate(projectile, launchPoint, projectile.transform.rotation);
-            projectileInstance.Launch(target, Damage, fighter);
+            projectileInstance.Launch(target, Damage * damageMultiplier, fighter);
         }
     }
 }
