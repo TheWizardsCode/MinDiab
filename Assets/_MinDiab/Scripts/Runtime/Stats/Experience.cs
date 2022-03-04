@@ -10,12 +10,15 @@ namespace WizardsCode.MinDiab.Stats
 {
     public class Experience : MonoBehaviour, ISaveable
     {
-        [SerializeField]
+        [SerializeField, Tooltip("Feedback object to instantiate when the player character up.")]
+        GameObject m_LevelUpFeedback;
+        [SerializeField, Tooltip("The HUD element, if any on which to display the current experience and/or level.")]
         ExperienceHUDElement m_ExperienceHUDElement;
 
         public event Action onExperienceGained;
+        public event Action onLevelUp;
 
-        int currentLevel;
+        int m_CurrentLevel;
         private BaseStats stats;
         float experienceToLevelUp;
 
@@ -40,15 +43,19 @@ namespace WizardsCode.MinDiab.Stats
         {
             get
             {
-                return currentLevel;
+                return m_CurrentLevel;
             }
             set
             {
-                if (value != currentLevel)
+                if (value != m_CurrentLevel)
                 {
-                    currentLevel = value;
-                    experienceToLevelUp = stats.GetStat(Stat.ExperienceToLevelUp, currentLevel);
-                    // TODO: Level Up Feedback
+                    m_CurrentLevel = value;
+                    experienceToLevelUp = stats.GetStat(Stat.ExperienceToLevelUp, m_CurrentLevel);
+                    if (m_LevelUpFeedback)
+                    {
+                        Instantiate(m_LevelUpFeedback, transform);
+                    }
+                    onLevelUp.Invoke();
                 }
             }
         }
@@ -57,8 +64,8 @@ namespace WizardsCode.MinDiab.Stats
         {
             stats = GetComponent<BaseStats>();
             ExperiencePoints = 0;
-            currentLevel = 1;
-            experienceToLevelUp = stats.GetStat(Stat.ExperienceToLevelUp, currentLevel);
+            m_CurrentLevel = 1;
+            experienceToLevelUp = stats.GetStat(Stat.ExperienceToLevelUp, m_CurrentLevel);
         }
 
         private void OnEnable()
@@ -75,7 +82,7 @@ namespace WizardsCode.MinDiab.Stats
         {
             if (ExperiencePoints >= experienceToLevelUp)
             {
-                currentLevel++;
+                Level++;
             }
             UpdateUI();
         }
@@ -84,7 +91,7 @@ namespace WizardsCode.MinDiab.Stats
         {
             if (m_ExperienceHUDElement != null)
             {
-                m_ExperienceHUDElement.UpdateUI($"{currentLevel}\n{ExperiencePoints}");
+                m_ExperienceHUDElement.UpdateUI($"{m_CurrentLevel}\n{ExperiencePoints}");
             }
         }
 
@@ -105,15 +112,15 @@ namespace WizardsCode.MinDiab.Stats
             bool foundLevel = false;
             while(!foundLevel)
             {
-                if (stats.GetStat(Stat.ExperienceToLevelUp, currentLevel) < ExperiencePoints)
+                if (stats.GetStat(Stat.ExperienceToLevelUp, m_CurrentLevel) < ExperiencePoints)
                 {
-                    currentLevel++;
+                    m_CurrentLevel++;
                 } else
                 {
                     foundLevel = true;
                 }
             }
-            experienceToLevelUp = stats.GetStat(Stat.ExperienceToLevelUp, currentLevel);
+            experienceToLevelUp = stats.GetStat(Stat.ExperienceToLevelUp, m_CurrentLevel);
 
             UpdateUI();
         }

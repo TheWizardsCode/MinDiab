@@ -375,6 +375,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2570955419892878217, guid: 2bd3e3c4734ad5c498ea9c6da40dd7d2,
         type: 3}
+      propertyPath: m_LevelUpFeedback
+      value: 
+      objectReference: {fileID: 2919635686487297602, guid: 855e06e09dfdc0f45ab863b0024dd610,
+        type: 3}
+    - target: {fileID: 2570955419892878217, guid: 2bd3e3c4734ad5c498ea9c6da40dd7d2,
+        type: 3}
       propertyPath: m_ExperienceHUDElement
       value: 
       objectReference: {fileID: 645394202}

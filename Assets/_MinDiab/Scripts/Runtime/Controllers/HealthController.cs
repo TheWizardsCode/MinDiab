@@ -23,14 +23,16 @@ namespace WizardsCode.MinDiab.Character
             get { return currentHealth; } 
             set
             {
-                currentHealth = Mathf.Max(value, 0);
-                if (healthHUDElement)
-                {
-                    healthHUDElement.UpdateUINormalized(Normalized);
-                }
-                if (Health == 0)
-                {
-                    Die(mostRecentDamageSource);
+                if (currentHealth != value) {
+                    currentHealth = Mathf.Max(value, 0);
+                    if (healthHUDElement)
+                    {
+                        healthHUDElement.UpdateUINormalized(Normalized);
+                    }
+                    if (Health == 0)
+                    {
+                        Die(mostRecentDamageSource);
+                    }
                 }
             } 
         }
@@ -56,8 +58,32 @@ namespace WizardsCode.MinDiab.Character
         private void Awake()
         {
             controller = GetComponent<CharacterRoleController>();
+        }
+        private void Start()
+        {
             Health = controller.GetStat(Stat.Health);
             MaxHealth = Health;
+        }
+
+        private void OnEnable()
+        {
+            if (controller.experience)
+            {
+                controller.experience.onLevelUp += OnLevelUp;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (controller.experience)
+            {
+                controller.experience.onLevelUp -= OnLevelUp;
+            }
+        }
+
+        private void OnLevelUp()
+        {
+            currentHealth = Mathf.Max(MaxHealth * 0.7f, currentHealth);
         }
 
         public void TakeDamage(float damage, Fighter source)

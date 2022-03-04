@@ -13,7 +13,7 @@ namespace WizardsCode.MinDiab.Combat
         [SerializeField, Tooltip("Is this a homing projectile, that is does it follow its target?")]
         bool m_IsHoming = false;
         [SerializeField, Tooltip("An effect object to instantiate when the projectile hits something. If null this will be ignored.")]
-        HitEffect m_HitEffect;
+        DestroyAfterParticles m_HitEffect;
         [SerializeField, Tooltip("Should the projectile be destroyed on impact? If false it will be destroyed after a period of time (see below)")]
         bool m_DestroyOnImpact = false;
         [SerializeField, Tooltip("How long should the projectile live if it does not make contact with something. If destroyOnImpact is true then the projectile may not live this long.")]
