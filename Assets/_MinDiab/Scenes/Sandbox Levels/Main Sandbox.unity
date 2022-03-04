@@ -121,6 +121,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &645394202 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1964954036, guid: 2bd3e3c4734ad5c498ea9c6da40dd7d2,
+    type: 3}
+  m_PrefabInstance: {fileID: 837186572}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ada07ad211237bd418b0d5ea20a8937f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &837186572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -184,6 +196,12 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 585048278, guid: 2bd3e3c4734ad5c498ea9c6da40dd7d2, type: 3}
+      propertyPath: m_text
+      value: 'Level:
+
+        Experience:'
+      objectReference: {fileID: 0}
     - target: {fileID: 1152550330, guid: 2bd3e3c4734ad5c498ea9c6da40dd7d2, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -246,7 +264,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1964954034, guid: 2bd3e3c4734ad5c498ea9c6da40dd7d2, type: 3}
       propertyPath: m_text
-      value: 0
+      value: '1
+
+        0'
       objectReference: {fileID: 0}
     - target: {fileID: 294245505372664390, guid: 2bd3e3c4734ad5c498ea9c6da40dd7d2,
         type: 3}
@@ -353,6 +373,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PersistentObjects
       objectReference: {fileID: 0}
+    - target: {fileID: 2570955419892878217, guid: 2bd3e3c4734ad5c498ea9c6da40dd7d2,
+        type: 3}
+      propertyPath: m_ExperienceHUDElement
+      value: 
+      objectReference: {fileID: 645394202}
     - target: {fileID: 7198840172680539483, guid: 2bd3e3c4734ad5c498ea9c6da40dd7d2,
         type: 3}
       propertyPath: m_LocalPosition.z

@@ -10,7 +10,7 @@ namespace WizardsCode.MinDiab.Stats
     public class Experience : MonoBehaviour, ISaveable
     {
         [SerializeField]
-        ExperienceHUDElement m_HUDElement;
+        ExperienceHUDElement m_ExperienceHUDElement;
 
         int currentLevel;
         private BaseStats stats;
@@ -40,17 +40,19 @@ namespace WizardsCode.MinDiab.Stats
 
         private void UpdateUI()
         {
-            if (m_HUDElement != null)
+            if (m_ExperienceHUDElement != null)
             {
-                m_HUDElement.UpdateUI(experiencePoints);
+                m_ExperienceHUDElement.UpdateUI($"{currentLevel}\n{experiencePoints}");
             }
         }
 
         public void Add(float points)
         {
             experiencePoints += points;
-            if (experiencePoints > experienceToLevelUp)
+            if (experiencePoints >= experienceToLevelUp)
             {
+                currentLevel++;
+                experienceToLevelUp = stats.GetStat(Stat.ExperienceToLevelUp, currentLevel);
                 // TODO: Level Up Feedback
             }
             UpdateUI();

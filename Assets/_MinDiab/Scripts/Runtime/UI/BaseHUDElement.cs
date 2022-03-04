@@ -9,13 +9,21 @@ namespace WizardsCode.MinDiab.UI
 {
     public class BaseHUDElement : MonoBehaviour
     {
-        TMP_Text valueText;
+        internal TMP_Text valueText;
         internal CharacterRoleController Player;
 
         private void Awake()
         {
             Player = GameObject.FindObjectOfType<CharacterRoleController>();
             valueText = GetComponent<TMP_Text>();
+        }
+
+        public virtual void UpdateUI(string value)
+        {
+            if (valueText)
+            {
+                valueText.text = value;
+            }
         }
 
         public virtual void UpdateUI(float value)
