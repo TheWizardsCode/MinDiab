@@ -94,8 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34e0b0f84655f1f4293f8c77922c38a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Level: 1
-  m_Role: 2
+  m_Role: 300
   m_Progression: {fileID: 11400000, guid: d30a12e566a69104bb53950fc97ae93d, type: 2}
 --- !u!114 &7351778425547091556
 MonoBehaviour:
@@ -206,4 +205,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eab19df47d903284b92949bdc74d3c3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ExperiencePoints: 0
+  m_HUDElement: {fileID: 0}

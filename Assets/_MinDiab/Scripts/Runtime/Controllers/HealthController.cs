@@ -77,7 +77,7 @@ namespace WizardsCode.MinDiab.Character
             if (source != null)
             {
                 CharacterRoleController sourceController = source.GetComponent<CharacterRoleController>();
-                sourceController.GetComponent<CharacterRoleController>().AddExperience(controller.GetStat(Stat.ExperienceReward));
+                sourceController.GetComponent<CharacterRoleController>().AddExperience(controller.GetStat(Stat.ExperienceRewardOnKill));
             }
 
             CapsuleCollider capsuleCollider = gameObject.GetComponent<CapsuleCollider>();

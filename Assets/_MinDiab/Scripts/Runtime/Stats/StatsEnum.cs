@@ -6,7 +6,8 @@ namespace WizardsCode.MinDiab.Stats
 {
     public enum Stat
     {
-        Health,
-        ExperienceReward
+        ExperienceRewardOnKill = 100,
+        ExperienceToLevelUp = 105,
+        Health = 200
     }
 }

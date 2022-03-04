@@ -13,27 +13,35 @@ MonoBehaviour:
   m_Name: Base Progression
   m_EditorClassIdentifier: 
   m_CharacterRoles:
-  - Role: 0
-    stats:
-    - stat: 0
-      values:
-      - 5
-      - 50
-      - 100
-      - 200
-      - 450
-      - 700
-    - stat: 1
-      values:
-      - 10
-      - 20
-      - 35
-      - 55
-      - 80
-      - 110
   - Role: 1
     stats:
-    - stat: 0
+    - stat: 200
+      values:
+      - 100
+      - 200
+      - 400
+      - 800
+      - 1800
+      - 3000
+    - stat: 100
+      values:
+      - 10
+      - 20
+      - 35
+      - 55
+      - 80
+      - 110
+    - stat: 105
+      values:
+      - 20
+      - 40
+      - 60
+      - 90
+      - 130
+      - 200
+  - Role: 100
+    stats:
+    - stat: 200
       values:
       - 5
       - 50
@@ -41,7 +49,7 @@ MonoBehaviour:
       - 200
       - 450
       - 700
-    - stat: 1
+    - stat: 100
       values:
       - 10
       - 20
@@ -49,9 +57,17 @@ MonoBehaviour:
       - 55
       - 80
       - 110
-  - Role: 2
+    - stat: 105
+      values:
+      - 20
+      - 40
+      - 60
+      - 90
+      - 130
+      - 200
+  - Role: 200
     stats:
-    - stat: 0
+    - stat: 200
       values:
       - 5
       - 50
@@ -59,7 +75,7 @@ MonoBehaviour:
       - 200
       - 450
       - 700
-    - stat: 1
+    - stat: 100
       values:
       - 10
       - 20
@@ -67,27 +83,17 @@ MonoBehaviour:
       - 55
       - 80
       - 110
-  - Role: 3
-    stats:
-    - stat: 0
+    - stat: 105
       values:
-      - 100
-      - 150
+      - 20
+      - 40
+      - 60
+      - 90
+      - 130
       - 200
-      - 275
-      - 550
-      - 900
-    - stat: 1
-      values:
-      - 10
-      - 20
-      - 35
-      - 55
-      - 80
-      - 110
-  - Role: 4
+  - Role: 300
     stats:
-    - stat: 0
+    - stat: 200
       values:
       - 5
       - 50
@@ -95,7 +101,7 @@ MonoBehaviour:
       - 200
       - 450
       - 700
-    - stat: 1
+    - stat: 100
       values:
       - 10
       - 20
@@ -103,3 +109,37 @@ MonoBehaviour:
       - 55
       - 80
       - 110
+    - stat: 105
+      values:
+      - 20
+      - 40
+      - 60
+      - 90
+      - 130
+      - 200
+  - Role: 500
+    stats:
+    - stat: 200
+      values:
+      - 5
+      - 50
+      - 100
+      - 200
+      - 450
+      - 700
+    - stat: 100
+      values:
+      - 10
+      - 20
+      - 35
+      - 55
+      - 80
+      - 110
+    - stat: 105
+      values:
+      - 20
+      - 40
+      - 60
+      - 90
+      - 130
+      - 200

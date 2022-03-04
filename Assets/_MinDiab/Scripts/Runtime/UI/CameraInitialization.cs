@@ -16,7 +16,7 @@ namespace WizardsCode.MinDiab.UI
             Transform lookAt = player.transform.Find(lookAtTransformName);
             if (lookAt)
             {
-                vCamera.LookAt = transform;
+                vCamera.LookAt = lookAt;
             }
             else
             {

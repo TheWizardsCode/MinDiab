@@ -63,7 +63,7 @@ namespace WizardsCode.MinDiab.Controller
 
         internal float GetStat(Stat stat)
         {
-            return stats.GetStat(stat);
+            return stats.GetStat(stat, experience.Level);
         }
 
         public void ResetAnimatorController()

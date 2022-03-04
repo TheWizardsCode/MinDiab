@@ -10,9 +10,9 @@ namespace WizardsCode.MinDiab.Stats
         [SerializeField, Tooltip("The progression data for character classes.")]
         ProgressionCharacterRole[] m_CharacterRoles = null;
 
-        Dictionary<CharacterRole, Dictionary<Stat, float[]>> statDictionary = new Dictionary<CharacterRole, Dictionary<Stat, float[]>>();
+        Dictionary<CharacterRoleEnum, Dictionary<Stat, float[]>> statDictionary = new Dictionary<CharacterRoleEnum, Dictionary<Stat, float[]>>();
 
-        public float GetStat(Stat stat, CharacterRole role, int level)
+        public float GetStat(Stat stat, CharacterRoleEnum role, int level)
         {
             BuildStatDictionary();
 
@@ -24,6 +24,21 @@ namespace WizardsCode.MinDiab.Stats
                 }
             }
 
+            return 0;
+        }
+
+        public float GetExperienceRequiredToLevelUp(CharacterRoleEnum role, int currentLevel)
+        {
+            BuildStatDictionary();
+            Dictionary<Stat, float[]> statLookup;
+            if (statDictionary.TryGetValue(role, out statLookup))
+            {
+                float[] values;
+                if (statLookup.TryGetValue(Stat.ExperienceToLevelUp, out values))
+                {
+                    return values[currentLevel - 1];
+                }
+            }
             return 0;
         }
 
@@ -48,7 +63,7 @@ namespace WizardsCode.MinDiab.Stats
         class ProgressionCharacterRole
         {
             [SerializeField, Tooltip("The Character class this progression represents is for")]
-            internal CharacterRole Role = CharacterRole.Grunt;
+            internal CharacterRoleEnum Role = CharacterRoleEnum.Grunt;
             [SerializeField, Tooltip("The stats for this character role.")]
             internal ProgressionStat[] stats;
             //[SerializeField, Tooltip("The base health for each level in the role.")]
