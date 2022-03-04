@@ -24,10 +24,22 @@ namespace WizardsCode.MinDiab.Controller
         internal MoveController mover;
         internal Scheduler scheduler;
         internal BaseStats stats;
-        Camera mainCamera;
         RuntimeAnimatorController m_DefaultAnimationController;
 
         public bool IsDead => health.IsDead;
+        
+        Camera mainCamera;
+        Camera MainCamera
+        {
+            get
+            {
+                if (!mainCamera)
+                {
+                    mainCamera = Camera.main;
+                }
+                return mainCamera;
+            }
+        }
 
         internal virtual void Awake()
         {
@@ -125,7 +137,7 @@ namespace WizardsCode.MinDiab.Controller
         /// <returns></returns>
         private Ray GetScreenPoint()
         {
-            return mainCamera.ScreenPointToRay(Input.mousePosition);
+            return MainCamera.ScreenPointToRay(Input.mousePosition);
         }
     }
 }

@@ -20,6 +20,16 @@ namespace WizardsCode.MinDiab.Cinematics
         private void Awake()
         {
             director = GetComponent<PlayableDirector>();
+            TimelineAsset timelineAsset = director.playableAsset as TimelineAsset;
+            IEnumerable<TrackAsset> trackList = timelineAsset.GetOutputTracks();
+            foreach (TrackAsset track in trackList)
+            {
+                if (track.name == "Cinemachine Track")
+                {
+                    director.SetGenericBinding(track, Camera.main.GetComponent<CinemachineBrain>());
+                }
+            }
+
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             playerController = player.GetComponent<CharacterRoleController>();
             playerScheduler = player.GetComponent<Scheduler>();

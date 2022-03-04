@@ -10,20 +10,38 @@ namespace WizardsCode.MinDiab.Stats
         [SerializeField, Tooltip("The progression data for character classes.")]
         ProgressionCharacterRole[] m_CharacterRoles = null;
 
+        Dictionary<CharacterRole, Dictionary<Stat, float[]>> statDictionary = new Dictionary<CharacterRole, Dictionary<Stat, float[]>>();
+
         public float GetStat(Stat stat, CharacterRole role, int level)
         {
-            for (int i = 0; i < m_CharacterRoles.Length; i++) {
-                if (m_CharacterRoles[i].Role == role) {
-                    for (int y = 0; y < m_CharacterRoles[i].stats.Length; y++)
-                    {
-                        if (m_CharacterRoles[i].stats[y].stat == stat)
-                        {
-                            return m_CharacterRoles[i].stats[y].values[level - 1];
-                        }
-                    }
+            BuildStatDictionary();
+
+            Dictionary<Stat, float[]> statLookup;
+            if (statDictionary.TryGetValue(role, out statLookup)) {
+                float[] values;
+                if (statLookup.TryGetValue(stat, out values)) {
+                    return values[level - 1];
                 }
             }
+
             return 0;
+        }
+
+        private void BuildStatDictionary()
+        {
+            if (statDictionary.Count > 0) return;
+
+            Dictionary<Stat, float[]> stat = new Dictionary<Stat, float[]>();
+
+            for (int i = 0; i < m_CharacterRoles.Length; i++)
+            {
+                for (int y = 0; y < m_CharacterRoles[i].stats.Length; y++)
+                {
+                    stat.Add(m_CharacterRoles[i].stats[y].stat, m_CharacterRoles[i].stats[y].values);
+                }
+                statDictionary.Add(m_CharacterRoles[i].Role, stat);
+                stat = new Dictionary<Stat, float[]>();
+            }
         }
 
         [Serializable]

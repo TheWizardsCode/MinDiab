@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace WizardsCode.MinDiab.UI
 {
-    public class HealthHUDElement : BaseHUDElement
+    public class ExperienceHUDElement : BaseHUDElement
     {
     }
 }
