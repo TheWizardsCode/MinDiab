@@ -18,7 +18,12 @@ namespace WizardsCode.MinDiab.Core
         const string defaultScene = "Sandbox Level 1";
         static bool alreadyLoaded = false;
         
-        IEnumerator Start()
+        void Awake()
+        {
+            StartCoroutine(LoadLastScene());
+        }
+
+        IEnumerator LoadLastScene()
         {
             if (alreadyLoaded) yield break;
             alreadyLoaded = true;

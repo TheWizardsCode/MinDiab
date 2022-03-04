@@ -73,7 +73,6 @@ namespace WizardsCode.MinDiab.Stats
 
         private void OnExperienceGained()
         {
-            Debug.Log("Gained experience");
             if (ExperiencePoints >= experienceToLevelUp)
             {
                 currentLevel++;
@@ -106,7 +105,7 @@ namespace WizardsCode.MinDiab.Stats
             bool foundLevel = false;
             while(!foundLevel)
             {
-                if (stats.GetStat(Stat.ExperienceToLevelUp, currentLevel + 1) < ExperiencePoints)
+                if (stats.GetStat(Stat.ExperienceToLevelUp, currentLevel) < ExperiencePoints)
                 {
                     currentLevel++;
                 } else
