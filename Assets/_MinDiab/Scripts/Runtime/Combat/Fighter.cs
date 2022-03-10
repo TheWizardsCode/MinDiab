@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using WizardsCode.MinDiab.Character;
 using WizardsCode.MinDiab.Configuration;
 using WizardsCode.MinDiab.Controller;
 using WizardsCode.MinDiab.Core;
+using WizardsCode.MinDiab.Stats;
 using static WizardsCode.MinDiab.Combat.Weapon;
 
 namespace WizardsCode.MinDiab.Combat
 {
     [RequireComponent(typeof(CharacterRoleController))]
-    public class Fighter : MonoBehaviour, IAction
+    public class Fighter : MonoBehaviour, IAction, IStatModifierProvider
     {
         [SerializeField, Tooltip("The currently equipable weapon.")]
         Weapon m_DefaultWeapon;
@@ -79,17 +81,20 @@ namespace WizardsCode.MinDiab.Combat
         /// Select a weapon to attack the target from the ones currently equipped.
         /// </summary>
         /// <returns>The weapon to use, or null if no suitable weapon is available.</returns>
-        private Weapon SelectWeapon()
+        private Weapon SelectedWeapon
         {
-            if (equippedWeaponDominantHand != null)
+            get
             {
-                return equippedWeaponDominantHand;
+                if (equippedWeaponDominantHand != null)
+                {
+                    return equippedWeaponDominantHand;
+                }
+                if (equippedWeaponNonDominantHand != null)
+                {
+                    return equippedWeaponNonDominantHand;
+                }
+                return null;
             }
-            if (equippedWeaponNonDominantHand != null)
-            {
-                return equippedWeaponNonDominantHand;
-            }
-            return null;
         }
 
         public void EquipWeapon(Weapon weapon) {
@@ -177,7 +182,7 @@ namespace WizardsCode.MinDiab.Combat
         /// <returns>True if this Fighter can attack the target (possibly some preparation, such as moving). False if the Fighter cannot attack.</returns>
         public bool Attack(HealthController target)
         {
-            selectedWeapon = SelectWeapon();
+            selectedWeapon = SelectedWeapon;
             if (CanAttack(target)) { 
                 transform.LookAt(target.transform);
                 controller.scheduler.StartAction(this);
@@ -191,7 +196,7 @@ namespace WizardsCode.MinDiab.Combat
         public bool CanAttack(HealthController target)
         {
             if (!target) return false;
-            selectedWeapon = SelectWeapon();
+            selectedWeapon = SelectedWeapon;
             if (!selectedWeapon) return false;
 
             if (target == controller.health)
@@ -216,16 +221,16 @@ namespace WizardsCode.MinDiab.Combat
         /// </summary>
         void Hit()
         {
-            float multiplier = controller.GetStat(Stats.Stat.DamageMultiplier);
+            float damage = controller.GetStat(Stat.Damage, selectedWeapon.Damage);
             if (combatTarget)
             {
                 if (selectedWeapon.HasProjectile)
                 {
-                    selectedWeapon.LaunchProjectileAt(combatTarget, this, multiplier);
+                    selectedWeapon.LaunchProjectileAt(combatTarget, this, damage);
                 }
                 else
                 {
-                    combatTarget.TakeDamage(selectedWeapon.Damage * multiplier, this);
+                    combatTarget.TakeDamage( damage, this);
                 }
 
                 if (combatTarget.IsDead)
@@ -238,6 +243,22 @@ namespace WizardsCode.MinDiab.Combat
         void Shoot()
         {
             Hit();
+        }
+
+        public IEnumerable<float> GetStatAdditiveModifier(Stat stat)
+        {
+            if (stat == Stat.Damage)
+            {
+                yield return selectedWeapon.DamageAdditive;
+            }
+        }
+
+        public IEnumerable<float> GetStatMultiplier(Stat stat)
+        {
+            if (stat == Stat.Damage)
+            {
+                yield return selectedWeapon.DamageMultiplier;
+            }
         }
 
         /*

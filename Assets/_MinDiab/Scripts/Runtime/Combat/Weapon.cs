@@ -55,5 +55,28 @@ namespace WizardsCode.MinDiab.Combat
             Projectile projectileInstance = Instantiate(projectile, launchPoint, projectile.transform.rotation);
             projectileInstance.Launch(target, Damage * damageMultiplier, fighter);
         }
+
+        /// <summary>
+        /// Get the additive damage this particular weapon does. This will be in addition to the base damage done and will
+        /// be effected by buffs and nerfs on the weapon.
+        /// </summary>
+        public float DamageAdditive
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Get the multiplier for the damage this particular weapon does. This will be applied after the additive damage has been added to the base damage.
+        /// </summary>
+        public float DamageMultiplier
+        {
+            get
+            {
+                return 1;
+            }
+        }
     }
 }

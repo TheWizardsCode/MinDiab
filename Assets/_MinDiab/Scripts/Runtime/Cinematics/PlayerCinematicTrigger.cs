@@ -20,6 +20,14 @@ namespace WizardsCode.MinDiab.Cinematics
         private void Awake()
         {
             director = GetComponent<PlayableDirector>();
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            playerController = player.GetComponent<CharacterRoleController>();
+            playerScheduler = player.GetComponent<Scheduler>();
+        }
+
+        private void Start()
+        {
             TimelineAsset timelineAsset = director.playableAsset as TimelineAsset;
             IEnumerable<TrackAsset> trackList = timelineAsset.GetOutputTracks();
             foreach (TrackAsset track in trackList)
@@ -29,10 +37,10 @@ namespace WizardsCode.MinDiab.Cinematics
                     director.SetGenericBinding(track, Camera.main.GetComponent<CinemachineBrain>());
                 }
             }
+        }
 
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            playerController = player.GetComponent<CharacterRoleController>();
-            playerScheduler = player.GetComponent<Scheduler>();
+        private void OnEnable()
+        {
             director.played += DisableControl;
             director.stopped += EnableControl;
         }

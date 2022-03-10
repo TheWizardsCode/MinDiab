@@ -61,9 +61,9 @@ namespace WizardsCode.MinDiab.Controller
             if (HandleMovementInput()) return;
         }
 
-        internal float GetStat(Stat stat)
+        internal float GetStat(Stat stat, float baseValue = 0)
         {
-            return stats.GetStat(stat, experience.Level);
+            return stats.GetStat(stat, experience.Level, baseValue);
         }
 
         public void ResetAnimatorController()
