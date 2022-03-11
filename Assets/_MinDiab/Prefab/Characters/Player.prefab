@@ -28,6 +28,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60019caab17812e4a92061229bdde4a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cursorMappings:
+  - type: 10
+    hotspot: {x: 0, y: 0}
+    texture: {fileID: 2800000, guid: 21628736160fcc9488493401da3ef621, type: 3}
+  - type: 20
+    hotspot: {x: 0, y: 0}
+    texture: {fileID: 2800000, guid: 8ea795c067613354898068091ffc7130, type: 3}
+  - type: 30
+    hotspot: {x: 0, y: 0}
+    texture: {fileID: 2800000, guid: 2d18e23e3ce249b4489b8bcdd02d3f48, type: 3}
+  - type: 15
+    hotspot: {x: 0, y: 0}
+    texture: {fileID: 2800000, guid: 2e71a8202d3b4a3448ec85ced5a40265, type: 3}
 --- !u!1 &1069082473893439930
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,7 +81,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9076359770536530305}
   m_Layer: 0
-  m_Name: Camera Look Target
+  m_Name: Camera Look At Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -208,6 +221,12 @@ PrefabInstance:
       propertyPath: m_Role
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -4486074058374916188, guid: 3944535b9ac2b534daccbd8d41068dd8,
+        type: 3}
+      propertyPath: m_LevelUpFeedback
+      value: 
+      objectReference: {fileID: 2919635686487297602, guid: 855e06e09dfdc0f45ab863b0024dd610,
+        type: 3}
     - target: {fileID: 126636721330483064, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
       propertyPath: m_WeaponRange
@@ -288,17 +307,17 @@ PrefabInstance:
     - target: {fileID: 7351778425547091563, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.5
+      value: -14.66
       objectReference: {fileID: 0}
     - target: {fileID: 7351778425547091563, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 30.7
+      value: -26.261
       objectReference: {fileID: 0}
     - target: {fileID: 7351778425547091563, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -46.4
+      value: -0.99
       objectReference: {fileID: 0}
     - target: {fileID: 7351778425547091563, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
