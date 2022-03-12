@@ -15,9 +15,21 @@ namespace WizardsCode.MinDiab.Character
         BaseHUDElement healthHUDElement;
 
         CharacterRoleController controller;
+        FeedbackManager feedback;
 
         private float currentHealth;
         private float MaxHealth;
+
+        private void Awake()
+        {
+            controller = GetComponent<CharacterRoleController>();
+            feedback = GetComponentInChildren<FeedbackManager>();
+        }
+        private void Start()
+        {
+            Health = controller.GetStat(Stat.Health);
+            MaxHealth = Health;
+        }
 
         internal float Health {
             get { return currentHealth; } 
@@ -57,16 +69,6 @@ namespace WizardsCode.MinDiab.Character
 
         public CursorType CursorType { get { return CursorType.Attack; } }
 
-        private void Awake()
-        {
-            controller = GetComponent<CharacterRoleController>();
-        }
-        private void Start()
-        {
-            Health = controller.GetStat(Stat.Health);
-            MaxHealth = Health;
-        }
-
         private void OnEnable()
         {
             if (controller.experience)
@@ -90,6 +92,8 @@ namespace WizardsCode.MinDiab.Character
 
         public void TakeDamage(float damage, Fighter source)
         {
+            feedback.SpawnTextFeedback(damage);
+
             if (!IsDead)
             {
                 mostRecentDamageSource = source;

@@ -44,7 +44,7 @@ namespace WizardsCode.MinDiab.Controller
         public bool IsDead => health.IsDead;
         
         Camera mainCamera;
-        Camera MainCamera
+        public Camera MainCamera
         {
             get
             {
