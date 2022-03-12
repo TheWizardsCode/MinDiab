@@ -114,9 +114,16 @@ namespace WizardsCode.MinDiab.Controller
         {
             Array.Clear(hits, 0, hits.Length);
             Physics.RaycastNonAlloc(GetScreenPoint(), hits, 100, ~0, QueryTriggerInteraction.Collide);
+            float[] distances = new float[hits.Length];
             for (int i = 0; i < hits.Length; i++)
             {
-                if (hits[i].transform == null) break;
+                distances[i] = hits[i].distance;
+            }
+            Array.Sort(distances, hits);
+
+            for (int i = 0; i < hits.Length; i++)
+            {
+                if (hits[i].transform == null) continue;
 
                 // OPTIMIZATION: cache the results of this GetComponents
                 IRaycastable[] raycastables = hits[i].transform.GetComponents<IRaycastable>();
