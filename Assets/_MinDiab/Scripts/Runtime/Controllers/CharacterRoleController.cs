@@ -27,8 +27,10 @@ namespace WizardsCode.MinDiab.Controller
             public Texture2D texture;
         }
 
+        [SerializeField, Tooltip("The maximum length a character will travel on the navmesh in a single movement.")]
+        float m_maxNavMeshPathLength = 40;
         [SerializeField, Tooltip("The cursors to use for the various command options.")]
-        CursorMapping[] cursorMappings = null;
+        CursorMapping[] m_CursorMappings = null;
 
         internal Animator animator;
         internal Experience experience;
@@ -79,6 +81,7 @@ namespace WizardsCode.MinDiab.Controller
 
             if (InteractWithComponent()) return;
             if (HandleMovementInput()) return;
+            SetCursor(CursorType.None);
         }
 
         private bool InteractWithUI()
@@ -147,13 +150,14 @@ namespace WizardsCode.MinDiab.Controller
 
         private CursorMapping GetCursorMapping(CursorType type)
         {
-            for (int i = 0; i < cursorMappings.Length; i++)
+            for (int i = 0; i < m_CursorMappings.Length; i++)
             {
-                if (cursorMappings[i].type == type)
+                if (m_CursorMappings[i].type == type)
                 {
-                    return cursorMappings[i];
+                    return m_CursorMappings[i];
                 }
             }
+            Debug.LogError($"Attempting to get a cursor type {type} but none found. Returning default of {CursorType.None}");
             return GetCursorMapping(CursorType.None);
         }
 
@@ -175,17 +179,34 @@ namespace WizardsCode.MinDiab.Controller
             {
                 if (NavMesh.SamplePosition(hit.point, out navHit, 0.5f, NavMesh.AllAreas))
                 {
+                    NavMeshPath path = new NavMeshPath();
+                    if (!NavMesh.CalculatePath(transform.position, navHit.position, NavMesh.AllAreas, path)) return false;
+                    if (path.status != NavMeshPathStatus.PathComplete) return false;
+                    if (GetPathLengthSqr(path) > m_maxNavMeshPathLength * m_maxNavMeshPathLength) return false;
+
                     SetCursor(CursorType.Movement);
                     if (Input.GetMouseButton(0))
                     {
                         fighter.StopAction();
                         mover.MoveTo(navHit.position, 1);
-                        return true;
                     }
+                    return true;
                 }
             }
 
             return false;
+        }
+
+        private float GetPathLengthSqr(NavMeshPath path)
+        {
+            float total = 0;
+            if (path.corners.Length < 2) return total;
+
+            for (int i = 0; i < path.corners.Length - 1; i++)
+            {
+                total += (path.corners[i] + path.corners[i + 1]).sqrMagnitude;
+            }
+            return total;
         }
 
         /// <summary>
