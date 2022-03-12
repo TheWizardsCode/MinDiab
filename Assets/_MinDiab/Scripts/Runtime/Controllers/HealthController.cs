@@ -9,7 +9,7 @@ using WizardsCode.MinDiab.UI;
 
 namespace WizardsCode.MinDiab.Character
 {
-    public class HealthController : MonoBehaviour, ISaveable
+    public class HealthController : MonoBehaviour, ISaveable, IRaycastable
     {
         [SerializeField, Tooltip("The UI element to display the current health.")]
         BaseHUDElement healthHUDElement;
@@ -54,6 +54,8 @@ namespace WizardsCode.MinDiab.Character
                 return Health <= 0;
             }
         }
+
+        public CursorType CursorType { get { return CursorType.Attack; } }
 
         private void Awake()
         {
@@ -129,6 +131,22 @@ namespace WizardsCode.MinDiab.Character
             {
                 Die(null);
             }
+        }
+
+        public bool HandleRaycast(CharacterRoleController controller)
+        {
+            if (controller.gameObject == gameObject) return false;
+
+            if (Input.GetMouseButton(0))
+            {
+                if (controller.fighter == null) return false;
+
+                if (controller.fighter.CanAttack(this))
+                {
+                    controller.fighter.Attack(this);
+                }
+            }
+            return true;
         }
 
         [Serializable]

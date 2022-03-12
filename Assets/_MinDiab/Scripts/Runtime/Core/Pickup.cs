@@ -1,20 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WizardsCode.MinDiab.Controller;
 
 namespace WizardsCode.MinDiab.Core
 {
-    public class Pickup : MonoBehaviour
+    public class Pickup : MonoBehaviour, IRaycastable
     {
         [SerializeField, Tooltip("Should this pickup be destroyed when collected?")]
         bool m_DestroyOnPickup = false;
         [SerializeField, Tooltip("If not destroyed on pickup how long should the pickup be hidden for after pickup?")]
         float m_TimeToHideOnPickup = 5;
 
-        internal virtual void OnTriggerEnter(Collider other)
-        {
-            if (!CanPickup(other)) return; 
+        public CursorType CursorType { get { return CursorType.Interactable; } }
 
+        private void OnTriggerEnter(Collider other)
+        {
+            PickupItem(other.gameObject);
+        }
+
+        internal virtual void PickupItem(GameObject character)
+        {
+            if (!CanPickup(character)) return;
             StartCoroutine(DestroyOrHide());
         }
 
@@ -24,13 +31,13 @@ namespace WizardsCode.MinDiab.Core
         }
 
         /// <summary>
-        /// Test to see if an object that has tried to pickup this item can do so.
+        /// Test to see if an charcter that has tried to pickup this item can do so.
         /// </summary>
-        /// <param name="other"></param>
+        /// <param name="character"></param>
         /// <returns></returns>
-        internal bool CanPickup(Collider other)
+        internal virtual bool CanPickup(GameObject character)
         {
-            return other.CompareTag("Player");
+            return character.CompareTag("Player");
         }
 
         private IEnumerator DestroyOrHide()
@@ -55,6 +62,15 @@ namespace WizardsCode.MinDiab.Core
             {
                 transform.GetChild(i).gameObject.SetActive(true);
             }
+        }
+
+        public bool HandleRaycast(CharacterRoleController controller)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                PickupItem(controller.gameObject);
+            }
+            return true;
         }
     }
 }

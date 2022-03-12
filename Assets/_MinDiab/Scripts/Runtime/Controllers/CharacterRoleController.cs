@@ -16,16 +16,8 @@ namespace WizardsCode.MinDiab.Controller
     [RequireComponent(typeof(MoveController))]
     [RequireComponent(typeof(Scheduler))]
     [RequireComponent(typeof(Animator))]
-    public class CharacterRoleController : MonoBehaviour
+    public partial class CharacterRoleController : MonoBehaviour
     {
-        // FIXME: this should be a scriptable object
-        enum CursorType
-        {
-            None = 10,
-            UI = 15,
-            Movement = 20,
-            Attack = 30
-        }
 
         [Serializable]
         struct CursorMapping
@@ -84,7 +76,8 @@ namespace WizardsCode.MinDiab.Controller
                 SetCursor(CursorType.None);
                 return;
             }
-            if (HandleCombatInput()) return;
+
+            if (InteractWithComponent()) return;
             if (HandleMovementInput()) return;
         }
 
@@ -115,26 +108,24 @@ namespace WizardsCode.MinDiab.Controller
             experience.Add(amount);
         }
 
-        /// <summary>
-        /// Handle any active combat inputs.
-        /// </summary>
-        /// <returns>True if there was a combat interaction in this frame.</returns>
-        private bool HandleCombatInput()
+
+
+        private bool InteractWithComponent()
         {
             Array.Clear(hits, 0, hits.Length);
-
-            Physics.RaycastNonAlloc(GetScreenPoint(), hits);
+            Physics.RaycastNonAlloc(GetScreenPoint(), hits, 100, ~0, QueryTriggerInteraction.Collide);
             for (int i = 0; i < hits.Length; i++)
             {
-                if (hits[i].collider == null) break;
-                HealthController target = hits[i].collider.GetComponent<HealthController>();
+                if (hits[i].transform == null) break;
 
-                if (fighter.CanAttack(target))
+                // OPTIMIZATION: cache the results of this GetComponents
+                IRaycastable[] raycastables = hits[i].transform.GetComponents<IRaycastable>();
+                for (int y = 0; y < raycastables.Length; y++)
                 {
-                    SetCursor(CursorType.Attack);
-                    if (Input.GetMouseButton(0))
+                    if (raycastables[y].HandleRaycast(this))
                     {
-                        return fighter.Attack(target);
+                        SetCursor(raycastables[y].CursorType);
+                        return true;
                     }
                 }
             }

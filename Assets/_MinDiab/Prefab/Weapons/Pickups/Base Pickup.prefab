@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 189245bc5fbc8e245a5e3f6c0c3eb3aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_DestroyOnPickup: 0
+  m_TimeToHideOnPickup: 5
   m_EquipableWeapon: {fileID: 5436127306922376683, guid: 0ac900957b9703c4387f522db05f2e74,
     type: 3}
 --- !u!135 &5262084601534541481

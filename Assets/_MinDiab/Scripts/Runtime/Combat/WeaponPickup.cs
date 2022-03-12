@@ -10,14 +10,16 @@ namespace WizardsCode.MinDiab.Combat
         [SerializeField, Tooltip("The weapon definition that this pickup represents.")]
         Weapon m_EquipableWeapon;
 
-        internal override void OnTriggerEnter(Collider other)
+        internal override void PickupItem(GameObject character)
         {
-            base.OnTriggerEnter(other);
+            if (!CanPickup(character)) return;
 
-            if (CanPickup(other))
+            if (CanPickup(character))
             {
-                other.GetComponent<Fighter>().EquipWeapon(m_EquipableWeapon);
+                character.GetComponent<Fighter>().EquipWeapon(m_EquipableWeapon);
             }
+
+            base.PickupItem(character);
         }
     }
 }
