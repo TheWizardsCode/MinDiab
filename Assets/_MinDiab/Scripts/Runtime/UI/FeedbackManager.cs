@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -13,7 +14,9 @@ namespace WizardsCode.MinDiab.UI
         public void SpawnTextFeedback(float value)
         {
             // OPTIMIZATION: Pool and don't use GetComponent
-            Instantiate(m_FeedbackCanvas, transform).GetComponentInChildren<TMP_Text>().text = value.ToString();
+            Canvas canvas = Instantiate(m_FeedbackCanvas, transform);
+            canvas.GetComponentInChildren<TMP_Text>().text = string.Format("{0:0}", value);
+            Destroy(canvas.gameObject, 2);
         }
     }
 }

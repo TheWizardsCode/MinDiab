@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 using WizardsCode.MinDiab.Combat;
 using WizardsCode.MinDiab.Configuration;
 using WizardsCode.MinDiab.Controller;
@@ -13,6 +14,13 @@ namespace WizardsCode.MinDiab.Character
     {
         [SerializeField, Tooltip("The UI element to display the current health.")]
         BaseHUDElement healthHUDElement;
+
+        [Header("Events")]
+        [SerializeField, Tooltip("Event fired whenever the character takes damage.")]
+        public TakeDamageEvent m_TakeDamage;
+
+        [Serializable]
+        public class TakeDamageEvent : UnityEvent<float> { };
 
         CharacterRoleController controller;
         FeedbackManager feedback;
@@ -92,12 +100,14 @@ namespace WizardsCode.MinDiab.Character
 
         public void TakeDamage(float damage, Fighter source)
         {
-            feedback.SpawnTextFeedback(damage);
-
             if (!IsDead)
             {
                 mostRecentDamageSource = source;
                 Health = Health - damage;
+                if (m_TakeDamage != null)
+                {
+                    m_TakeDamage.Invoke(damage);
+                }
             }
         }
 

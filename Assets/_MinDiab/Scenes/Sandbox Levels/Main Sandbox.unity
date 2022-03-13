@@ -248,6 +248,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PersistentObjects
       objectReference: {fileID: 0}
+    - target: {fileID: 3567454110679251278, guid: 2bd3e3c4734ad5c498ea9c6da40dd7d2,
+        type: 3}
+      propertyPath: m_Name
+      value: Feedback Canvas
+      objectReference: {fileID: 0}
     - target: {fileID: 7198840172680539483, guid: 2bd3e3c4734ad5c498ea9c6da40dd7d2,
         type: 3}
       propertyPath: m_LocalPosition.z
