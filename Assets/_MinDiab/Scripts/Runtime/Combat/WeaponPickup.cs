@@ -5,7 +5,7 @@ using WizardsCode.MinDiab.Core;
 
 namespace WizardsCode.MinDiab.Combat
 {
-    public class WeaponPickup : Pickup
+    public class WeaponPickup : BasePickup
     {
         [SerializeField, Tooltip("The weapon definition that this pickup represents.")]
         Weapon m_EquipableWeapon;

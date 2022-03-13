@@ -540,6 +540,11 @@ PrefabInstance:
       propertyPath: healthHUDElement
       value: 
       objectReference: {fileID: 1152550333}
+    - target: {fileID: 7192946047413956025, guid: 8a698d3de47902a4e8744baef9e52c24,
+        type: 3}
+      propertyPath: m_IsAI
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a698d3de47902a4e8744baef9e52c24, type: 3}
 --- !u!4 &9076359770811551597 stripped
