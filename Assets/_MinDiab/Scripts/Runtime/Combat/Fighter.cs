@@ -221,7 +221,7 @@ namespace WizardsCode.MinDiab.Combat
         /// </summary>
         void Hit()
         {
-            float damage = controller.GetStat(Stat.Damage, selectedWeapon.Damage);
+            float damage = controller.GetStat(Stat.Damage, selectedWeapon.BaseDamage);
             if (combatTarget)
             {
                 if (selectedWeapon.HasProjectile)

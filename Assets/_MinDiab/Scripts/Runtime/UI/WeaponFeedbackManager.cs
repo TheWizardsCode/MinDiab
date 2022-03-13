@@ -17,11 +17,14 @@ namespace WizardsCode.MinDiab.UI
 
         public void OnStartAttack()
         {
+            if (m_StartAttackClips.Length == 0) return;
             PlayAudio(m_DefaultAudioSource, m_StartAttackClips[Random.Range(0, m_StartAttackClips.Length)]);
         }
 
         public void OnHit()
         {
+            if (m_HitClips.Length == 0) return;
+
             PlayAudio(m_DefaultAudioSource, m_HitClips[Random.Range(0, m_HitClips.Length)]);
         }
     }
