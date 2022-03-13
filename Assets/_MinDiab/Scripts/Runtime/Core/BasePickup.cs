@@ -5,7 +5,8 @@ using WizardsCode.MinDiab.Controller;
 
 namespace WizardsCode.MinDiab.Core
 {
-    public class Pickup : MonoBehaviour, IRaycastable
+    [RequireComponent(typeof(Collider))]
+    public class BasePickup : MonoBehaviour, IRaycastable
     {
         [SerializeField, Tooltip("Should this pickup be destroyed when collected?")]
         bool m_DestroyOnPickup = false;

@@ -16,13 +16,15 @@ namespace WizardsCode.MinDiab.Character
         BaseHUDElement healthHUDElement;
 
         [Header("Events")]
+        [SerializeField, Tooltip("Event fired whenever the character heals. The parameter is the amount of heling recieved.")]
+        public ChangeHealth m_OnHeal;
         [SerializeField, Tooltip("Event fired whenever the character takes damage. The parameter is the amount of damage taken.")]
-        public TakeDamageEvent m_OnTakeDamage;
+        public ChangeHealth m_OnTakeDamage;
         [SerializeField, Tooltip("Event fired when the character dies.")]
         public UnityEvent m_OnDie;
 
         [Serializable]
-        public class TakeDamageEvent : UnityEvent<float> { };
+        public class ChangeHealth : UnityEvent<float> { };
 
         CharacterRoleController controller;
         CharacterFeedbackManager feedback;
@@ -55,6 +57,15 @@ namespace WizardsCode.MinDiab.Character
                     {
                         Die(mostRecentDamageSource);
                     }
+                }
+
+
+                if (value < 0)
+                {
+                    m_OnTakeDamage.Invoke(value);
+                } else if (value > 0)
+                {
+                    m_OnHeal.Invoke(value);
                 }
             } 
         }
@@ -99,17 +110,20 @@ namespace WizardsCode.MinDiab.Character
         {
             currentHealth = Mathf.Max(MaxHealth * 0.7f, currentHealth);
         }
+        internal void AddHealth(float health)
+        {
+            if (!IsDead)
+            {
+                Health += health;
+            }
+        }
 
         public void TakeDamage(float damage, Fighter source)
         {
             if (!IsDead)
             {
                 mostRecentDamageSource = source;
-                Health = Health - damage;
-                if (m_OnTakeDamage != null)
-                {
-                    m_OnTakeDamage.Invoke(damage);
-                }
+                Health -= damage;
             }
         }
 
@@ -153,12 +167,13 @@ namespace WizardsCode.MinDiab.Character
 
         public bool HandleRaycast(CharacterRoleController controller)
         {
+            if (controller.fighter == null) return false;
             if (controller.gameObject == gameObject) return false;
+
+            if (!controller.fighter.IsInRange(this) || !controller.fighter.CanAttack(this)) return false;
 
             if (Input.GetMouseButton(0))
             {
-                if (controller.fighter == null) return false;
-
                 if (controller.fighter.CanAttack(this))
                 {
                     controller.fighter.Attack(this);
