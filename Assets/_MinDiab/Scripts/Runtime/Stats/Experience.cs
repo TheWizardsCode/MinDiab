@@ -58,7 +58,9 @@ namespace WizardsCode.MinDiab.Stats
                     {
                         Instantiate(m_LevelUpFeedback, transform);
                     }
-                    onLevelUp.Invoke();
+                    if (onLevelUp != null) {
+                        onLevelUp.Invoke();
+                    }
                 }
             }
         }
