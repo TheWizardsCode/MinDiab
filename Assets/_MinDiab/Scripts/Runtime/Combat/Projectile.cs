@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using WizardsCode.MinDiab.Character;
 using WizardsCode.MinDiab.FX;
 
@@ -18,6 +19,12 @@ namespace WizardsCode.MinDiab.Combat
         bool m_DestroyOnImpact = false;
         [SerializeField, Tooltip("How long should the projectile live if it does not make contact with something. If destroyOnImpact is true then the projectile may not live this long.")]
         float m_TimeToLive = 10;
+
+        [Header("Events")]
+        [SerializeField, Tooltip("Events to fire when this projectile is launched.")]
+        UnityEvent m_OnLaunch;
+        [SerializeField, Tooltip("Events to fire when this projectile hits something..")]
+        UnityEvent m_OnHit;
 
         /// <summary>
         /// The Damage this projectile will do if it hits. This is set when the projectile is
@@ -56,6 +63,7 @@ namespace WizardsCode.MinDiab.Combat
         /// <param name="damage">The amount of damage to do.</param>
         internal void Launch(HealthController target, float damage, Fighter source)
         {
+            m_OnLaunch.Invoke();
             Target = target;
             Damage = damage;
             Source = source;
@@ -82,6 +90,7 @@ namespace WizardsCode.MinDiab.Combat
 
             if (hit)
             {
+                m_OnHit.Invoke();
                 hit.TakeDamage(Damage, Source);
             }
 

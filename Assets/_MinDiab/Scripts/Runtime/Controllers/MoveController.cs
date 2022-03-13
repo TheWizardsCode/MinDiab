@@ -77,7 +77,7 @@ namespace WizardsCode.MinDiab.Character
         public void RestoreState(object state)
         {
             MoveControllerSaveData data = (MoveControllerSaveData)state;
-            GetComponent<NavMeshAgent>().Warp(data.position.ToVector());
+            Warp(data.position.ToVector());
             transform.rotation = Quaternion.Euler(data.rotation.ToVector());
         }
 

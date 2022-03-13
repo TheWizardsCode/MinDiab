@@ -14,7 +14,7 @@ namespace WizardsCode.MinDiab.UI
             controller = FindObjectOfType<CharacterRoleController>();
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             transform.forward = controller.MainCamera.transform.forward;
         }

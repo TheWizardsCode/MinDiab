@@ -59,12 +59,12 @@ namespace WizardsCode.MinDiab.SceneManagement
 
             saveWrapper.Load();
 
-            ScenePortal otherPortal = GetOtherPortal();
-            if (otherPortal)
+            ScenePortal arrivalPortal = GetArrivalPortal();
+            if (arrivalPortal)
             {
                 GameObject player = GameObject.FindWithTag("Player");
-                player.GetComponent<NavMeshAgent>().Warp(otherPortal.m_SpawnPoint.position);
-                player.transform.rotation = otherPortal.m_SpawnPoint.rotation;
+                player.GetComponent<NavMeshAgent>().Warp(arrivalPortal.m_SpawnPoint.position);
+                player.transform.rotation = arrivalPortal.m_SpawnPoint.rotation;
             } else
             {
                 Debug.LogError($"Unable to find the spawn point when travelling through {this}.");
@@ -78,9 +78,9 @@ namespace WizardsCode.MinDiab.SceneManagement
         }
 
         /// <summary>
-        /// Get the other portal in the scene that has an destination of the scene containing this portal.
+        /// Get the protal in this scene that is the arrival portal.
         /// </summary>
-        private ScenePortal GetOtherPortal()
+        private ScenePortal GetArrivalPortal()
         {
             ScenePortal[] portals = FindObjectsOfType<ScenePortal>();
             for (int i = 0; i < portals.Length; i++)

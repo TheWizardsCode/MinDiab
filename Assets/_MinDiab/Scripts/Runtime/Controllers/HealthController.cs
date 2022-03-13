@@ -16,14 +16,16 @@ namespace WizardsCode.MinDiab.Character
         BaseHUDElement healthHUDElement;
 
         [Header("Events")]
-        [SerializeField, Tooltip("Event fired whenever the character takes damage.")]
-        public TakeDamageEvent m_TakeDamage;
+        [SerializeField, Tooltip("Event fired whenever the character takes damage. The parameter is the amount of damage taken.")]
+        public TakeDamageEvent m_OnTakeDamage;
+        [SerializeField, Tooltip("Event fired when the character dies.")]
+        public UnityEvent m_OnDie;
 
         [Serializable]
         public class TakeDamageEvent : UnityEvent<float> { };
 
         CharacterRoleController controller;
-        FeedbackManager feedback;
+        CharacterFeedbackManager feedback;
 
         private float currentHealth;
         private float MaxHealth;
@@ -31,7 +33,7 @@ namespace WizardsCode.MinDiab.Character
         private void Awake()
         {
             controller = GetComponent<CharacterRoleController>();
-            feedback = GetComponentInChildren<FeedbackManager>();
+            feedback = GetComponentInChildren<CharacterFeedbackManager>();
         }
         private void Start()
         {
@@ -104,15 +106,17 @@ namespace WizardsCode.MinDiab.Character
             {
                 mostRecentDamageSource = source;
                 Health = Health - damage;
-                if (m_TakeDamage != null)
+                if (m_OnTakeDamage != null)
                 {
-                    m_TakeDamage.Invoke(damage);
+                    m_OnTakeDamage.Invoke(damage);
                 }
             }
         }
 
         void Die(Fighter source)
         {
+            m_OnDie.Invoke();
+
             controller.animator.SetTrigger(AnimationParameters.DefaultDieTriggerID);
             controller.scheduler.StopCurrentAction();
 

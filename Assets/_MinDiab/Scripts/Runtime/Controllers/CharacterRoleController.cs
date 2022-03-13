@@ -204,7 +204,7 @@ namespace WizardsCode.MinDiab.Controller
 
             for (int i = 0; i < path.corners.Length - 1; i++)
             {
-                total += (path.corners[i] + path.corners[i + 1]).sqrMagnitude;
+                total += (path.corners[i] - path.corners[i + 1]).sqrMagnitude;
             }
             return total;
         }
