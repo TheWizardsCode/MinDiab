@@ -1,5 +1,30 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8630956672440759734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa508ee653f80ef478ab4842c6bb02ba, type: 3}
+  m_Name: 3/20/2022 10:37 PM
+  m_EditorClassIdentifier: 
+  status: 10
+  shortDescription: Add Minimum Weapon Range
+  longDescription: When a character has a ranged weapon and they are being attacked
+    at too close a range they should switch to a melee weapon (or fists) to fight.
+  assets: []
+  metaData: []
+  captures: []
+  commitHash: 
+  isSocial: 0
+  tweeted: 0
+  lastTweetFileTime: 0
+  discordPost: 0
+  lastDiscordPostFileTime: 0
 --- !u!114 &-5476137927946256065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14,10 +39,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: 20
   shortDescription: "When giving an attack command the player should attack immediately\t"
-  longDescription: '1. Click to attack an AI  in range
+  longDescription: '1. Click to attack with the bow on an AI  out of range
 
-    2. Player seems to do
-    a cooldown before attacking'
+    2.
+    Player seems to do a cooldown before attacking
+
+
+    ## Analysis
+
+    The character
+    seems to go into the attack animation but comes out of the animation before they
+    fire.
+
+
+    The animation will exit if stopAnimation is triggered. Is the previous
+    action being stopped after the attack animation has been started?
+
+
+'
   assets: []
   metaData: []
   captures: []
@@ -120,6 +159,8 @@ MonoBehaviour:
   - {fileID: -2296581841595775735}
   - {fileID: -5476137927946256065}
   - {fileID: 419343271370757061}
+  - {fileID: -8630956672440759734}
+  - {fileID: 7552673361853252307}
 --- !u!114 &419343271370757061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,6 +180,30 @@ MonoBehaviour:
 
     2. The player snaps to look at the AI and thus the camera snaps to
     the new angle'
+  assets: []
+  metaData: []
+  captures: []
+  commitHash: 
+  isSocial: 0
+  tweeted: 0
+  lastTweetFileTime: 0
+  discordPost: 0
+  lastDiscordPostFileTime: 0
+--- !u!114 &7552673361853252307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa508ee653f80ef478ab4842c6bb02ba, type: 3}
+  m_Name: 3/20/2022 10:39 PM
+  m_EditorClassIdentifier: 
+  status: 5
+  shortDescription: When attacking the player does not always look at the AI
+  longDescription: 
   assets: []
   metaData: []
   captures: []
