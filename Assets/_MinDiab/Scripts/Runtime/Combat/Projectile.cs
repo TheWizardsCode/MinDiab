@@ -15,8 +15,8 @@ namespace WizardsCode.MinDiab.Combat
         bool m_IsHoming = false;
         [SerializeField, Tooltip("An effect object to instantiate when the projectile hits something. If null this will be ignored.")]
         DestroyAfterParticles m_HitEffect;
-        [SerializeField, Tooltip("Should the projectile be destroyed on impact? If false it will be destroyed after a period of time (see below)")]
-        bool m_DestroyOnImpact = false;
+        [SerializeField, Tooltip("Objects to destroy when this projectile impacts something.")]
+        GameObject[] m_DestroyOnImpact;
         [SerializeField, Tooltip("How long should the projectile live if it does not make contact with something. If destroyOnImpact is true then the projectile may not live this long.")]
         float m_TimeToLive = 10;
 
@@ -100,16 +100,14 @@ namespace WizardsCode.MinDiab.Combat
                 Destroy(go, 5);
             }
 
-            if (m_DestroyOnImpact)
+            for (int i = 0; i <  m_DestroyOnImpact.Length; i++)
             {
-                Destroy(gameObject);
+                Destroy(m_DestroyOnImpact[i]);
             }
-            else
-            {
-                GetComponent<Collider>().enabled = false;
-                transform.SetParent(hit.transform);
-                m_Speed = 0;
-            }
+
+            GetComponent<Collider>().enabled = false;
+            transform.SetParent(hit.transform);
+            m_Speed = 0;
         }
     }
 }

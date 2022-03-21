@@ -4856,8 +4856,7 @@ MonoBehaviour:
   m_DefaultAudioSource: {fileID: 4960636845731618180}
   m_StartAttackClips:
   - {fileID: 8300000, guid: 151fa7778dc9cf14ba998127d188283b, type: 3}
-  m_HitClips:
-  - {fileID: 8300000, guid: da0093ebe4323b846a8f67e40229df09, type: 3}
+  m_HitClips: []
 --- !u!82 &1075714563838359950
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9817,7 +9816,8 @@ MonoBehaviour:
   m_IsHoming: 1
   m_HitEffect: {fileID: -2854973779727504633, guid: 28e846535e1d8e040a6842372253df99,
     type: 3}
-  m_DestroyOnImpact: 0
+  m_DestroyOnImpact:
+  - {fileID: 7936848376048648595}
   m_TimeToLive: 10
   m_OnLaunch:
     m_PersistentCalls:

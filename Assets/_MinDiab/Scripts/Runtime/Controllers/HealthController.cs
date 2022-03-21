@@ -133,7 +133,7 @@ namespace WizardsCode.MinDiab.Character
             m_OnDie.Invoke();
 
             controller.animator.SetTrigger(AnimationParameters.DefaultDieTriggerID);
-            controller.scheduler.StopCurrentAction();
+            controller.scheduler.StopAction();
 
             if (source != null)
             {

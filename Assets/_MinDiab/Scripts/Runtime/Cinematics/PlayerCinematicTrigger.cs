@@ -65,7 +65,7 @@ namespace WizardsCode.MinDiab.Cinematics
 
         void DisableControl(PlayableDirector director)
         {
-            playerScheduler.StopCurrentAction();
+            playerScheduler.StopAction();
             playerController.enabled = false;
         }
 

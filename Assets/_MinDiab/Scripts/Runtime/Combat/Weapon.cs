@@ -13,7 +13,8 @@ namespace WizardsCode.MinDiab.Combat
         public enum Handedness { Dominant, NonDominant, BothDominantLead, BothNonDominantLead }
 
         [SerializeField, Tooltip("The range we need to be within in order to attack.")]
-        float m_Range = 2;
+        [FormerlySerializedAs("m_Range")] // v0.1
+        public float Range = 2;
         [SerializeField, Tooltip("The time between attacks in seconds.")]
         internal float TimeBetweenAttacks = 1;
         [SerializeField, Tooltip("The amount of damage to do on each hit.")]
@@ -41,7 +42,7 @@ namespace WizardsCode.MinDiab.Combat
             {
                 if (rangeSqr == null)
                 {
-                    rangeSqr = m_Range * m_Range;
+                    rangeSqr = Range * Range;
                 }
                 return (float)rangeSqr;
             }

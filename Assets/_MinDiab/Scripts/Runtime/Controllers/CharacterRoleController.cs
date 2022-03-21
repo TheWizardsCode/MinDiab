@@ -203,7 +203,7 @@ namespace WizardsCode.MinDiab.Controller
 
         internal void StopAllActions()
         {
-            scheduler.StopCurrentAction();
+            scheduler.StopAction();
         }
 
         /// <summary>
@@ -227,7 +227,6 @@ namespace WizardsCode.MinDiab.Controller
                     SetCursor(CursorType.Movement);
                     if (Input.GetMouseButton(0))
                     {
-                        fighter.StopAction();
                         mover.MoveTo(navHit.position, 1);
                     }
                     return true;

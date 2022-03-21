@@ -9,6 +9,9 @@ namespace WizardsCode.MinDiab.FX
     /// </summary>
     public class DestroyAfterParticles : MonoBehaviour
     {
+        [SerializeField, Tooltip("How long after the particles have finished should this object be destroyed?")]
+        float m_Delay = 1;
+
         ParticleSystem[] particles;
 
         private void Start()
@@ -34,6 +37,8 @@ namespace WizardsCode.MinDiab.FX
                     yield return new WaitForSeconds(0.2f);
                 }
             }
+
+            yield return new WaitForSeconds(1f);
 
             if (finished)
             {

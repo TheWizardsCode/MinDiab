@@ -76,7 +76,7 @@ namespace WizardsCode.MinDiab.Controller
             else if (m_IsAttacking && timeToEndDwell == Mathf.NegativeInfinity)
             {
                 timeToEndDwell = Time.timeSinceLevelLoad + m_SuspicionDuration;
-                scheduler.StopCurrentAction();
+                scheduler.StopAction();
             }
             else if (m_IsAttacking && Time.timeSinceLevelLoad < timeToEndDwell)
             {
@@ -84,7 +84,7 @@ namespace WizardsCode.MinDiab.Controller
             }
             else if (m_IsAttacking)
             {
-                // we are attacking and not suspuscious anymore so go back to the 
+                // we are attacking and not suspicious anymore so go back to the 
                 m_IsAttacking = false;
                 timeToEndDwell = Mathf.NegativeInfinity;
                 mover.MoveTo(m_GuardPosition, 1);

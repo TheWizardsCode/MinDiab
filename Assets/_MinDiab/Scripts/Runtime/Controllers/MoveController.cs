@@ -17,6 +17,8 @@ namespace WizardsCode.MinDiab.Character
 
         private CharacterRoleController controller;
         private NavMeshAgent agent;
+        private Vector3 m_Destination;
+        private float m_SpeedMultiplier;
 
         public bool AtDestination {
             get
@@ -31,27 +33,41 @@ namespace WizardsCode.MinDiab.Character
             controller = GetComponent<CharacterRoleController>();
         }
 
-        private void Update()
-        {
-            UpdateAnimator();
-        }
-
         public void MoveTo(Vector3 pos, float speedMultiplier)
         {
-            agent.enabled = true;
-            agent.speed = m_MaxSpeed * speedMultiplier;
-
+            m_Destination = pos;
+            m_SpeedMultiplier = speedMultiplier;
             controller.scheduler.StartAction(this);
-            agent.SetDestination(pos);
+        }
+
+        public void StartAction()
+        {
+            agent.enabled = true;
+            agent.speed = m_MaxSpeed * m_SpeedMultiplier;
+            agent.SetDestination(m_Destination);
             agent.isStopped = false;
+        }
+
+        public void UpdateAction()
+        {
+            UpdateAnimator();
+
+            if (!agent.pathPending)
+            {
+                if (agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                    {
+                        controller.scheduler.StopAction();
+                    }
+                }
+            }
         }
 
         public void StopAction()
         {
-            if (agent.enabled)
-            {
-                agent.isStopped = true;
-            }
+            agent.isStopped = agent.enabled;
+            controller.animator.SetFloat(AnimationParameters.ForwardSpeed, 0);
         }
 
         private void UpdateAnimator()

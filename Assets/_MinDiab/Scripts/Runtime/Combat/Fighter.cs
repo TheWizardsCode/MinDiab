@@ -7,6 +7,7 @@ using WizardsCode.MinDiab.Controller;
 using WizardsCode.MinDiab.Core;
 using WizardsCode.MinDiab.Stats;
 using static WizardsCode.MinDiab.Combat.Weapon;
+using Random = UnityEngine.Random;
 
 namespace WizardsCode.MinDiab.Combat
 {
@@ -36,28 +37,6 @@ namespace WizardsCode.MinDiab.Combat
         private void Start()
         {
             EquipWeapon(m_DefaultWeapon);
-        }
-
-        private void Update()
-        {
-            if (!CanAttack(combatTarget) || controller.IsDead)
-            {
-                return;
-            }
-
-            if (!IsInRange(combatTarget))
-            {
-                controller.mover.MoveTo(combatTarget.transform.position, 1);
-            }
-            else
-            {
-                if (Time.timeSinceLevelLoad > timeOfNextAttack)
-                {
-                    controller.mover.StopAction();
-                    controller.animator.SetTrigger(AnimationParameters.DefaultAttackTriggerID);
-                    timeOfNextAttack = Time.timeSinceLevelLoad + SelectedWeapon.TimeBetweenAttacks;
-                }
-            }
         }
 
         public bool IsInRange(HealthController target)
@@ -178,9 +157,11 @@ namespace WizardsCode.MinDiab.Combat
         public bool Attack(HealthController target)
         {
             if (CanAttack(target)) { 
-                transform.LookAt(target.transform);
-                controller.scheduler.StartAction(this);
                 combatTarget = target;
+                if (!controller.scheduler.IsActiveOrQueued(this))
+                {
+                    controller.scheduler.StartAction(this);
+                }
                 return true;
             } else {
                 return false;
@@ -201,6 +182,53 @@ namespace WizardsCode.MinDiab.Combat
             return !target.IsDead;
         }
 
+        public void StartAction()
+        {
+            if (controller.scheduler.IsActiveOrQueued(this))
+            {
+                return;
+            }
+
+            if (!CanAttack(combatTarget) || controller.IsDead)
+            {
+                controller.scheduler.StopAction();
+            }
+        }
+
+        public void UpdateAction()
+        {
+            if (!CanAttack(combatTarget))
+            {
+                controller.scheduler.StopAction();
+                return;
+            }
+
+            if (combatTarget.IsDead)
+            {
+                StopAction();
+                return;
+            }
+
+            if (!IsInRange(combatTarget))
+            {
+                if (controller.scheduler.IsActive(controller.mover)) return;
+
+                Vector3 dir = (transform.position - combatTarget.transform.position).normalized;
+                Vector3 pos = combatTarget.transform.position + (dir * (SelectedWeapon.Range * 0.95f));
+                controller.mover.MoveTo(pos, 1);
+                controller.scheduler.QueueAction(this);
+            }
+            else
+            {
+                transform.LookAt(combatTarget.transform);
+                if (Time.timeSinceLevelLoad > timeOfNextAttack)
+                {
+                    controller.animator.SetTrigger(AnimationParameters.DefaultAttackTriggerID);
+                    timeOfNextAttack = Time.timeSinceLevelLoad + Random.Range(SelectedWeapon.TimeBetweenAttacks * 0.9f, SelectedWeapon.TimeBetweenAttacks * 1.1f);
+                }
+            }
+        }
+
         /// <summary>
         /// Cancel the fighters interest in a combat target.
         /// </summary>
@@ -211,32 +239,32 @@ namespace WizardsCode.MinDiab.Combat
         }
 
         /// <summary>
-        /// Handle the animation Hit event.
+        /// Process a succeful hit by the character.
+        /// 
+        /// This method is typically called by an animation event.
         /// </summary>
         void Hit()
         {
-            float damage = controller.GetStat(Stat.Damage, SelectedWeapon.BaseDamage);
-            if (combatTarget)
-            {
-                if (SelectedWeapon.HasProjectile)
-                {
-                    SelectedWeapon.LaunchProjectileAt(combatTarget, this, damage);
-                }
-                else
-                {
-                    combatTarget.TakeDamage( damage, this);
-                }
+            if (!combatTarget) return;
 
-                if (combatTarget.IsDead)
-                {
-                    StopAction();
-                }
-            }
+            float damage = controller.GetStat(Stat.Damage, SelectedWeapon.BaseDamage);
+            combatTarget.TakeDamage( damage, this);
         }
 
+        /// <summary>
+        /// Process a succeful hit by the character.
+        /// 
+        /// This method is typically called by an animation event.
+        /// </summary>
         void Shoot()
         {
-            Hit();
+            if (!combatTarget) return;
+
+            float damage = controller.GetStat(Stat.Damage, SelectedWeapon.BaseDamage);
+            if (SelectedWeapon.HasProjectile)
+            {
+                SelectedWeapon.LaunchProjectileAt(combatTarget, this, damage);
+            }
         }
 
         public IEnumerable<float> GetStatAdditiveModifier(Stat stat)

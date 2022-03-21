@@ -7,6 +7,8 @@ namespace WizardsCode.MinDiab.Core
 {
     public interface IAction
     {
+        void StartAction();
+        void UpdateAction();
         void StopAction();
     }
 }
