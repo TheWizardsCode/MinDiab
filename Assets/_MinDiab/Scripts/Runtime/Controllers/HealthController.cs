@@ -18,7 +18,7 @@ namespace WizardsCode.MinDiab.Character
         [Header("Events")]
         [SerializeField, Tooltip("Event fired whenever the character heals. The parameter is the amount of heling recieved.")]
         public ChangeHealth m_OnHeal;
-        [SerializeField, Tooltip("Event fired whenever the character takes damage. The parameter is the amount of damage taken.")]
+        [SerializeField, Tooltip("Notify of damage being taken or healing being recieved. The float value is the amount of damage taken (negative) or recieved (positive).")]
         public ChangeHealth m_OnTakeDamage;
         [SerializeField, Tooltip("Event fired when the character dies.")]
         public UnityEvent m_OnDie;
@@ -122,6 +122,8 @@ namespace WizardsCode.MinDiab.Character
         {
             if (!IsDead)
             {
+                m_OnTakeDamage.Invoke(damage);
+
                 mostRecentDamageSource = source;
                 Health -= damage; 
                 controller.AlertNearbyAI();

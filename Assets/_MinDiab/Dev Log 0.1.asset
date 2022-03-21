@@ -126,13 +126,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa508ee653f80ef478ab4842c6bb02ba, type: 3}
   m_Name: 3/20/2022 9:41 PM
   m_EditorClassIdentifier: 
-  status: 5
-  shortDescription: Damage text does not show for the player
+  status: 30
+  shortDescription: Damage text does not show for the player or AI unless dieing
   longDescription: '1. Allow player to get hit
 
+    2. Hit an AI
 
-    The player is damaged but the
-    damage text is not shown.'
+    3. The player/AI
+    is damaged but the damage text is not shown.
+
+    4. Player/AI dies and the last
+    text is shown'
   assets: []
   metaData: []
   captures: []
@@ -163,6 +167,7 @@ MonoBehaviour:
   - {fileID: 7552673361853252307}
   - {fileID: 311767844626125019}
   - {fileID: 5358884273204951423}
+  - {fileID: 1840821153831213307}
 --- !u!114 &311767844626125019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,6 +221,35 @@ MonoBehaviour:
   lastTweetFileTime: 0
   discordPost: 0
   lastDiscordPostFileTime: 0
+--- !u!114 &1840821153831213307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa508ee653f80ef478ab4842c6bb02ba, type: 3}
+  m_Name: 3/21/2022 8:27 AM
+  m_EditorClassIdentifier: 
+  status: 5
+  shortDescription: Cannot interupt a move command
+  longDescription: '1. Click to move a reasonable distance
+
+    2.Click to change
+    destination while moving
+
+    3. Character does not change destination'
+  assets: []
+  metaData: []
+  captures: []
+  commitHash: 
+  isSocial: 0
+  tweeted: 0
+  lastTweetFileTime: 0
+  discordPost: 0
+  lastDiscordPostFileTime: 0
 --- !u!114 &5358884273204951423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,7 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa508ee653f80ef478ab4842c6bb02ba, type: 3}
   m_Name: 3/21/2022 12:50 AM
   m_EditorClassIdentifier: 
-  status: 5
+  status: 30
   shortDescription: Part of the fireball particle is left behind after the explosion
     on contact
   longDescription: 
@@ -253,7 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa508ee653f80ef478ab4842c6bb02ba, type: 3}
   m_Name: 3/20/2022 10:39 PM
   m_EditorClassIdentifier: 
-  status: 5
+  status: 30
   shortDescription: When attacking the player does not always look at the AI
   longDescription: 
   assets: []
