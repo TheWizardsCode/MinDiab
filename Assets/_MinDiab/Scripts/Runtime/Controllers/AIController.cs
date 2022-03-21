@@ -23,21 +23,32 @@ namespace WizardsCode.MinDiab.Controller
         int m_CurrentWaypointIndex = 0;
 
 
-        HealthController player;
-        float chaseDistanceSqr;
-        bool isAttacking = false;
+        HealthController m_Player;
+        float m_ChaseDistanceSqr;
+        bool m_IsAttacking = false;
 
         float timeToEndDwell = Mathf.NegativeInfinity;
+
+        private bool ShouldAttack
+        {
+            get
+            {
+                bool attack = IsAggravated;
+                attack |= Vector3.SqrMagnitude(transform.position - m_Player.transform.position) <= m_ChaseDistanceSqr;
+
+                return attack;
+            }
+        }
 
         internal override void Awake()
         {
             base.Awake();
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthController>();
+            m_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthController>();
         }
 
         private void Start()
         {
-            chaseDistanceSqr = m_ChaseDistance * m_ChaseDistance;
+            m_ChaseDistanceSqr = m_ChaseDistance * m_ChaseDistance;
 
             if (m_GuardPosition == Vector3.zero)
             {
@@ -58,26 +69,27 @@ namespace WizardsCode.MinDiab.Controller
         {
             if (health.IsDead) return;
 
-            if (Vector3.SqrMagnitude(transform.position - player.transform.position) <= chaseDistanceSqr)
+            if (ShouldAttack)
             {
                 AttackBehaviour();
             }
-            else if (isAttacking && timeToEndDwell == Mathf.NegativeInfinity)
+            else if (m_IsAttacking && timeToEndDwell == Mathf.NegativeInfinity)
             {
                 timeToEndDwell = Time.timeSinceLevelLoad + m_SuspicionDuration;
                 scheduler.StopCurrentAction();
             }
-            else if (isAttacking && Time.timeSinceLevelLoad < timeToEndDwell)
+            else if (m_IsAttacking && Time.timeSinceLevelLoad < timeToEndDwell)
             {
                 // not in range but we are suspicious, do nothing
             }
-            else if (isAttacking)
+            else if (m_IsAttacking)
             {
                 // we are attacking and not suspuscious anymore so go back to the 
-                isAttacking = false;
+                m_IsAttacking = false;
                 timeToEndDwell = Mathf.NegativeInfinity;
                 mover.MoveTo(m_GuardPosition, 1);
-            } else if (m_PatrolPath)
+            }
+            else if (m_PatrolPath)
             {
                 PatrolBehaviour();
             }
@@ -114,8 +126,8 @@ namespace WizardsCode.MinDiab.Controller
         /// </summary>
         private void AttackBehaviour()
         {
-            isAttacking = true;
-            fighter.Attack(player);
+            m_IsAttacking = true;
+            fighter.Attack(m_Player);
         }
 
         private void OnDrawGizmosSelected()

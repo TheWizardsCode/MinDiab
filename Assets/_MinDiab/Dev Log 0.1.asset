@@ -1,0 +1,150 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5476137927946256065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa508ee653f80ef478ab4842c6bb02ba, type: 3}
+  m_Name: 3/20/2022 9:49 PM
+  m_EditorClassIdentifier: 
+  status: 20
+  shortDescription: "When giving an attack command the player should attack immediately\t"
+  longDescription: '1. Click to attack an AI  in range
+
+    2. Player seems to do
+    a cooldown before attacking'
+  assets: []
+  metaData: []
+  captures: []
+  commitHash: 
+  isSocial: 0
+  tweeted: 0
+  lastTweetFileTime: 0
+  discordPost: 0
+  lastDiscordPostFileTime: 0
+--- !u!114 &-5220981163059541699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa508ee653f80ef478ab4842c6bb02ba, type: 3}
+  m_Name: 3/20/2022 9:02 PM
+  m_EditorClassIdentifier: 
+  status: 30
+  shortDescription: Sometimes shoots at the wrong AI
+  longDescription: '1. Start game in Main with no save game
+
+    2. Pickup the bow
+
+    3.
+    Click to attack the grunt with fists (left hand guard)
+
+    4. Many times will
+    start shooting the Archter (on the right)
+
+
+    ## Analysis
+
+
+    Are we ever
+    setting Fighter.combatTarget to the Archer? Yes, we do
+
+
+    ## RCA
+
+
+    RayCasting
+    from a Cinemachine camera requires that the raycast happen in the same update
+    as the Cinemachine upadage (LateUpdate). I just removed Cinemachine for now.'
+  assets:
+  - {fileID: 11500000, guid: 63d6bbc033eeefe4ca7313e50470fe63, type: 3}
+  metaData: []
+  captures: []
+  commitHash: 
+  isSocial: 0
+  tweeted: 0
+  lastTweetFileTime: 0
+  discordPost: 0
+  lastDiscordPostFileTime: 0
+--- !u!114 &-2296581841595775735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa508ee653f80ef478ab4842c6bb02ba, type: 3}
+  m_Name: 3/20/2022 9:41 PM
+  m_EditorClassIdentifier: 
+  status: 5
+  shortDescription: Damage text does not show for the player
+  longDescription: '1. Allow player to get hit
+
+
+    The player is damaged but the
+    damage text is not shown.'
+  assets: []
+  metaData: []
+  captures: []
+  commitHash: 
+  isSocial: 0
+  tweeted: 0
+  lastTweetFileTime: 0
+  discordPost: 0
+  lastDiscordPostFileTime: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29cf0f8db76caf6458571bbe2db3c861, type: 3}
+  m_Name: Dev Log 0.1
+  m_EditorClassIdentifier: 
+  m_Entries:
+  - {fileID: -5220981163059541699}
+  - {fileID: -2296581841595775735}
+  - {fileID: -5476137927946256065}
+  - {fileID: 419343271370757061}
+--- !u!114 &419343271370757061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa508ee653f80ef478ab4842c6bb02ba, type: 3}
+  m_Name: 3/20/2022 10:23 PM
+  m_EditorClassIdentifier: 
+  status: 10
+  shortDescription: In combat the player snaps to look at the enemy
+  longDescription: '1. Give an attack command to a character not in front of the
+    player
+
+    2. The player snaps to look at the AI and thus the camera snaps to
+    the new angle'
+  assets: []
+  metaData: []
+  captures: []
+  commitHash: 
+  isSocial: 0
+  tweeted: 0
+  lastTweetFileTime: 0
+  discordPost: 0
+  lastDiscordPostFileTime: 0

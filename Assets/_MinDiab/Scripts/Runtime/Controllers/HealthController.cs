@@ -123,7 +123,8 @@ namespace WizardsCode.MinDiab.Character
             if (!IsDead)
             {
                 mostRecentDamageSource = source;
-                Health -= damage;
+                Health -= damage; 
+                controller.AlertNearbyAI();
             }
         }
 
@@ -170,14 +171,12 @@ namespace WizardsCode.MinDiab.Character
             if (controller.fighter == null) return false;
             if (controller.gameObject == gameObject) return false;
 
-            if (!controller.fighter.IsInRange(this) || !controller.fighter.CanAttack(this)) return false;
+            // TODO: Only allow clicking on an item within a certain NavMesh path distance?
+            if (!controller.fighter.CanAttack(this)) return false;
 
             if (Input.GetMouseButton(0))
             {
-                if (controller.fighter.CanAttack(this))
-                {
-                    controller.fighter.Attack(this);
-                }
+                controller.fighter.Attack(this);
             }
             return true;
         }

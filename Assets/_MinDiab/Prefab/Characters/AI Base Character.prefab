@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &5581565552585192303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8474726642010669272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69fdc442ac398d74486fb51c828019bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6718659787265962764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8474726642010669272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66a0bcfc570c8af4d9ac8c90dd705dbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxNavMeshPathLength: 40
+  m_CursorMappings: []
+  m_ChaseDistance: 5
+  m_GuardPosition: {x: 0, y: 0, z: 0}
+  m_SuspicionDuration: 4
+  m_PatrolPath: {fileID: 0}
+  m_CurrentWaypointIndex: 0
+  m_AggroRange: 5
 --- !u!1 &1890393185508882123
 GameObject:
   m_ObjectHideFlags: 0
@@ -60,35 +92,6 @@ Transform:
   m_Father: {fileID: 7020599782225617623}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5581565552585192303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8474726642010669272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69fdc442ac398d74486fb51c828019bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6718659787265962764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8474726642010669272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66a0bcfc570c8af4d9ac8c90dd705dbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ChaseDistance: 5
-  m_GuardPosition: {x: 0, y: 0, z: 0}
-  m_SuspicionDuration: 4
-  m_PatrolPath: {fileID: 0}
-  m_CurrentWaypointIndex: 0
 --- !u!1001 &1412588200950017725
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120,10 +123,40 @@ PrefabInstance:
       propertyPath: m_NonDominantMount
       value: 
       objectReference: {fileID: 7071303765433547573}
+    - target: {fileID: 177661080314967152, guid: 3944535b9ac2b534daccbd8d41068dd8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 250467892228896367, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
       propertyPath: m_HealthPoints
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 250467892228896367, guid: 3944535b9ac2b534daccbd8d41068dd8,
+        type: 3}
+      propertyPath: m_OnTakeDamage.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 250467892228896367, guid: 3944535b9ac2b534daccbd8d41068dd8,
+        type: 3}
+      propertyPath: m_OnTakeDamage.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 250467892228896367, guid: 3944535b9ac2b534daccbd8d41068dd8,
+        type: 3}
+      propertyPath: m_OnTakeDamage.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 8474726642010669272}
+    - target: {fileID: 250467892228896367, guid: 3944535b9ac2b534daccbd8d41068dd8,
+        type: 3}
+      propertyPath: m_OnTakeDamage.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645923807066990803, guid: 3944535b9ac2b534daccbd8d41068dd8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7351778425547091556, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
@@ -133,7 +166,7 @@ PrefabInstance:
     - target: {fileID: 7351778425547091557, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}
       propertyPath: m_Name
-      value: Guard Enemy
+      value: AI Base Character
       objectReference: {fileID: 0}
     - target: {fileID: 7351778425547091563, guid: 3944535b9ac2b534daccbd8d41068dd8,
         type: 3}

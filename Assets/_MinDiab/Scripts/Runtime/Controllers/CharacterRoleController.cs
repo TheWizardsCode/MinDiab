@@ -32,6 +32,12 @@ namespace WizardsCode.MinDiab.Controller
         [SerializeField, Tooltip("The cursors to use for the various command options.")]
         CursorMapping[] m_CursorMappings = null;
 
+        [Header("AI Influencer")]
+        [SerializeField, Tooltip("The range within which this AI will alert other AIs when aggravated.")]
+        float m_AggroRange = 5;
+        [SerializeField, Tooltip("Once aggravated the character will take this amount of time to cooldown and return to a non-aggragated state,")]
+        float m_AggravationCooldown = 5;
+
         internal Animator animator;
         internal Experience experience;
         internal Fighter fighter;
@@ -40,9 +46,29 @@ namespace WizardsCode.MinDiab.Controller
         internal Scheduler scheduler;
         internal BaseStats stats;
         RuntimeAnimatorController m_DefaultAnimationController;
+        float m_AggravatedUntil;
 
         public bool IsDead => health.IsDead;
-        
+
+        public bool IsAggravated
+        {
+            get
+            {
+                return m_AggravatedUntil > Time.timeSinceLevelLoad;
+            }
+            set
+            {
+                if (value)
+                {
+                    m_AggravatedUntil = Time.timeSinceLevelLoad + m_AggravationCooldown;
+                }
+                else
+                {
+                    m_AggravatedUntil = 0;
+                }
+            }
+        }
+
         Camera mainCamera;
         public Camera MainCamera
         {
@@ -97,6 +123,20 @@ namespace WizardsCode.MinDiab.Controller
         internal float GetStat(Stat stat, float baseValue = 0)
         {
             return stats.GetStat(stat, experience.Level, baseValue);
+        }
+
+        public void AlertNearbyAI()
+        {
+            // OPTIMIZATION: Use layers
+            Collider[] candidates = Physics.OverlapSphere(transform.position, m_AggroRange);
+            for (int i = 0; i < candidates.Length; i++)
+            {
+                AIController ai = candidates[i].GetComponent<AIController>();
+                if (ai)
+                {
+                    ai.IsAggravated = true;
+                }
+            }
         }
 
         public void ResetAnimatorController()
@@ -215,6 +255,7 @@ namespace WizardsCode.MinDiab.Controller
         /// <returns></returns>
         private Ray GetScreenPoint()
         {
+            Debug.DrawRay(MainCamera.ScreenPointToRay(Input.mousePosition).origin, MainCamera.ScreenPointToRay(Input.mousePosition).direction, Color.red, 1);
             return MainCamera.ScreenPointToRay(Input.mousePosition);
         }
     }

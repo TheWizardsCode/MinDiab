@@ -21,29 +21,12 @@ namespace WizardsCode.MinDiab.Combat
         Transform m_NonDominantMount;
 
         float timeOfNextAttack;
-        Weapon selectedWeapon;
 
         CharacterRoleController controller;
         HealthController combatTarget;
 
         Weapon equippedWeaponDominantHand; 
         Weapon equippedWeaponNonDominantHand;
-
-        bool IsInRange
-        {
-            get
-            {
-                if (selectedWeapon == null) { return false;  }
-
-                if (selectedWeapon && 
-                    Vector3.SqrMagnitude(transform.position - combatTarget.transform.position) < selectedWeapon.WeaponRangeSqr) 
-                { 
-                    return true; 
-                }
-
-                return false;
-            }
-        }
 
         private void Awake()
         {
@@ -61,8 +44,8 @@ namespace WizardsCode.MinDiab.Combat
             {
                 return;
             }
-            
-            if (!IsInRange)
+
+            if (!IsInRange(combatTarget))
             {
                 controller.mover.MoveTo(combatTarget.transform.position, 1);
             }
@@ -72,9 +55,21 @@ namespace WizardsCode.MinDiab.Combat
                 {
                     controller.mover.StopAction();
                     controller.animator.SetTrigger(AnimationParameters.DefaultAttackTriggerID);
-                    timeOfNextAttack = Time.timeSinceLevelLoad + selectedWeapon.TimeBetweenAttacks;
+                    timeOfNextAttack = Time.timeSinceLevelLoad + SelectedWeapon.TimeBetweenAttacks;
                 }
             }
+        }
+
+        public bool IsInRange(HealthController target)
+        {
+            if (SelectedWeapon == null) { return false; }
+
+            if (Vector3.SqrMagnitude(transform.position - target.transform.position) < SelectedWeapon.WeaponRangeSqr)
+            {
+                return true;
+            }
+  
+            return false;
         }
 
         /// <summary>
@@ -182,7 +177,6 @@ namespace WizardsCode.MinDiab.Combat
         /// <returns>True if this Fighter can attack the target (possibly some preparation, such as moving). False if the Fighter cannot attack.</returns>
         public bool Attack(HealthController target)
         {
-            selectedWeapon = SelectedWeapon;
             if (CanAttack(target)) { 
                 transform.LookAt(target.transform);
                 controller.scheduler.StartAction(this);
@@ -196,8 +190,8 @@ namespace WizardsCode.MinDiab.Combat
         public bool CanAttack(HealthController target)
         {
             if (!target) return false;
-            selectedWeapon = SelectedWeapon;
-            if (!selectedWeapon) return false;
+
+            if (!SelectedWeapon) return false;
 
             if (target == controller.health)
             {
@@ -221,12 +215,12 @@ namespace WizardsCode.MinDiab.Combat
         /// </summary>
         void Hit()
         {
-            float damage = controller.GetStat(Stat.Damage, selectedWeapon.BaseDamage);
+            float damage = controller.GetStat(Stat.Damage, SelectedWeapon.BaseDamage);
             if (combatTarget)
             {
-                if (selectedWeapon.HasProjectile)
+                if (SelectedWeapon.HasProjectile)
                 {
-                    selectedWeapon.LaunchProjectileAt(combatTarget, this, damage);
+                    SelectedWeapon.LaunchProjectileAt(combatTarget, this, damage);
                 }
                 else
                 {
@@ -249,7 +243,7 @@ namespace WizardsCode.MinDiab.Combat
         {
             if (stat == Stat.Damage)
             {
-                yield return selectedWeapon.DamageAdditive;
+                yield return SelectedWeapon.DamageAdditive;
             }
         }
 
@@ -257,7 +251,7 @@ namespace WizardsCode.MinDiab.Combat
         {
             if (stat == Stat.Damage)
             {
-                yield return selectedWeapon.DamageMultiplier;
+                yield return SelectedWeapon.DamageMultiplier;
             }
         }
 
