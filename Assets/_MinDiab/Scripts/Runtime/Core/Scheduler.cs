@@ -12,15 +12,34 @@ namespace WizardsCode.MinDiab.Core
         Queue<IAction> m_Queue = new Queue<IAction>();
         IAction currentAction;
 
-        public void StartAction(IAction action)
+        /// <summary>
+        /// Start a new action if possible. If the action can be taken
+        /// then the current action is stopped and the new action is started.
+        /// </summary>
+        /// <param name="action">The action to be started.</param>
+        /// <param name="isOverride">This new action will jump to the front of the queue
+        /// of actions that have been requesteed if 'isOverride' is set to 
+        /// true (the default). If set to false then the action will only be started
+        /// if there is no curently active action and the queue is empty.</param>
+        /// <returns>True if the action is started, otherwise false.</returns>
+        public bool StartAction(IAction action, bool isOverride = true)
         {
-            if (currentAction == action) return;
-            if (currentAction != null)
+            if (!isOverride && currentAction == action) return false;
+
+            if (isOverride && currentAction != null)
             {
-                currentAction.StopAction();
+                StopAction(false);
             }
-            currentAction = action;
-            currentAction.StartAction();
+
+            if (currentAction == null)
+            {
+                currentAction = action;
+                currentAction.StartAction();
+                return true;
+            } else
+            {
+                return false;
+            }
         }
 
         public void QueueAction(IAction action)
@@ -42,11 +61,18 @@ namespace WizardsCode.MinDiab.Core
             currentAction.UpdateAction();
         }
 
-        public void StopAction()
+        /// <summary>
+        /// Stop the currently active action and, if appropriate
+        /// start the next action in the queue.
+        /// </summary>
+        /// <param name="isOverride">If set to false (default) the next action in the queue will be started. 
+        /// If true then the next action in the queue will not be started, this allows for a new action to be
+        /// inserted at the head of the queue.</param>
+        public void StopAction(bool isOverride = false)
         {
             currentAction.StopAction();
             currentAction = null;
-            if (m_Queue.Count > 0)
+            if (!isOverride && m_Queue.Count > 0)
             {
                 StartAction(m_Queue.Dequeue());
             }
