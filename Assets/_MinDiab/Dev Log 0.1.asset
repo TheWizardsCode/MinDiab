@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa508ee653f80ef478ab4842c6bb02ba, type: 3}
   m_Name: 3/21/2022 12:38 AM
   m_EditorClassIdentifier: 
-  status: 5
+  status: 30
   shortDescription: When clicking on a pickup we collect it immediately rather than
     when the character gets there
   longDescription: 

@@ -8,6 +8,9 @@ namespace WizardsCode.MinDiab.Core
     [RequireComponent(typeof(Collider))]
     public class BasePickup : MonoBehaviour, IRaycastable
     {
+        [SerializeField, Tooltip("If this is true then the item will be picked up whenever it is clicked on, " +
+            "the character does not need to move to the item to pick it up.")]
+        bool m_PickupOnClick = false;
         [SerializeField, Tooltip("Should this pickup be destroyed when collected?")]
         bool m_DestroyOnPickup = false;
         [SerializeField, Tooltip("If not destroyed on pickup how long should the pickup be hidden for after pickup?")]
@@ -69,7 +72,13 @@ namespace WizardsCode.MinDiab.Core
         {
             if (Input.GetMouseButtonDown(0))
             {
-                PickupItem(controller.gameObject);
+                if (m_PickupOnClick)
+                {
+                    PickupItem(controller.gameObject);
+                } else
+                {
+                    controller.mover.MoveTo(transform.position, 1);
+                }
             }
             return true;
         }
